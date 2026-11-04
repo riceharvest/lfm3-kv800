@@ -1,0 +1,391 @@
+{
+ "info": {
+  "mode": "stock",
+  "plugin": true,
+  "mnbt": 1024,
+  "util": 0.6,
+  "max_model_len": 34816,
+  "max_num_seqs": 128,
+  "vllm": "0.32.0",
+  "torch": "2.14.0+xpu",
+  "backend": "vllm attn",
+  "time": "2026-11-04 06:52:02",
+  "model_path": {
+   "model_module": "lfm3_kv800.vllm_model",
+   "model_file": "/opt/venv/lib/python3.12/site-packages/lfm3_kv800/vllm_model.py",
+   "in_tree_modules_loaded": [],
+   "lfm3_kv800_file": "/opt/venv/lib/python3.12/site-packages/lfm3_kv800/__init__.py"
+  },
+  "kv_num_blocks": 23719,
+  "kv_groups": [
+   "MambaSpec(bs=34816, page=131072, win=None) x5",
+   "MambaSpec(bs=34816, page=131072, win=None) x4",
+   "MambaSpec(bs=34816, page=131072, win=None) x4",
+   "FullAttentionSpec(bs=64, page=131072, win=None) x3",
+   "FullAttentionSpec(bs=64, page=131072, win=None) x3",
+   "SlidingWindowSpec(bs=64, page=131072, win=256) x5"
+  ]
+ },
+ "seeds": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7
+ ],
+ "gen_tokens": 1024,
+ "n": 32,
+ "hits": 32,
+ "wilson95": [
+  0.8928208002353198,
+  1.0
+ ],
+ "seconds": 756.5172348022461,
+ "per_length": {
+  "8K": {
+   "hits": 16,
+   "n": 16
+  },
+  "16K": {
+   "hits": 16,
+   "n": 16
+  }
+ },
+ "dev_vs_heldout": {
+  "dev seeds 0-1": {
+   "hits": 8,
+   "n": 8
+  },
+  "held-out seeds": {
+   "hits": 24,
+   "n": 24
+  }
+ },
+ "items": [
+  {
+   "id": "s0:8K@25%",
+   "seed": 0,
+   "len": 8192,
+   "depth": 0.25,
+   "code": "6730",
+   "out": " 6730.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": ", return_annotation=annotations.get('return', _empty))\n\n\ndef _signature_from_partial(cls, func, partial, *, globals=None, locals=None,\n                             eval_str=False, *, annotation_format"
+  },
+  {
+   "id": "s0:8K@75%",
+   "seed": 0,
+   "len": 8192,
+   "depth": 0.75,
+   "code": "9304",
+   "out": " 9304.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": "message': message}\n        self.exit(1, _('%(prog)s: warning: %(message)s\\n') % args)\n\n    def _error(self, message):\n        args = {'prog': self.prog, 'message': message}\n        self.exit(2, _('%(p"
+  },
+  {
+   "id": "s0:16K@25%",
+   "seed": 0,
+   "len": 16384,
+   "depth": 0.25,
+   "code": "9731",
+   "out": " 9731.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": "', 'xyz'], ['abc', 'xyz'])\n        >>> print(''.join(results), end=\"\")\n        - abcDefghi\n        ?  ^\n        + abc\n        ?  ^\n        - xyz\n        \"\"\"\n\n        # Find the best match between the "
+  },
+  {
+   "id": "s0:16K@75%",
+   "seed": 0,
+   "len": 16384,
+   "depth": 0.75,
+   "code": "2313",
+   "out": " 2313.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": "kwds)\n            except KeyError:\n                return func(*args, **kwds)\n\n        return inner\n\n    return decorator\n\n\ndef _get_origin(origin):\n    \"\"\"Return the origin of a type, or None if it i"
+  },
+  {
+   "id": "s1:8K@25%",
+   "seed": 1,
+   "len": 8192,
+   "depth": 0.25,
+   "code": "4514",
+   "out": " 4514.<|endoftext|><|startoftext|># ",
+   "hit": true,
+   "gen_head": "{self.__name__} is deprecated since \"\n            f\"{self._removal_version} and will be removed in \"\n            f\"{self._removal_version + 1}\"\n        )\n        return super().__instancecheck__(inst)"
+  },
+  {
+   "id": "s1:8K@75%",
+   "seed": 1,
+   "len": 8192,
+   "depth": 0.75,
+   "code": "4632",
+   "out": " 4632.\n\nQuestion: How many",
+   "hit": true,
+   "gen_head": "annotations__ dictionary of annotations for the function\n        __code__        code object for the function\n        __closure__     closure of the function\n        __defaults__    default values for"
+  },
+  {
+   "id": "s1:16K@25%",
+   "seed": 1,
+   "len": 16384,
+   "depth": 0.25,
+   "code": "8953",
+   "out": " 8953.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": "__ = 'Tim Peters <tim.peters@python.org>'\n\n__all__ = [\n    'ismodule',\n    'isclass',\n    'ismethod',\n    'ispackage',\n    'isfunction',\n    'isgeneratorfunction',\n    'isgenerator',\n    'istraceback'"
+  },
+  {
+   "id": "s1:16K@75%",
+   "seed": 1,
+   "len": 16384,
+   "depth": 0.75,
+   "code": "6390",
+   "out": " 6390.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": "SetLike',\n    'SetProxy',\n    'SetView',\n    'Tuple',\n    'TupleProxy',\n    'TupleView',\n    'UnionProxy',\n    'UnionProxyView',\n    'TypedDict',\n    'TypedDictProxy',\n    'TypedDictView',\n    'TypedD"
+  },
+  {
+   "id": "s2:8K@25%",
+   "seed": 2,
+   "len": 8192,
+   "depth": 0.25,
+   "code": "3989",
+   "out": " 3989.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": "}, '\n               'code_context={!r}, index={!r}, positions={!r})'.format(\n                self.frame, self.filename, self.lineno, self.function,\n                self.code_context, self.index, self."
+  },
+  {
+   "id": "s2:8K@75%",
+   "seed": 2,
+   "len": 8192,
+   "depth": 0.75,
+   "code": "5797",
+   "out": " 5797.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": "def _is_protocol(cls):\n    return issubclass(cls, Protocol)\n\n\ndef _is_runtime_protocol(cls):\n    return issubclass(cls, _root=True)\n\n\ndef _is_abstract(cls):\n    return issubclass(cls, _root=True)\n\n\nde"
+  },
+  {
+   "id": "s2:16K@25%",
+   "seed": 2,
+   "len": 16384,
+   "depth": 0.25,
+   "code": "8030",
+   "out": " 8030.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": " __instancecheck__(self, inst):\n        if inst is Generic:\n            return True\n        if inst is Protocol:\n            return True\n        if inst is _ProtocolMeta:\n            return True\n     "
+  },
+  {
+   "id": "s2:16K@75%",
+   "seed": 2,
+   "len": 16384,
+   "depth": 0.75,
+   "code": "1708",
+   "out": " 1708.\n\nclass _GenericAlias",
+   "hit": true,
+   "gen_head": " should be `(float, int, str)`.\n                # That means that if we had something like...\n                #   P = ParamSpec('P')\n                #   T = TypeVar('T')\n                #   C = Callab"
+  },
+  {
+   "id": "s3:8K@25%",
+   "seed": 3,
+   "len": 8192,
+   "depth": 0.25,
+   "code": "2278",
+   "out": " 2278.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": "'Callable[{args}]')\n\n\nclass _GenericAlias(_GenericAlias, _root=True):\n    \"\"\"The type of parameterized generics.\n\n    That is, for example, `type(List[int])` is `_GenericAlias`.\n\n    Objects which are"
+  },
+  {
+   "id": "s3:8K@75%",
+   "seed": 3,
+   "len": 8192,
+   "depth": 0.75,
+   "code": "2997",
+   "out": " 2997.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": "_locals = base_globals, base_locals\n            for name, value in base_globals.items():\n                if name in type_params:\n                    hints[name] = _type_check(value, name, allow_specia"
+  },
+  {
+   "id": "s3:16K@25%",
+   "seed": 3,
+   "len": 16384,
+   "depth": 0.25,
+   "code": "7262",
+   "out": " 7262.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": " else arg\n                for arg in t.args\n            )\n        else:\n            args = tuple(\n                _make_forward_ref(arg, parent_fwdref=parent_fwdref) if isinstance(arg, str) else arg\n "
+  },
+  {
+   "id": "s3:16K@75%",
+   "seed": 3,
+   "len": 16384,
+   "depth": 0.75,
+   "code": "6539",
+   "out": " 6539.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": "``. The ``ModelBase`` class will\n    be treated similarly to ``@dataclasses.dataclass``, but\n    ``ModelBase`` will not be treated as a ``@dataclass``-compatible\n    metaclass.\n    \"\"\"\n    if not _is_"
+  },
+  {
+   "id": "s4:8K@25%",
+   "seed": 4,
+   "len": 8192,
+   "depth": 0.25,
+   "code": "1110",
+   "out": " 1110.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": "edDict is not a subclass of dict')\n\n    def __init__(self, *args, **kwargs):\n        super().__init__(*args, **kwargs)\n        self.__annotations__ = self.__annotations__ or {}\n        self.__annotati"
+  },
+  {
+   "id": "s4:8K@75%",
+   "seed": 4,
+   "len": 8192,
+   "depth": 0.75,
+   "code": "3049",
+   "out": " 3049.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": "2\n        )\n        self.mode = mode\n        self.bufsize = bufsize\n        self.encoding = encoding\n        self.errors = errors\n\n    def __repr__(self):\n        return 'FileType(mode=%r, bufsize=%r,"
+  },
+  {
+   "id": "s4:16K@25%",
+   "seed": 4,
+   "len": 16384,
+   "depth": 0.25,
+   "code": "3731",
+   "out": " 3731.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": " number of matches to\n    return.\n\n    Optional arg cutoff (default 0.6) is the minimum ratio of matches\n    to total elements that is acceptable.  If cutoff is None, all matches\n    are returned.\n\n  "
+  },
+  {
+   "id": "s4:16K@75%",
+   "seed": 4,
+   "len": 16384,
+   "depth": 0.75,
+   "code": "3409",
+   "out": " 3409.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": " = cruncher.get_matching_blocks()\n                for i, j, k in g:\n                    print('{0} a[%d:%d] b[%d:%d]' % tag, alo, alo+k, blo, blo+k)\n            elif tag == 'delete':\n                g"
+  },
+  {
+   "id": "s5:8K@25%",
+   "seed": 5,
+   "len": 8192,
+   "depth": 0.25,
+   "code": "6483",
+   "out": " 6483.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": " CO_ASYNC_GENERATOR)\n\ndef isgenerator(obj):\n    \"\"\"Return true if the object is a generator.\n\n    Generator objects provide the same attributes as functions.\n    See help(isfunction) for a list of att"
+  },
+  {
+   "id": "s5:8K@75%",
+   "seed": 5,
+   "len": 8192,
+   "depth": 0.75,
+   "code": "3683",
+   "out": " 3683.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": "\" in str(e):\n            raise\n        raise\n    return blockfinder.body_col0, blockfinder.last\n\ndef getblocklines(lines):\n    \"\"\"Extract the block of code at the top of the given list of lines.\"\"\"\n  "
+  },
+  {
+   "id": "s5:16K@25%",
+   "seed": 5,
+   "len": 16384,
+   "depth": 0.25,
+   "code": "3714",
+   "out": " 3714.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": "    \"\"\"Check types of arguments to a function.\"\"\"\n    if not isinstance(a, str):\n        raise TypeError('a must be a string: %r' % (a,))\n    if not isinstance(b, str):\n        raise TypeError('b must"
+  },
+  {
+   "id": "s5:16K@75%",
+   "seed": 5,
+   "len": 16384,
+   "depth": 0.75,
+   "code": "2638",
+   "out": " 2638.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": "            title: str\n            year: int\n            director: str\n\n        # This is a valid Movie TypedDict\n        movie = {'title': 'Inception', 'year': 2010, 'director': 'Christopher Nolan'}\n"
+  },
+  {
+   "id": "s6:8K@25%",
+   "seed": 6,
+   "len": 8192,
+   "depth": 0.25,
+   "code": "2046",
+   "out": " 2046.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": " the synch pair\n            yield from self._fancy_helper(a, best_i, best_i + 1,\n                                          b, best_j, best_j + 1)\n            # pump out straight replace from after thi"
+  },
+  {
+   "id": "s6:8K@75%",
+   "seed": 6,
+   "len": 8192,
+   "depth": 0.75,
+   "code": "9095",
+   "out": " 9095.<|endoftext|><|startoftext|># ",
+   "hit": true,
+   "gen_head": "module__ == 'typing':\n            return str(annotation)\n        return repr(annotation)\n    if isinstance(annotation, types.TypeAlias):\n        return str(annotation)\n    if isinstance(annotation, ty"
+  },
+  {
+   "id": "s6:16K@25%",
+   "seed": 6,
+   "len": 16384,
+   "depth": 0.25,
+   "code": "8155",
+   "out": " 8155.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": "        if expected_len > 0 and arguments[0] is not _empty:\n            msg = f\"{cls} has {expected_len} parameters, but {actual_len} were given\"\n            msg = msg.format(expected_len=expected_len"
+  },
+  {
+   "id": "s6:16K@75%",
+   "seed": 6,
+   "len": 16384,
+   "depth": 0.75,
+   "code": "5634",
+   "out": " 5634.\nQuestion: What is",
+   "hit": true,
+   "gen_head": " modules), the attribute is __get__.\n    \"\"\"\n    if isclass(object) or ismethod(object) or isfunction(object):\n        # mutual exclusion\n        return False\n    tp = type(object)\n    return (hasattr"
+  },
+  {
+   "id": "s7:8K@25%",
+   "seed": 7,
+   "len": 8192,
+   "depth": 0.25,
+   "code": "6062",
+   "out": " 6062.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": " junk from a and b before calling\n        # find_longest_match() is a bad idea, because it can change\n        # the answer.  For example, if a = \"abcd\" and b = \"abcd abcd\",\n        # then find_longest"
+  },
+  {
+   "id": "s7:8K@75%",
+   "seed": 7,
+   "len": 8192,
+   "depth": 0.75,
+   "code": "7955",
+   "out": " 7955.\n\ndef _make_",
+   "hit": true,
+   "gen_head": "    TypeGuard can be used to indicate that a function returns a value\n    that can be used to determine the type of the argument passed to it.\n\n    For example::\n\n        def is_positive(x: int) -> Ty"
+  },
+  {
+   "id": "s7:16K@25%",
+   "seed": 7,
+   "len": 16384,
+   "depth": 0.25,
+   "code": "3030",
+   "out": " 3030.\n\nQuestion: What is",
+   "hit": true,
+   "gen_head": " examples of\n        # this.  For example, if a class has a static method called foo, then\n        # getattr(cls, 'foo') will return the class's instance method foo, but\n        # cls.foo will return "
+  },
+  {
+   "id": "s7:16K@75%",
+   "seed": 7,
+   "len": 16384,
+   "depth": 0.75,
+   "code": "5843",
+   "out": " 5843.\n\ndef _type_re",
+   "hit": true,
+   "gen_head": " seen.add(id(nsobj))\n            globalns = {k: v for k, v in nsobj.__dict__.items() if k not in seen}\n    else:\n        globalns = globalns or {}\n\n    if localns is None:\n        localns = vars(obj)\n"
+  }
+ ],
+ "group": 8,
+ "zero_kv": false
+}

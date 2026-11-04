@@ -1,0 +1,6 @@
+[06:51:35] start diag_g8: needles.py --mode kv800 --mnbt 2048 --group 8
+[06:55:03] done  diag_g8 rc=0 in 3 min
+RESULT needles_kv800_c2048_g8 | recall 72/96 = 75.0% (95% CI 65.5-82.6%) | per length 1K 11/24, 4K 23/24, 16K 20/24, 32K 18/24 | {'dev seeds 3-5': {'hits': 19, 'n': 24}, 'held-out seeds': {'hits': 53, 'n': 72}} | 95s
+[06:55:03] start needles_kv800_zkv: needles.py --mode kv800 --mnbt 2048 --group 8 --zero-kv
+[07:18:07] done  needles_kv800_zkv rc=0 in 23 min
+RESULT needles_kv800_c2048_g8_zkv | recall 82/96 = 85.4% (95% CI 77.0-91.1%) | per length 1K 21/24, 4K 23/24, 16K 20/24, 32K 18/24 | {'dev seeds 3-5': {'hits': 21, 'n': 24}, 'held-out seeds': {'hits': 61, 'n': 72}} | 94s

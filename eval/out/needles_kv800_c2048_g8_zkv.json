@@ -1,0 +1,1068 @@
+{
+ "info": {
+  "mode": "kv800",
+  "plugin": false,
+  "mnbt": 2048,
+  "util": 0.75,
+  "max_model_len": 34816,
+  "max_num_seqs": 128,
+  "vllm": "0.32.0",
+  "torch": "2.14.0+xpu",
+  "backend": "sycl",
+  "time": "2026-11-04 06:16:30",
+  "kv_num_blocks": 19374,
+  "kv_groups": [
+   "MambaSpec(bs=34816, page=262144, win=None) x4",
+   "MambaSpec(bs=34816, page=262144, win=None) x3",
+   "MambaSpec(bs=34816, page=262144, win=None) x3",
+   "MambaSpec(bs=34816, page=262144, win=None) x3",
+   "SlidingWindowSpec(bs=128, page=262144, win=640) x3",
+   "SlidingWindowSpec(bs=128, page=262144, win=640) x3",
+   "SlidingWindowSpec(bs=128, page=262144, win=256) x3",
+   "SlidingWindowSpec(bs=128, page=262144, win=256) x2",
+   "FullAttentionSpec(bs=1280, page=262144, win=None) x4"
+  ]
+ },
+ "seeds": [
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14
+ ],
+ "n": 96,
+ "hits": 82,
+ "wilson95": [
+  0.7699818489737323,
+  0.9110979425470115
+ ],
+ "seconds": 94.1060585975647,
+ "timing": {
+  "all": 94.10601472854614
+ },
+ "per_length": {
+  "1K": {
+   "hits": 21,
+   "n": 24,
+   "wilson95": [
+    0.6899611855484453,
+    0.9565566595380588
+   ]
+  },
+  "4K": {
+   "hits": 23,
+   "n": 24,
+   "wilson95": [
+    0.7975819334115467,
+    0.9926065439164028
+   ]
+  },
+  "16K": {
+   "hits": 20,
+   "n": 24,
+   "wilson95": [
+    0.6414692917870997,
+    0.9332132371786819
+   ]
+  },
+  "32K": {
+   "hits": 18,
+   "n": 24,
+   "wilson95": [
+    0.5510055583116656,
+    0.8800063384126703
+   ]
+  }
+ },
+ "per_depth": {
+  "25%": {
+   "hits": 45,
+   "n": 48
+  },
+  "75%": {
+   "hits": 37,
+   "n": 48
+  }
+ },
+ "dev_vs_heldout": {
+  "dev seeds 3-5": {
+   "hits": 21,
+   "n": 24
+  },
+  "held-out seeds": {
+   "hits": 61,
+   "n": 72
+  }
+ },
+ "items": [
+  {
+   "id": "s3:1K@25%",
+   "seed": 3,
+   "len": 1024,
+   "depth": 0.25,
+   "code": "2073",
+   "out": " 2073.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 1061
+  },
+  {
+   "id": "s3:1K@75%",
+   "seed": 3,
+   "len": 1024,
+   "depth": 0.75,
+   "code": "1215",
+   "out": " 1215.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 1061
+  },
+  {
+   "id": "s3:4K@25%",
+   "seed": 3,
+   "len": 4096,
+   "depth": 0.25,
+   "code": "5249",
+   "out": " 5249.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 4133
+  },
+  {
+   "id": "s3:4K@75%",
+   "seed": 3,
+   "len": 4096,
+   "depth": 0.75,
+   "code": "4839",
+   "out": " 4839.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 4133
+  },
+  {
+   "id": "s3:16K@25%",
+   "seed": 3,
+   "len": 16384,
+   "depth": 0.25,
+   "code": "8704",
+   "out": " 8704.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 16420
+  },
+  {
+   "id": "s3:16K@75%",
+   "seed": 3,
+   "len": 16384,
+   "depth": 0.75,
+   "code": "8804",
+   "out": " 8804.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 16424
+  },
+  {
+   "id": "s3:32K@25%",
+   "seed": 3,
+   "len": 32768,
+   "depth": 0.25,
+   "code": "3467",
+   "out": " 3467.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 32805
+  },
+  {
+   "id": "s3:32K@75%",
+   "seed": 3,
+   "len": 32768,
+   "depth": 0.75,
+   "code": "3484",
+   "out": " 3484.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 32804
+  },
+  {
+   "id": "s4:1K@25%",
+   "seed": 4,
+   "len": 1024,
+   "depth": 0.25,
+   "code": "2089",
+   "out": " 2089.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 1061
+  },
+  {
+   "id": "s4:1K@75%",
+   "seed": 4,
+   "len": 1024,
+   "depth": 0.75,
+   "code": "7579",
+   "out": " 7579.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 1061
+  },
+  {
+   "id": "s4:4K@25%",
+   "seed": 4,
+   "len": 4096,
+   "depth": 0.25,
+   "code": "5741",
+   "out": " 5741.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 4136
+  },
+  {
+   "id": "s4:4K@75%",
+   "seed": 4,
+   "len": 4096,
+   "depth": 0.75,
+   "code": "1964",
+   "out": " 1964.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 4135
+  },
+  {
+   "id": "s4:16K@25%",
+   "seed": 4,
+   "len": 16384,
+   "depth": 0.25,
+   "code": "9525",
+   "out": " 9525.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 16420
+  },
+  {
+   "id": "s4:16K@75%",
+   "seed": 4,
+   "len": 16384,
+   "depth": 0.75,
+   "code": "6902",
+   "out": " 6902.\n        raise OSError",
+   "hit": true,
+   "prompt_tokens": 16421
+  },
+  {
+   "id": "s4:32K@25%",
+   "seed": 4,
+   "len": 32768,
+   "depth": 0.25,
+   "code": "3828",
+   "out": " 3828.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 32805
+  },
+  {
+   "id": "s4:32K@75%",
+   "seed": 4,
+   "len": 32768,
+   "depth": 0.75,
+   "code": "5288",
+   "out": " 5288.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 32804
+  },
+  {
+   "id": "s5:1K@25%",
+   "seed": 5,
+   "len": 1024,
+   "depth": 0.25,
+   "code": "9684",
+   "out": " 9684.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 1061
+  },
+  {
+   "id": "s5:1K@75%",
+   "seed": 5,
+   "len": 1024,
+   "depth": 0.75,
+   "code": "8628",
+   "out": " 862.\n\nTypedDict.__annotations",
+   "hit": false,
+   "prompt_tokens": 1064
+  },
+  {
+   "id": "s5:4K@25%",
+   "seed": 5,
+   "len": 4096,
+   "depth": 0.25,
+   "code": "5080",
+   "out": " 5080.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 4132
+  },
+  {
+   "id": "s5:4K@75%",
+   "seed": 5,
+   "len": 4096,
+   "depth": 0.75,
+   "code": "1849",
+   "out": " 1849.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 4133
+  },
+  {
+   "id": "s5:16K@25%",
+   "seed": 5,
+   "len": 16384,
+   "depth": 0.25,
+   "code": "2854",
+   "out": " 1.\n\nQuestion: How many times",
+   "hit": false,
+   "prompt_tokens": 16421
+  },
+  {
+   "id": "s5:16K@75%",
+   "seed": 5,
+   "len": 16384,
+   "depth": 0.75,
+   "code": "8685",
+   "out": " 8.\n\nQuestion: What is the",
+   "hit": false,
+   "prompt_tokens": 16423
+  },
+  {
+   "id": "s5:32K@25%",
+   "seed": 5,
+   "len": 32768,
+   "depth": 0.25,
+   "code": "7238",
+   "out": " 7238.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 32805
+  },
+  {
+   "id": "s5:32K@75%",
+   "seed": 5,
+   "len": 32768,
+   "depth": 0.75,
+   "code": "2670",
+   "out": " 2670.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 32804
+  },
+  {
+   "id": "s6:1K@25%",
+   "seed": 6,
+   "len": 1024,
+   "depth": 0.25,
+   "code": "8704",
+   "out": " 8704.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 1060
+  },
+  {
+   "id": "s6:1K@75%",
+   "seed": 6,
+   "len": 1024,
+   "depth": 0.75,
+   "code": "7113",
+   "out": " 7113.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 1061
+  },
+  {
+   "id": "s6:4K@25%",
+   "seed": 6,
+   "len": 4096,
+   "depth": 0.25,
+   "code": "1358",
+   "out": " 1358.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 4132
+  },
+  {
+   "id": "s6:4K@75%",
+   "seed": 6,
+   "len": 4096,
+   "depth": 0.75,
+   "code": "9009",
+   "out": " 9009.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 4132
+  },
+  {
+   "id": "s6:16K@25%",
+   "seed": 6,
+   "len": 16384,
+   "depth": 0.25,
+   "code": "7783",
+   "out": " 7783.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 16421
+  },
+  {
+   "id": "s6:16K@75%",
+   "seed": 6,
+   "len": 16384,
+   "depth": 0.75,
+   "code": "9835",
+   "out": " 9835.\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 16421
+  },
+  {
+   "id": "s6:32K@25%",
+   "seed": 6,
+   "len": 32768,
+   "depth": 0.25,
+   "code": "2543",
+   "out": " 4.\n\nQuestion: How many times",
+   "hit": false,
+   "prompt_tokens": 32804
+  },
+  {
+   "id": "s6:32K@75%",
+   "seed": 6,
+   "len": 32768,
+   "depth": 0.75,
+   "code": "5350",
+   "out": " 535.\n\nQuestion: How many times",
+   "hit": false,
+   "prompt_tokens": 32807
+  },
+  {
+   "id": "s7:1K@25%",
+   "seed": 7,
+   "len": 1024,
+   "depth": 0.25,
+   "code": "2542",
+   "out": " 2542.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 1061
+  },
+  {
+   "id": "s7:1K@75%",
+   "seed": 7,
+   "len": 1024,
+   "depth": 0.75,
+   "code": "1950",
+   "out": " 1950.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 1060
+  },
+  {
+   "id": "s7:4K@25%",
+   "seed": 7,
+   "len": 4096,
+   "depth": 0.25,
+   "code": "4517",
+   "out": " 4517.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 4133
+  },
+  {
+   "id": "s7:4K@75%",
+   "seed": 7,
+   "len": 4096,
+   "depth": 0.75,
+   "code": "2408",
+   "out": " 2408.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 4133
+  },
+  {
+   "id": "s7:16K@25%",
+   "seed": 7,
+   "len": 16384,
+   "depth": 0.25,
+   "code": "7851",
+   "out": " 7851.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 16421
+  },
+  {
+   "id": "s7:16K@75%",
+   "seed": 7,
+   "len": 16384,
+   "depth": 0.75,
+   "code": "4943",
+   "out": " 2.\n\nQuestion: What is the",
+   "hit": false,
+   "prompt_tokens": 16421
+  },
+  {
+   "id": "s7:32K@25%",
+   "seed": 7,
+   "len": 32768,
+   "depth": 0.25,
+   "code": "7955",
+   "out": " 7955.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 32805
+  },
+  {
+   "id": "s7:32K@75%",
+   "seed": 7,
+   "len": 32768,
+   "depth": 0.75,
+   "code": "3028",
+   "out": " 3028.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 32805
+  },
+  {
+   "id": "s8:1K@25%",
+   "seed": 8,
+   "len": 1024,
+   "depth": 0.25,
+   "code": "3242",
+   "out": " 3242.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 1061
+  },
+  {
+   "id": "s8:1K@75%",
+   "seed": 8,
+   "len": 1024,
+   "depth": 0.75,
+   "code": "9296",
+   "out": " 929.\n\nQuestion: How many times",
+   "hit": false,
+   "prompt_tokens": 1061
+  },
+  {
+   "id": "s8:4K@25%",
+   "seed": 8,
+   "len": 4096,
+   "depth": 0.25,
+   "code": "7565",
+   "out": " 7565.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 4133
+  },
+  {
+   "id": "s8:4K@75%",
+   "seed": 8,
+   "len": 4096,
+   "depth": 0.75,
+   "code": "1496",
+   "out": " 1496.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 4132
+  },
+  {
+   "id": "s8:16K@25%",
+   "seed": 8,
+   "len": 16384,
+   "depth": 0.25,
+   "code": "8985",
+   "out": " 8985.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 16421
+  },
+  {
+   "id": "s8:16K@75%",
+   "seed": 8,
+   "len": 16384,
+   "depth": 0.75,
+   "code": "7397",
+   "out": " 7397.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 16421
+  },
+  {
+   "id": "s8:32K@25%",
+   "seed": 8,
+   "len": 32768,
+   "depth": 0.25,
+   "code": "4149",
+   "out": " 4149.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 32805
+  },
+  {
+   "id": "s8:32K@75%",
+   "seed": 8,
+   "len": 32768,
+   "depth": 0.75,
+   "code": "2467",
+   "out": " 100.\n\nQuestion: How many times",
+   "hit": false,
+   "prompt_tokens": 32805
+  },
+  {
+   "id": "s9:1K@25%",
+   "seed": 9,
+   "len": 1024,
+   "depth": 0.25,
+   "code": "6543",
+   "out": " 6543.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 1061
+  },
+  {
+   "id": "s9:1K@75%",
+   "seed": 9,
+   "len": 1024,
+   "depth": 0.75,
+   "code": "8597",
+   "out": " 8597.\n\n    ``TypeIs",
+   "hit": true,
+   "prompt_tokens": 1064
+  },
+  {
+   "id": "s9:4K@25%",
+   "seed": 9,
+   "len": 4096,
+   "depth": 0.25,
+   "code": "2324",
+   "out": " 2324.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 4133
+  },
+  {
+   "id": "s9:4K@75%",
+   "seed": 9,
+   "len": 4096,
+   "depth": 0.75,
+   "code": "1670",
+   "out": " 1670.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 4132
+  },
+  {
+   "id": "s9:16K@25%",
+   "seed": 9,
+   "len": 16384,
+   "depth": 0.25,
+   "code": "7209",
+   "out": " 7209.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 16420
+  },
+  {
+   "id": "s9:16K@75%",
+   "seed": 9,
+   "len": 16384,
+   "depth": 0.75,
+   "code": "8405",
+   "out": " 8405.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 16421
+  },
+  {
+   "id": "s9:32K@25%",
+   "seed": 9,
+   "len": 32768,
+   "depth": 0.25,
+   "code": "3574",
+   "out": " 357.\n\ndef _get_arguments",
+   "hit": false,
+   "prompt_tokens": 32808
+  },
+  {
+   "id": "s9:32K@75%",
+   "seed": 9,
+   "len": 32768,
+   "depth": 0.75,
+   "code": "4899",
+   "out": " 4899.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 32804
+  },
+  {
+   "id": "s10:1K@25%",
+   "seed": 10,
+   "len": 1024,
+   "depth": 0.25,
+   "code": "5546",
+   "out": " 5546.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 1061
+  },
+  {
+   "id": "s10:1K@75%",
+   "seed": 10,
+   "len": 1024,
+   "depth": 0.75,
+   "code": "3625",
+   "out": " 3625.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 1060
+  },
+  {
+   "id": "s10:4K@25%",
+   "seed": 10,
+   "len": 4096,
+   "depth": 0.25,
+   "code": "9530",
+   "out": " 9530.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 4133
+  },
+  {
+   "id": "s10:4K@75%",
+   "seed": 10,
+   "len": 4096,
+   "depth": 0.75,
+   "code": "6370",
+   "out": " 6370.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 4133
+  },
+  {
+   "id": "s10:16K@25%",
+   "seed": 10,
+   "len": 16384,
+   "depth": 0.25,
+   "code": "5095",
+   "out": " 5095.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 16421
+  },
+  {
+   "id": "s10:16K@75%",
+   "seed": 10,
+   "len": 16384,
+   "depth": 0.75,
+   "code": "1730",
+   "out": " 1730.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 16420
+  },
+  {
+   "id": "s10:32K@25%",
+   "seed": 10,
+   "len": 32768,
+   "depth": 0.25,
+   "code": "3272",
+   "out": " 3272.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 32805
+  },
+  {
+   "id": "s10:32K@75%",
+   "seed": 10,
+   "len": 32768,
+   "depth": 0.75,
+   "code": "7252",
+   "out": " 7252.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 32805
+  },
+  {
+   "id": "s11:1K@25%",
+   "seed": 11,
+   "len": 1024,
+   "depth": 0.25,
+   "code": "4111",
+   "out": " 4111.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 1063
+  },
+  {
+   "id": "s11:1K@75%",
+   "seed": 11,
+   "len": 1024,
+   "depth": 0.75,
+   "code": "9387",
+   "out": " 9387.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 1060
+  },
+  {
+   "id": "s11:4K@25%",
+   "seed": 11,
+   "len": 4096,
+   "depth": 0.25,
+   "code": "4050",
+   "out": " 4050.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 4133
+  },
+  {
+   "id": "s11:4K@75%",
+   "seed": 11,
+   "len": 4096,
+   "depth": 0.75,
+   "code": "8316",
+   "out": " 8316.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 4133
+  },
+  {
+   "id": "s11:16K@25%",
+   "seed": 11,
+   "len": 16384,
+   "depth": 0.25,
+   "code": "3323",
+   "out": " 3323.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 16421
+  },
+  {
+   "id": "s11:16K@75%",
+   "seed": 11,
+   "len": 16384,
+   "depth": 0.75,
+   "code": "9825",
+   "out": " 9825.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 16421
+  },
+  {
+   "id": "s11:32K@25%",
+   "seed": 11,
+   "len": 32768,
+   "depth": 0.25,
+   "code": "1686",
+   "out": " 1686.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 32807
+  },
+  {
+   "id": "s11:32K@75%",
+   "seed": 11,
+   "len": 32768,
+   "depth": 0.75,
+   "code": "8421",
+   "out": " 842.\n\nQuestion: How many times",
+   "hit": false,
+   "prompt_tokens": 32804
+  },
+  {
+   "id": "s12:1K@25%",
+   "seed": 12,
+   "len": 1024,
+   "depth": 0.25,
+   "code": "1177",
+   "out": " 1177.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 1061
+  },
+  {
+   "id": "s12:1K@75%",
+   "seed": 12,
+   "len": 1024,
+   "depth": 0.75,
+   "code": "8905",
+   "out": " 890.\n\nQuestion: What is the",
+   "hit": false,
+   "prompt_tokens": 1061
+  },
+  {
+   "id": "s12:4K@25%",
+   "seed": 12,
+   "len": 4096,
+   "depth": 0.25,
+   "code": "8540",
+   "out": " 8540.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 4135
+  },
+  {
+   "id": "s12:4K@75%",
+   "seed": 12,
+   "len": 4096,
+   "depth": 0.75,
+   "code": "4729",
+   "out": " 4729.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 4133
+  },
+  {
+   "id": "s12:16K@25%",
+   "seed": 12,
+   "len": 16384,
+   "depth": 0.25,
+   "code": "1027",
+   "out": " 1027.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 16421
+  },
+  {
+   "id": "s12:16K@75%",
+   "seed": 12,
+   "len": 16384,
+   "depth": 0.75,
+   "code": "3380",
+   "out": " 3380.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 16421
+  },
+  {
+   "id": "s12:32K@25%",
+   "seed": 12,
+   "len": 32768,
+   "depth": 0.25,
+   "code": "7023",
+   "out": " 7023.\n\ndef getmembers",
+   "hit": true,
+   "prompt_tokens": 32805
+  },
+  {
+   "id": "s12:32K@75%",
+   "seed": 12,
+   "len": 32768,
+   "depth": 0.75,
+   "code": "6565",
+   "out": " 6565.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 32805
+  },
+  {
+   "id": "s13:1K@25%",
+   "seed": 13,
+   "len": 1024,
+   "depth": 0.25,
+   "code": "3411",
+   "out": " 3411.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 1060
+  },
+  {
+   "id": "s13:1K@75%",
+   "seed": 13,
+   "len": 1024,
+   "depth": 0.75,
+   "code": "4069",
+   "out": " 4069.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 1061
+  },
+  {
+   "id": "s13:4K@25%",
+   "seed": 13,
+   "len": 4096,
+   "depth": 0.25,
+   "code": "2160",
+   "out": " 2160.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 4136
+  },
+  {
+   "id": "s13:4K@75%",
+   "seed": 13,
+   "len": 4096,
+   "depth": 0.75,
+   "code": "4504",
+   "out": " 4504.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 4133
+  },
+  {
+   "id": "s13:16K@25%",
+   "seed": 13,
+   "len": 16384,
+   "depth": 0.25,
+   "code": "5827",
+   "out": " 5827.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 16420
+  },
+  {
+   "id": "s13:16K@75%",
+   "seed": 13,
+   "len": 16384,
+   "depth": 0.75,
+   "code": "8071",
+   "out": " 7.\n\nQuestion: How many times",
+   "hit": false,
+   "prompt_tokens": 16420
+  },
+  {
+   "id": "s13:32K@25%",
+   "seed": 13,
+   "len": 32768,
+   "depth": 0.25,
+   "code": "1236",
+   "out": " 1236.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 32804
+  },
+  {
+   "id": "s13:32K@75%",
+   "seed": 13,
+   "len": 32768,
+   "depth": 0.75,
+   "code": "3403",
+   "out": " 3.\n\nQuestion: How many times",
+   "hit": false,
+   "prompt_tokens": 32805
+  },
+  {
+   "id": "s14:1K@25%",
+   "seed": 14,
+   "len": 1024,
+   "depth": 0.25,
+   "code": "5190",
+   "out": " 5190.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 1061
+  },
+  {
+   "id": "s14:1K@75%",
+   "seed": 14,
+   "len": 1024,
+   "depth": 0.75,
+   "code": "2189",
+   "out": " 2189.\n\nQuestion: What is",
+   "hit": true,
+   "prompt_tokens": 1064
+  },
+  {
+   "id": "s14:4K@25%",
+   "seed": 14,
+   "len": 4096,
+   "depth": 0.25,
+   "code": "8368",
+   "out": " 8368.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 4133
+  },
+  {
+   "id": "s14:4K@75%",
+   "seed": 14,
+   "len": 4096,
+   "depth": 0.75,
+   "code": "8645",
+   "out": " 864.\n\nQuestion: How many times",
+   "hit": false,
+   "prompt_tokens": 4132
+  },
+  {
+   "id": "s14:16K@25%",
+   "seed": 14,
+   "len": 16384,
+   "depth": 0.25,
+   "code": "7499",
+   "out": " 7499.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 16421
+  },
+  {
+   "id": "s14:16K@75%",
+   "seed": 14,
+   "len": 16384,
+   "depth": 0.75,
+   "code": "2939",
+   "out": " 2939.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 16420
+  },
+  {
+   "id": "s14:32K@25%",
+   "seed": 14,
+   "len": 32768,
+   "depth": 0.25,
+   "code": "4657",
+   "out": " 4657.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 32805
+  },
+  {
+   "id": "s14:32K@75%",
+   "seed": 14,
+   "len": 32768,
+   "depth": 0.75,
+   "code": "6866",
+   "out": " 6866.\n\nQuestion: How many",
+   "hit": true,
+   "prompt_tokens": 32804
+  }
+ ],
+ "zero_kv": true,
+ "group": 8
+}

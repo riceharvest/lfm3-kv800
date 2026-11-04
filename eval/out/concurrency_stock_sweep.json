@@ -1,0 +1,238 @@
+{
+ "info": {
+  "mode": "stock",
+  "plugin": true,
+  "mnbt": 8192,
+  "util": 0.85,
+  "max_model_len": 36864,
+  "max_num_seqs": 256,
+  "attn_backend": "TRITON_ATTN",
+  "vllm": "0.32.0",
+  "torch": "2.14.0+xpu",
+  "backend": "vllm attn",
+  "time": "2026-11-04 07:08:06",
+  "model_path": {
+   "model_module": "lfm3_kv800.vllm_model",
+   "model_file": "/opt/venv/lib/python3.12/site-packages/lfm3_kv800/vllm_model.py",
+   "in_tree_modules_loaded": [],
+   "lfm3_kv800_file": "/opt/venv/lib/python3.12/site-packages/lfm3_kv800/__init__.py"
+  },
+  "kv_num_blocks": 140781,
+  "kv_groups": [
+   "MambaSpec(bs=36864, page=32768, win=None) x5",
+   "MambaSpec(bs=36864, page=32768, win=None) x4",
+   "MambaSpec(bs=36864, page=32768, win=None) x4",
+   "FullAttentionSpec(bs=16, page=32768, win=None) x3",
+   "FullAttentionSpec(bs=16, page=32768, win=None) x3",
+   "SlidingWindowSpec(bs=16, page=32768, win=256) x5"
+  ]
+ },
+ "capacity": {
+  "request_tokens": 32832,
+  "num_blocks": 140781,
+  "pool_bytes": 23065559040,
+  "pool_GiB": 21.481475830078125,
+  "bytes_per_block_id": 163840.0,
+  "max_in_flight_tokens": 16384,
+  "vllm_logged_max_concurrency": 24.908174097664542,
+  "vllm_logged_kv_tokens": 918214,
+  "vllm_logged_for_max_model_len": 36864,
+  "stated_concurrency": 27.346736596736598,
+  "stated_source": "vllm",
+  "stated_N": 27,
+  "admission_blocks_per_request": 5148,
+  "steady_blocks_per_request": 4124,
+  "admission_bytes_per_request": 843448320.0,
+  "steady_bytes_per_request": 675676160.0,
+  "steady_N": 33,
+  "groups": [
+   {
+    "spec": "MambaSpec",
+    "kind": "conv state",
+    "layers": [
+     "model.layers.0.short_conv",
+     "model.layers.5.short_conv",
+     "model.layers.11.short_conv",
+     "model.layers.17.short_conv",
+     "model.layers.23.short_conv"
+    ],
+    "n_layers": 5,
+    "block_size": 36864,
+    "page_bytes": 32768,
+    "content_page_bytes": 24576,
+    "window": null,
+    "admission_blocks": 1,
+    "steady_blocks": 1
+   },
+   {
+    "spec": "MambaSpec",
+    "kind": "conv state",
+    "layers": [
+     "model.layers.1.short_conv",
+     "model.layers.7.short_conv",
+     "model.layers.13.short_conv",
+     "model.layers.19.short_conv"
+    ],
+    "n_layers": 4,
+    "block_size": 36864,
+    "page_bytes": 32768,
+    "content_page_bytes": 24576,
+    "window": null,
+    "admission_blocks": 1,
+    "steady_blocks": 1
+   },
+   {
+    "spec": "MambaSpec",
+    "kind": "conv state",
+    "layers": [
+     "model.layers.3.short_conv",
+     "model.layers.9.short_conv",
+     "model.layers.15.short_conv",
+     "model.layers.21.short_conv"
+    ],
+    "n_layers": 4,
+    "block_size": 36864,
+    "page_bytes": 32768,
+    "content_page_bytes": 24576,
+    "window": null,
+    "admission_blocks": 1,
+    "steady_blocks": 1
+   },
+   {
+    "spec": "FullAttentionSpec",
+    "kind": "full attention bf16",
+    "layers": [
+     "model.layers.2.self_attn.attn",
+     "model.layers.10.self_attn.attn",
+     "model.layers.18.self_attn.attn"
+    ],
+    "n_layers": 3,
+    "block_size": 16,
+    "page_bytes": 32768,
+    "content_page_bytes": 32768,
+    "window": null,
+    "admission_blocks": 2052,
+    "steady_blocks": 2052
+   },
+   {
+    "spec": "FullAttentionSpec",
+    "kind": "full attention bf16",
+    "layers": [
+     "model.layers.6.self_attn.attn",
+     "model.layers.14.self_attn.attn",
+     "model.layers.22.self_attn.attn"
+    ],
+    "n_layers": 3,
+    "block_size": 16,
+    "page_bytes": 32768,
+    "content_page_bytes": 32768,
+    "window": null,
+    "admission_blocks": 2052,
+    "steady_blocks": 2052
+   },
+   {
+    "spec": "SlidingWindowSpec",
+    "kind": "window 256",
+    "layers": [
+     "model.layers.4.self_attn.attn",
+     "model.layers.8.self_attn.attn",
+     "model.layers.12.self_attn.attn",
+     "model.layers.16.self_attn.attn",
+     "model.layers.20.self_attn.attn"
+    ],
+    "n_layers": 5,
+    "block_size": 16,
+    "page_bytes": 32768,
+    "content_page_bytes": 32768,
+    "window": 256,
+    "admission_blocks": 1041,
+    "steady_blocks": 17
+   }
+  ],
+  "layer_types": {
+   "conv state": {
+    "layers": [
+     0,
+     5,
+     11,
+     17,
+     23,
+     1,
+     7,
+     13,
+     19,
+     3,
+     9,
+     15,
+     21
+    ],
+    "page_bytes": 32768,
+    "content_page_bytes": 24576,
+    "block_size": 36864,
+    "window": null,
+    "fixed_bytes_per_request_all_layers": 319488,
+    "alloc_bytes_per_request_all_layers": 425984
+   },
+   "full attention bf16": {
+    "layers": [
+     2,
+     10,
+     18,
+     6,
+     14,
+     22
+    ],
+    "page_bytes": 32768,
+    "content_page_bytes": 32768,
+    "block_size": 16,
+    "window": null,
+    "bytes_per_token_per_layer": 2048.0,
+    "alloc_bytes_per_token_per_layer": 2048.0,
+    "bytes_per_token_all_layers": 12288.0,
+    "alloc_bytes_per_token_all_layers": 12288.0
+   },
+   "window 256": {
+    "layers": [
+     4,
+     8,
+     12,
+     16,
+     20
+    ],
+    "page_bytes": 32768,
+    "content_page_bytes": 32768,
+    "block_size": 16,
+    "window": 256,
+    "bytes_per_token_per_layer": 2048.0,
+    "fixed_bytes_per_request_all_layers": 2621440.0
+   }
+  }
+ },
+ "sweep": [
+  {
+   "N": 27,
+   "prompt_tokens": 32768,
+   "new_tokens_min": 136,
+   "new_tokens_max": 240,
+   "wall_s": 87.1846535205841,
+   "preemptions": 0,
+   "all_tokens_returned": true,
+   "steps": 245,
+   "window_steps": 136,
+   "kv_usage_peak": 0.7968177297911635,
+   "ttft_median_s": 42.16958570480347,
+   "ttft_max_s": 78.63156914710999,
+   "ttft_min_s": 4.804942607879639,
+   "prefill_tok_s": 11251.664052955219,
+   "window_s": 8.454509496688843,
+   "decode_tok_s": 431.13086589204755,
+   "tpot_ms": 62.62599627176921,
+   "kv_usage_window": 0.795027702798693,
+   "context_at_window": [
+    32899,
+    33008
+   ],
+   "pass": true
+  }
+ ]
+}

@@ -1,0 +1,85 @@
+W1104 06:15:50.435000 9 torch/_opaque_base.py:6] torch._opaque_base is deprecated, use torch._custom_class_base instead
+W1104 06:15:50.435000 9 torch/_library/opaque_object.py:288] register_opaque_type is deprecated, use register_custom_class instead
+W1104 06:15:50.436000 9 torch/_library/opaque_object.py:211] typ='value' is deprecated, use typ='constant' instead
+(MainProcess pid=9) INFO 11-04 06:15:58 [api_utils.py:286] non-default args: {'trust_remote_code': True, 'dtype': 'bfloat16', 'max_model_len': 34816, 'enable_prefix_caching': False, 'gpu_memory_utilization': 0.75, 'max_num_batched_tokens': 2048, 'max_num_seqs': 128, 'enforce_eager': True, 'compilation_config': {'mode': <CompilationMode.NONE: 0>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': [], 'ir_enable_torch_wrap': None, 'splitting_ops': None, 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'cudagraph_decoder_replay': True, 'decoder_replay_cudagraph_capture_sizes': [], 'decoder_replay_trim_threshold': 768, 'compile_sizes': None, 'compile_ranges_endpoints': None, 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': None, 'cudagraph_num_of_warmups': 0, 'cudagraph_capture_sizes': None, 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': None, 'pass_config': {}, 'max_cudagraph_capture_size': None, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': None, 'static_all_moe_layers': []}, 'model': '/mnt/ssd/huggingface/hub/models--LiquidAI--LFM3-1.7B-Base/snapshots/7bca5038823c0d0f14efe06439109354a10e014c'}
+(MainProcess pid=9) WARNING 11-04 06:15:58 [interface.py:1457] Unknown vLLM environment variable detected: VLLM_XPU_ENABLE_XPU_GRAPH
+(MainProcess pid=9) WARNING 11-04 06:15:58 [arg_utils.py:1945] The global random seed is set to 0. Since VLLM_ENABLE_V1_MULTIPROCESSING is set to False, this may affect the random state of the Python process that launched vLLM.
+(MainProcess pid=9) INFO 11-04 06:16:08 [model.py:733] Resolved architecture: Lfm3ForCausalLM
+(MainProcess pid=9) INFO 11-04 06:16:08 [model.py:2152] Using max model len 34816
+(MainProcess pid=9) INFO 11-04 06:16:08 [scheduler.py:307] Chunked prefill is enabled with max_num_batched_tokens=2048.
+(MainProcess pid=9) WARNING 11-04 06:16:08 [vllm.py:1703] Enforce eager set, disabling torch.compile, CUDAGraphs, and JIT kernel warmup. This is equivalent to setting -cc.mode=none -cc.cudagraph_mode=none and --kernel_config.enable_jit_warmup=False
+(MainProcess pid=9) WARNING 11-04 06:16:08 [vllm.py:1727] Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
+(MainProcess pid=9) INFO 11-04 06:16:08 [kernel.py:467] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'], gelu_and_mul_sparse=['native'])
+(MainProcess pid=9) INFO 11-04 06:16:08 [vllm.py:1929] Cudagraph is disabled under eager mode
+(MainProcess pid=9) INFO 11-04 06:16:08 [xpu.py:447] XPU platform: set server shutdown_timeout=5.
+(MainProcess pid=9) INFO 11-04 06:16:08 [compilation.py:317] Enabled custom fusions: norm_quant, act_quant
+(MainProcess pid=9) INFO 11-04 06:16:10 [core.py:133] Initializing a V1 LLM engine (v0.32.0) with config: model='/mnt/ssd/huggingface/hub/models--LiquidAI--LFM3-1.7B-Base/snapshots/7bca5038823c0d0f14efe06439109354a10e014c', speculative_config=None, tokenizer='/mnt/ssd/huggingface/hub/models--LiquidAI--LFM3-1.7B-Base/snapshots/7bca5038823c0d0f14efe06439109354a10e014c', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=34816, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, decode_context_parallel_size=1, dcp_comm_backend=ag_rs, disable_custom_all_reduce=True, quantization=None, quantization_config=None, enforce_eager=True, aux_output_config=AuxOutputConfig(enable_return_routed_experts=False, max_bytes=None), kv_cache_dtype=auto, device_config=xpu, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, per_request_spec_decode_metrics='none', kv_cache_metrics=False, kv_cache_metrics_sample=0.01, custom_histogram_buckets=None, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False, jit_monitor_mode='warn', jit_monitor_verbose=False), seed=0, served_model_name=/mnt/ssd/huggingface/hub/models--LiquidAI--LFM3-1.7B-Base/snapshots/7bca5038823c0d0f14efe06439109354a10e014c, enable_prefix_caching=False, enable_chunked_prefill=True, pooler_config=None, compilation_config={'mode': <CompilationMode.NONE: 0>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['all'], 'ir_enable_torch_wrap': False, 'splitting_ops': [], 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'cudagraph_decoder_replay': True, 'decoder_replay_cudagraph_capture_sizes': [], 'decoder_replay_trim_threshold': 768, 'compile_sizes': [], 'compile_ranges_endpoints': [2048], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.NONE: 0>, 'cudagraph_num_of_warmups': 0, 'cudagraph_capture_sizes': [], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': True, 'fuse_act_quant': True, 'fuse_attn_quant': False, 'fuse_allreduce_rms': False, 'enable_qk_norm_rope_fusion': False, 'fuse_rope_kvcache_cat_mla': False, 'fuse_act_padding': False, 'fuse_qk_norm_rope_kvcache': False}, 'max_cudagraph_capture_size': 0, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': False, 'static_all_moe_layers': []}, kernel_config=KernelConfig(ir_op_priority=IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'], gelu_and_mul_sparse=['native']), enable_flashinfer_autotune=True, enable_rocm_segmented_attn_autotune=False, enable_cutedsl_warmup=True, enable_jit_warmup=False, moe_backend='auto', sparse_indexer_topk_backend='auto', linear_backend='auto', linear_backend_per_quant=None)
+(MainProcess pid=9) INFO 11-04 06:16:11 [parallel_state.py:1906] world_size=1 rank=0 local_rank=0 distributed_init_method=file:///tmp/vllm_dist_67231ed2af4743e9940a73ed2729bc14 backend=xccl
+(MainProcess pid=9) INFO 11-04 06:16:11 [parallel_state.py:2350] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, ETP rank 0, EP rank N/A, EPLB rank N/A
+(MainProcess pid=9) INFO 11-04 06:16:11 [xpu_worker.py:198] Using V2 Model Runner
+(MainProcess pid=9) INFO 11-04 06:16:11 [model_runner.py:395] Loading model from scratch...
+(MainProcess pid=9) INFO 11-04 06:16:12 [base_loader.py:82] Initializing model took 0.169949 seconds
+(MainProcess pid=9) INFO 11-04 06:16:12 [weight_utils.py:1108] Filesystem type for checkpoints: BTRFS. Checkpoint size: 3.22 GiB. Available RAM: 22.89 GiB.
+(MainProcess pid=9) INFO 11-04 06:16:12 [weight_utils.py:1131] Auto-prefetch is disabled because the filesystem (BTRFS) is not a recognized network FS (NFS/Lustre). If you want to force prefetching, start vLLM with --safetensors-load-strategy=prefetch.
+Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  2.30it/s]
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  2.29it/s]
+
+(MainProcess pid=9) INFO 11-04 06:16:12 [default_loader.py:501] Loading weights took 0.53 seconds
+(MainProcess pid=9) INFO 11-04 06:16:14 [model_runner.py:427] Model loading took 3.22 GiB memory and 2.588176 seconds
+(MainProcess pid=9) INFO 11-04 06:16:14 [topk_topp_sampler.py:157] Using the fused XPU kernel for top-p & top-k sampling.
+(MainProcess pid=9) INFO 11-04 06:16:14 [torch_utils.py:295] Reducing Torch threads from 16 to 1 for serving. Set OMP_NUM_THREADS in the external environment to override.
+(MainProcess pid=9) INFO 11-04 06:16:14 [interface.py:1120] Padding mamba page size by 33.33% to ensure that mamba page size and attention page size are exactly equal.
+(MainProcess pid=9) INFO 11-04 06:16:14 [utils.py:347] Using LBNHC KV cache layout.
+(MainProcess pid=9) INFO 11-04 06:16:26 [gpu_worker.py:759] Available KV cache memory: 18.92 GiB
+(MainProcess pid=9) WARNING 11-04 06:16:26 [kv_cache_utils.py:1483] Add 3 padding layers, may waste at most 23.08% KV cache memory
+(MainProcess pid=9) WARNING 11-04 06:16:26 [kv_cache_utils.py:1483] Add 2 padding layers, may waste at most 33.33% KV cache memory
+(MainProcess pid=9) WARNING 11-04 06:16:26 [kv_cache_utils.py:1483] Add 3 padding layers, may waste at most 60.00% KV cache memory
+(MainProcess pid=9) INFO 11-04 06:16:26 [kv_cache_utils.py:2327] XPU KV cache size: 3,789,467 tokens, Maximum concurrency for 34,816 tokens per request: 108.84x
+(MainProcess pid=9) INFO 11-04 06:16:26 [kv_cache_utils.py:853] kv cache group sizes (34816, 34816, 34816, 34816, 128, 128, 128, 128, 1280)
+(MainProcess pid=9) INFO 11-04 06:16:26 [kv_cache_utils.py:854] kv lcm block sizes 174080
+(MainProcess pid=9) INFO 11-04 06:16:26 [gpu_worker.py:1034] Free memory on device (29.35/30.3 GiB) on startup. Desired GPU memory utilization is (0.75, 22.72 GiB). Actual usage is 3.68 GiB for consumed memory (weights + non-torch), 0.12 GiB for peak activation, and 0.0 GiB for CUDAGraph memory. Replace gpu_memory_utilization config with `--kv-cache-memory=20158068736` (18.77 GiB) to fit into requested memory, or `--kv-cache-memory=27277206528` (25.4 GiB) to fully utilize gpu memory. Current kv cache memory in use is 18.92 GiB.
+(MainProcess pid=9) INFO 11-04 06:16:26 [core.py:402] init engine (profile, create kv cache, warmup model) took 12.68 s
+(MainProcess pid=9) INFO 11-04 06:16:27 [hf.py:648] Detected the chat template content format to be 'openai'. You can set `--chat-template-content-format` to override this.
+{"mode": "kv800", "plugin": false, "mnbt": 2048, "util": 0.75, "max_model_len": 34816, "max_num_seqs": 128, "vllm": "0.32.0", "torch": "2.14.0+xpu", "backend": "sycl", "time": "2026-11-04 06:16:30", "kv_num_blocks": 19374, "kv_groups": ["MambaSpec(bs=34816, page=262144, win=None) x4", "MambaSpec(bs=34816, page=262144, win=None) x3", "MambaSpec(bs=34816, page=262144, win=None) x3", "MambaSpec(bs=34816, page=262144, win=None) x3", "SlidingWindowSpec(bs=128, page=262144, win=640) x3", "SlidingWindowSpec(bs=128, page=262144, win=640) x3", "SlidingWindowSpec(bs=128, page=262144, win=256) x3", "SlidingWindowSpec(bs=128, page=262144, win=256) x2", "FullAttentionSpec(bs=1280, page=262144, win=None) x4"]}
+zeroed 10.13 GiB of KV views
+[kv800] prefill flash vs torch (window layer 2, 74 q at 987, 333 k): rel 1.78e-03
+[kv800] prefill flash vs torch (slide layer 4, 74 q at 987, 329 k): rel 1.74e-03
+[kv800] prefill flash vs torch (quant layer 6, 74 q at 987, 1061 k): rel 1.72e-03
+zeroed 10.13 GiB of KV views
+(MainProcess pid=9) INFO 11-04 06:16:44 [loggers.py:335] Engine 000: Avg prompt throughput: 6754.1 tokens/s, Avg generation throughput: 5.3 tokens/s, Running: 2 reqs, Waiting: 3 reqs, XPU KV cache usage: 1.0%
+zeroed 10.13 GiB of KV views
+(MainProcess pid=9) INFO 11-04 06:16:54 [loggers.py:335] Engine 000: Avg prompt throughput: 16995.8 tokens/s, Avg generation throughput: 8.1 tokens/s, Running: 2 reqs, Waiting: 0 reqs, XPU KV cache usage: 1.0%
+zeroed 10.13 GiB of KV views
+zeroed 10.13 GiB of KV views
+(MainProcess pid=9) INFO 11-04 06:17:04 [loggers.py:335] Engine 000: Avg prompt throughput: 14632.8 tokens/s, Avg generation throughput: 8.9 tokens/s, Running: 5 reqs, Waiting: 3 reqs, XPU KV cache usage: 1.2%
+zeroed 10.13 GiB of KV views
+(MainProcess pid=9) INFO 11-04 06:17:15 [loggers.py:335] Engine 000: Avg prompt throughput: 12766.4 tokens/s, Avg generation throughput: 9.1 tokens/s, Running: 2 reqs, Waiting: 2 reqs, XPU KV cache usage: 1.0%
+zeroed 10.13 GiB of KV views
+(MainProcess pid=9) INFO 11-04 06:17:25 [loggers.py:335] Engine 000: Avg prompt throughput: 15514.2 tokens/s, Avg generation throughput: 7.3 tokens/s, Running: 2 reqs, Waiting: 0 reqs, XPU KV cache usage: 1.0%
+zeroed 10.13 GiB of KV views
+zeroed 10.13 GiB of KV views
+(MainProcess pid=9) INFO 11-04 06:17:35 [loggers.py:335] Engine 000: Avg prompt throughput: 14713.2 tokens/s, Avg generation throughput: 8.7 tokens/s, Running: 4 reqs, Waiting: 4 reqs, XPU KV cache usage: 1.1%
+zeroed 10.13 GiB of KV views
+(MainProcess pid=9) INFO 11-04 06:17:45 [loggers.py:335] Engine 000: Avg prompt throughput: 14416.6 tokens/s, Avg generation throughput: 10.0 tokens/s, Running: 2 reqs, Waiting: 1 reqs, XPU KV cache usage: 1.0%
+zeroed 10.13 GiB of KV views
+(MainProcess pid=9) INFO 11-04 06:17:56 [loggers.py:335] Engine 000: Avg prompt throughput: 15663.2 tokens/s, Avg generation throughput: 6.8 tokens/s, Running: 1 reqs, Waiting: 0 reqs, XPU KV cache usage: 0.3%
+zeroed 10.13 GiB of KV views
+RESULT needles_kv800_c2048_g8_zkv | recall 82/96 = 85.4% (95% CI 77.0-91.1%) | per length 1K 21/24, 4K 23/24, 16K 20/24, 32K 18/24 | {'dev seeds 3-5': {'hits': 21, 'n': 24}, 'held-out seeds': {'hits': 61, 'n': 72}} | 94s
+  miss s5:1K@75% code 8628 got ' 862.\n\nTypedDict.__annotations'
+  miss s5:16K@25% code 2854 got ' 1.\n\nQuestion: How many times'
+  miss s5:16K@75% code 8685 got ' 8.\n\nQuestion: What is the'
+  miss s6:32K@25% code 2543 got ' 4.\n\nQuestion: How many times'
+  miss s6:32K@75% code 5350 got ' 535.\n\nQuestion: How many times'
+  miss s7:16K@75% code 4943 got ' 2.\n\nQuestion: What is the'
+  miss s8:1K@75% code 9296 got ' 929.\n\nQuestion: How many times'
+  miss s8:32K@75% code 2467 got ' 100.\n\nQuestion: How many times'
+  miss s9:32K@25% code 3574 got ' 357.\n\ndef _get_arguments'
+  miss s11:32K@75% code 8421 got ' 842.\n\nQuestion: How many times'
+  miss s12:1K@75% code 8905 got ' 890.\n\nQuestion: What is the'
+  miss s13:16K@75% code 8071 got ' 7.\n\nQuestion: How many times'
+  miss s13:32K@75% code 3403 got ' 3.\n\nQuestion: How many times'
+  miss s14:4K@75% code 8645 got ' 864.\n\nQuestion: How many times'
+wrote /mnt/ssd/lfm3-kv/release/lfm3-kv800/eval/out/needles_kv800_c2048_g8_zkv.json
+(MainProcess pid=9) INFO 11-04 06:18:04 [xpu_worker.py:229] XPUWorker shutdown: cleaning up (rank=0, local_rank=0)
+(MainProcess pid=9) INFO 11-04 06:18:04 [xpu_worker.py:239] XPUWorker shutdown: done (rank=0, local_rank=0)

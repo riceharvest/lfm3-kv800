@@ -1,0 +1,300 @@
+ERROR: Pipe to stdout was broken
+Name: lfm3-kv800
+Version: 0.1.0
+W1104 06:51:24.124000 33 torch/_opaque_base.py:6] torch._opaque_base is deprecated, use torch._custom_class_base instead
+W1104 06:51:24.124000 33 torch/_library/opaque_object.py:288] register_opaque_type is deprecated, use register_custom_class instead
+W1104 06:51:24.125000 33 torch/_library/opaque_object.py:211] typ='value' is deprecated, use typ='constant' instead
+INFO 11-04 06:51:31 [lfm3_kv800] Lfm3ForCausalLM -> lfm3_kv800.vllm_model:Lfm3ForCausalLM (stock attention; set LFM3_KV800=1 for the 800h KV cache)
+(MainProcess pid=33) INFO 11-04 06:51:31 [api_utils.py:286] non-default args: {'trust_remote_code': True, 'dtype': 'bfloat16', 'max_model_len': 34816, 'enable_prefix_caching': False, 'gpu_memory_utilization': 0.6, 'max_num_batched_tokens': 1024, 'max_num_seqs': 128, 'enforce_eager': True, 'compilation_config': {'mode': <CompilationMode.NONE: 0>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': [], 'ir_enable_torch_wrap': None, 'splitting_ops': None, 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'cudagraph_decoder_replay': True, 'decoder_replay_cudagraph_capture_sizes': [], 'decoder_replay_trim_threshold': 768, 'compile_sizes': None, 'compile_ranges_endpoints': None, 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': None, 'cudagraph_num_of_warmups': 0, 'cudagraph_capture_sizes': None, 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': None, 'pass_config': {}, 'max_cudagraph_capture_size': None, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': None, 'static_all_moe_layers': []}, 'model': '/mnt/ssd/huggingface/hub/models--LiquidAI--LFM3-1.7B-Base/snapshots/7bca5038823c0d0f14efe06439109354a10e014c'}
+(MainProcess pid=33) WARNING 11-04 06:51:31 [interface.py:1457] Unknown vLLM environment variable detected: VLLM_XPU_ENABLE_XPU_GRAPH
+(MainProcess pid=33) WARNING 11-04 06:51:31 [arg_utils.py:1945] The global random seed is set to 0. Since VLLM_ENABLE_V1_MULTIPROCESSING is set to False, this may affect the random state of the Python process that launched vLLM.
+(MainProcess pid=33) INFO 11-04 06:51:41 [model.py:733] Resolved architecture: Lfm3ForCausalLM
+(MainProcess pid=33) INFO 11-04 06:51:41 [model.py:2152] Using max model len 34816
+(MainProcess pid=33) INFO 11-04 06:51:41 [scheduler.py:307] Chunked prefill is enabled with max_num_batched_tokens=1024.
+(MainProcess pid=33) WARNING 11-04 06:51:41 [vllm.py:1703] Enforce eager set, disabling torch.compile, CUDAGraphs, and JIT kernel warmup. This is equivalent to setting -cc.mode=none -cc.cudagraph_mode=none and --kernel_config.enable_jit_warmup=False
+(MainProcess pid=33) WARNING 11-04 06:51:41 [vllm.py:1727] Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
+(MainProcess pid=33) INFO 11-04 06:51:41 [kernel.py:467] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'], gelu_and_mul_sparse=['native'])
+(MainProcess pid=33) INFO 11-04 06:51:41 [vllm.py:1929] Cudagraph is disabled under eager mode
+(MainProcess pid=33) INFO 11-04 06:51:41 [xpu.py:447] XPU platform: set server shutdown_timeout=5.
+(MainProcess pid=33) INFO 11-04 06:51:41 [compilation.py:317] Enabled custom fusions: norm_quant, act_quant
+(MainProcess pid=33) INFO 11-04 06:51:43 [core.py:133] Initializing a V1 LLM engine (v0.32.0) with config: model='/mnt/ssd/huggingface/hub/models--LiquidAI--LFM3-1.7B-Base/snapshots/7bca5038823c0d0f14efe06439109354a10e014c', speculative_config=None, tokenizer='/mnt/ssd/huggingface/hub/models--LiquidAI--LFM3-1.7B-Base/snapshots/7bca5038823c0d0f14efe06439109354a10e014c', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=34816, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, decode_context_parallel_size=1, dcp_comm_backend=ag_rs, disable_custom_all_reduce=True, quantization=None, quantization_config=None, enforce_eager=True, aux_output_config=AuxOutputConfig(enable_return_routed_experts=False, max_bytes=None), kv_cache_dtype=auto, device_config=xpu, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, per_request_spec_decode_metrics='none', kv_cache_metrics=False, kv_cache_metrics_sample=0.01, custom_histogram_buckets=None, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False, jit_monitor_mode='warn', jit_monitor_verbose=False), seed=0, served_model_name=/mnt/ssd/huggingface/hub/models--LiquidAI--LFM3-1.7B-Base/snapshots/7bca5038823c0d0f14efe06439109354a10e014c, enable_prefix_caching=False, enable_chunked_prefill=True, pooler_config=None, compilation_config={'mode': <CompilationMode.NONE: 0>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['all'], 'ir_enable_torch_wrap': False, 'splitting_ops': [], 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'cudagraph_decoder_replay': True, 'decoder_replay_cudagraph_capture_sizes': [], 'decoder_replay_trim_threshold': 768, 'compile_sizes': [], 'compile_ranges_endpoints': [1024], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.NONE: 0>, 'cudagraph_num_of_warmups': 0, 'cudagraph_capture_sizes': [], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': True, 'fuse_act_quant': True, 'fuse_attn_quant': False, 'fuse_allreduce_rms': False, 'enable_qk_norm_rope_fusion': False, 'fuse_rope_kvcache_cat_mla': False, 'fuse_act_padding': False, 'fuse_qk_norm_rope_kvcache': False}, 'max_cudagraph_capture_size': 0, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': False, 'static_all_moe_layers': []}, kernel_config=KernelConfig(ir_op_priority=IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'], gelu_and_mul_sparse=['native']), enable_flashinfer_autotune=True, enable_rocm_segmented_attn_autotune=False, enable_cutedsl_warmup=True, enable_jit_warmup=False, moe_backend='auto', sparse_indexer_topk_backend='auto', linear_backend='auto', linear_backend_per_quant=None)
+(MainProcess pid=33) INFO 11-04 06:51:44 [parallel_state.py:1906] world_size=1 rank=0 local_rank=0 distributed_init_method=file:///tmp/vllm_dist_5f0874de00104124a79f7d325311ae23 backend=xccl
+(MainProcess pid=33) INFO 11-04 06:51:44 [parallel_state.py:2350] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, ETP rank 0, EP rank N/A, EPLB rank N/A
+(MainProcess pid=33) INFO 11-04 06:51:44 [xpu_worker.py:198] Using V2 Model Runner
+(MainProcess pid=33) INFO 11-04 06:51:45 [model_runner.py:395] Loading model from scratch...
+(MainProcess pid=33) INFO 11-04 06:51:45 [xpu.py:247] Using Flash Attention backend.
+(MainProcess pid=33) INFO 11-04 06:51:45 [flash_attn.py:1117] Using FlashAttention version 2
+(MainProcess pid=33) INFO 11-04 06:51:45 [base_loader.py:82] Initializing model took 0.176061 seconds
+(MainProcess pid=33) INFO 11-04 06:51:45 [weight_utils.py:1108] Filesystem type for checkpoints: BTRFS. Checkpoint size: 3.22 GiB. Available RAM: 22.89 GiB.
+(MainProcess pid=33) INFO 11-04 06:51:45 [weight_utils.py:1131] Auto-prefetch is disabled because the filesystem (BTRFS) is not a recognized network FS (NFS/Lustre). If you want to force prefetching, start vLLM with --safetensors-load-strategy=prefetch.
+Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  2.06it/s]
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  2.05it/s]
+
+(MainProcess pid=33) INFO 11-04 06:51:46 [default_loader.py:501] Loading weights took 0.59 seconds
+(MainProcess pid=33) INFO 11-04 06:51:47 [model_runner.py:427] Model loading took 3.22 GiB memory and 2.727469 seconds
+(MainProcess pid=33) INFO 11-04 06:51:47 [topk_topp_sampler.py:157] Using the fused XPU kernel for top-p & top-k sampling.
+(MainProcess pid=33) INFO 11-04 06:51:47 [torch_utils.py:295] Reducing Torch threads from 16 to 1 for serving. Set OMP_NUM_THREADS in the external environment to override.
+(MainProcess pid=33) INFO 11-04 06:51:47 [interface.py:776] Setting kv cache block size to 64 for FLASH_ATTN backend(s).
+(MainProcess pid=33) INFO 11-04 06:51:47 [interface.py:1120] Padding mamba page size by 433.33% to ensure that mamba page size and attention page size are exactly equal.
+(MainProcess pid=33) INFO 11-04 06:51:47 [utils.py:347] Using LBNHC KV cache layout.
+(MainProcess pid=33) INFO 11-04 06:51:59 [gpu_worker.py:759] Available KV cache memory: 14.48 GiB
+(MainProcess pid=33) WARNING 11-04 06:51:59 [kv_cache_utils.py:1483] Add 2 padding layers, may waste at most 15.38% KV cache memory
+(MainProcess pid=33) WARNING 11-04 06:51:59 [kv_cache_utils.py:1483] Add 4 padding layers, may waste at most 66.67% KV cache memory
+(MainProcess pid=33) INFO 11-04 06:51:59 [kv_cache_utils.py:2327] XPU KV cache size: 732,092 tokens, Maximum concurrency for 34,816 tokens per request: 21.03x
+(MainProcess pid=33) INFO 11-04 06:51:59 [kv_cache_utils.py:853] kv cache group sizes (34816, 34816, 34816, 64, 64, 64)
+(MainProcess pid=33) INFO 11-04 06:51:59 [kv_cache_utils.py:854] kv lcm block sizes 34816
+(MainProcess pid=33) INFO 11-04 06:51:59 [gpu_worker.py:1034] Free memory on device (29.07/30.3 GiB) on startup. Desired GPU memory utilization is (0.6, 18.18 GiB). Actual usage is 3.64 GiB for consumed memory (weights + non-torch), 0.06 GiB for peak activation, and 0.0 GiB for CUDAGraph memory. Replace gpu_memory_utilization config with `--kv-cache-memory=15387560551` (14.33 GiB) to fit into requested memory, or `--kv-cache-memory=27088475136` (25.23 GiB) to fully utilize gpu memory. Current kv cache memory in use is 14.48 GiB.
+(MainProcess pid=33) INFO 11-04 06:52:00 [core.py:402] init engine (profile, create kv cache, warmup model) took 12.66 s
+(MainProcess pid=33) INFO 11-04 06:52:01 [hf.py:648] Detected the chat template content format to be 'openai'. You can set `--chat-template-content-format` to override this.
+model path: {'model_module': 'lfm3_kv800.vllm_model', 'model_file': '/opt/venv/lib/python3.12/site-packages/lfm3_kv800/vllm_model.py', 'in_tree_modules_loaded': [], 'lfm3_kv800_file': '/opt/venv/lib/python3.12/site-packages/lfm3_kv800/__init__.py'}
+{"mode": "stock", "plugin": true, "mnbt": 1024, "util": 0.6, "max_model_len": 34816, "max_num_seqs": 128, "vllm": "0.32.0", "torch": "2.14.0+xpu", "backend": "vllm attn", "time": "2026-11-04 06:52:02", "model_path": {"model_module": "lfm3_kv800.vllm_model", "model_file": "/opt/venv/lib/python3.12/site-packages/lfm3_kv800/vllm_model.py", "in_tree_modules_loaded": [], "lfm3_kv800_file": "/opt/venv/lib/python3.12/site-packages/lfm3_kv800/__init__.py"}, "kv_num_blocks": 23719, "kv_groups": ["MambaSpec(bs=34816, page=131072, win=None) x5", "MambaSpec(bs=34816, page=131072, win=None) x4", "MambaSpec(bs=34816, page=131072, win=None) x4", "FullAttentionSpec(bs=64, page=131072, win=None) x3", "FullAttentionSpec(bs=64, page=131072, win=None) x3", "SlidingWindowSpec(bs=64, page=131072, win=256) x5"]}
+XPU kernel not compiled for this config, falling back to PyTorch reference attention. Performance will be significantly degraded.
+To fix: rebuild with the config line shown above.
+If this is unexpected, report at: https://github.com/vllm-project/vllm-xpu-kernels/issues/364
+Original error: Chunk prefill kernel tuple not compiled for this configuration.
+
+Add this line to your chunk_prefill config file (csrc/xpu/attn/kernel_configs/chunk_prefill_default.conf):
+
+  128,true,true,false,false,false
+
+Then rebuild:
+  VLLM_CHUNK_PREFILL_CONFIG=chunk_prefill_default.conf pip install .
+
+Or use full config (all combinations, slower build):
+  VLLM_CHUNK_PREFILL_CONFIG=chunk_prefill_full.conf pip install .
+
+Available configs: chunk_prefill_full.conf | chunk_prefill_default.conf
+Config location: csrc/xpu/attn/kernel_configs/
+See: KERNEL_CONFIGURATION.md
+
+If this is unexpected, please report at:
+  https://github.com/vllm-project/vllm-xpu-kernels/issues/364
+[vllm_xpu_kernels] XPU kernel not compiled for this config, falling back to PyTorch reference attention. Performance will be significantly degraded.
+To fix: rebuild with the config line shown above.
+If this is unexpected, report at: https://github.com/vllm-project/vllm-xpu-kernels/issues/364
+Original error: Chunk prefill kernel tuple not compiled for this configuration.
+
+Add this line to your chunk_prefill config file (csrc/xpu/attn/kernel_configs/chunk_prefill_default.conf):
+
+  128,true,true,false,false,false
+
+Then rebuild:
+  VLLM_CHUNK_PREFILL_CONFIG=chunk_prefill_default.conf pip install .
+
+Or use full config (all combinations, slower build):
+  VLLM_CHUNK_PREFILL_CONFIG=chunk_prefill_full.conf pip install .
+
+Available configs: chunk_prefill_full.conf | chunk_prefill_default.conf
+Config location: csrc/xpu/attn/kernel_configs/
+See: KERNEL_CONFIGURATION.md
+
+If this is unexpected, please report at:
+  https://github.com/vllm-project/vllm-xpu-kernels/issues/364
+XPU kernel not compiled for this config, falling back to PyTorch reference attention. Performance will be significantly degraded.
+To fix: rebuild with the config line shown above.
+If this is unexpected, report at: https://github.com/vllm-project/vllm-xpu-kernels/issues/364
+Original error: Chunk prefill kernel tuple not compiled for this configuration.
+
+Add this line to your chunk_prefill config file (csrc/xpu/attn/kernel_configs/chunk_prefill_default.conf):
+
+  128,true,false,true,false,false
+
+Then rebuild:
+  VLLM_CHUNK_PREFILL_CONFIG=chunk_prefill_default.conf pip install .
+
+Or use full config (all combinations, slower build):
+  VLLM_CHUNK_PREFILL_CONFIG=chunk_prefill_full.conf pip install .
+
+Available configs: chunk_prefill_full.conf | chunk_prefill_default.conf
+Config location: csrc/xpu/attn/kernel_configs/
+See: KERNEL_CONFIGURATION.md
+
+If this is unexpected, please report at:
+  https://github.com/vllm-project/vllm-xpu-kernels/issues/364
+[vllm_xpu_kernels] XPU kernel not compiled for this config, falling back to PyTorch reference attention. Performance will be significantly degraded.
+To fix: rebuild with the config line shown above.
+If this is unexpected, report at: https://github.com/vllm-project/vllm-xpu-kernels/issues/364
+Original error: Chunk prefill kernel tuple not compiled for this configuration.
+
+Add this line to your chunk_prefill config file (csrc/xpu/attn/kernel_configs/chunk_prefill_default.conf):
+
+  128,true,false,true,false,false
+
+Then rebuild:
+  VLLM_CHUNK_PREFILL_CONFIG=chunk_prefill_default.conf pip install .
+
+Or use full config (all combinations, slower build):
+  VLLM_CHUNK_PREFILL_CONFIG=chunk_prefill_full.conf pip install .
+
+Available configs: chunk_prefill_full.conf | chunk_prefill_default.conf
+Config location: csrc/xpu/attn/kernel_configs/
+See: KERNEL_CONFIGURATION.md
+
+If this is unexpected, please report at:
+  https://github.com/vllm-project/vllm-xpu-kernels/issues/364
+(MainProcess pid=33) INFO 11-04 06:52:16 [loggers.py:335] Engine 000: Avg prompt throughput: 2080.1 tokens/s, Avg generation throughput: 4.8 tokens/s, Running: 4 reqs, Waiting: 4 reqs, XPU KV cache usage: 6.4%
+(MainProcess pid=33) INFO 11-04 06:52:26 [loggers.py:335] Engine 000: Avg prompt throughput: 3158.3 tokens/s, Avg generation throughput: 16.2 tokens/s, Running: 7 reqs, Waiting: 1 reqs, XPU KV cache usage: 11.1%
+XPU kernel not compiled for this config, falling back to PyTorch reference attention. Performance will be significantly degraded.
+To fix: rebuild with the config line shown above.
+If this is unexpected, report at: https://github.com/vllm-project/vllm-xpu-kernels/issues/364
+Original error: Paged decode kernel not compiled for this configuration.
+
+Add this line to your paged_decode config file (csrc/xpu/attn/kernel_configs/paged_decode_default.conf):
+
+  8,128,64,false,false,false
+
+Then rebuild:
+  VLLM_PAGED_DECODE_CONFIG=paged_decode_default.conf pip install .
+
+Or use full config (all combinations, slower build):
+  VLLM_PAGED_DECODE_CONFIG=paged_decode_full.conf pip install .
+
+Available configs: paged_decode_full.conf | paged_decode_default.conf
+Config location: csrc/xpu/attn/kernel_configs/
+See: KERNEL_CONFIGURATION.md
+
+If this is unexpected, please report at:
+  https://github.com/vllm-project/vllm-xpu-kernels/issues/364
+[vllm_xpu_kernels] XPU kernel not compiled for this config, falling back to PyTorch reference attention. Performance will be significantly degraded.
+To fix: rebuild with the config line shown above.
+If this is unexpected, report at: https://github.com/vllm-project/vllm-xpu-kernels/issues/364
+Original error: Paged decode kernel not compiled for this configuration.
+
+Add this line to your paged_decode config file (csrc/xpu/attn/kernel_configs/paged_decode_default.conf):
+
+  8,128,64,false,false,false
+
+Then rebuild:
+  VLLM_PAGED_DECODE_CONFIG=paged_decode_default.conf pip install .
+
+Or use full config (all combinations, slower build):
+  VLLM_PAGED_DECODE_CONFIG=paged_decode_full.conf pip install .
+
+Available configs: paged_decode_full.conf | paged_decode_default.conf
+Config location: csrc/xpu/attn/kernel_configs/
+See: KERNEL_CONFIGURATION.md
+
+If this is unexpected, please report at:
+  https://github.com/vllm-project/vllm-xpu-kernels/issues/364
+XPU kernel not compiled for this config, falling back to PyTorch reference attention. Performance will be significantly degraded.
+To fix: rebuild with the config line shown above.
+If this is unexpected, report at: https://github.com/vllm-project/vllm-xpu-kernels/issues/364
+Original error: Paged decode kernel not compiled for this configuration.
+
+Add this line to your paged_decode config file (csrc/xpu/attn/kernel_configs/paged_decode_default.conf):
+
+  8,128,64,false,true,false
+
+Then rebuild:
+  VLLM_PAGED_DECODE_CONFIG=paged_decode_default.conf pip install .
+
+Or use full config (all combinations, slower build):
+  VLLM_PAGED_DECODE_CONFIG=paged_decode_full.conf pip install .
+
+Available configs: paged_decode_full.conf | paged_decode_default.conf
+Config location: csrc/xpu/attn/kernel_configs/
+See: KERNEL_CONFIGURATION.md
+
+If this is unexpected, please report at:
+  https://github.com/vllm-project/vllm-xpu-kernels/issues/364
+[vllm_xpu_kernels] XPU kernel not compiled for this config, falling back to PyTorch reference attention. Performance will be significantly degraded.
+To fix: rebuild with the config line shown above.
+If this is unexpected, report at: https://github.com/vllm-project/vllm-xpu-kernels/issues/364
+Original error: Paged decode kernel not compiled for this configuration.
+
+Add this line to your paged_decode config file (csrc/xpu/attn/kernel_configs/paged_decode_default.conf):
+
+  8,128,64,false,true,false
+
+Then rebuild:
+  VLLM_PAGED_DECODE_CONFIG=paged_decode_default.conf pip install .
+
+Or use full config (all combinations, slower build):
+  VLLM_PAGED_DECODE_CONFIG=paged_decode_full.conf pip install .
+
+Available configs: paged_decode_full.conf | paged_decode_default.conf
+Config location: csrc/xpu/attn/kernel_configs/
+See: KERNEL_CONFIGURATION.md
+
+If this is unexpected, please report at:
+  https://github.com/vllm-project/vllm-xpu-kernels/issues/364
+(MainProcess pid=33) INFO 11-04 06:52:36 [loggers.py:335] Engine 000: Avg prompt throughput: 3250.7 tokens/s, Avg generation throughput: 28.9 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.3%
+(MainProcess pid=33) INFO 11-04 06:52:46 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 65.1 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.4%
+(MainProcess pid=33) INFO 11-04 06:52:56 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 64.8 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.5%
+(MainProcess pid=33) INFO 11-04 06:53:06 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 64.8 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.6%
+(MainProcess pid=33) INFO 11-04 06:53:16 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 64.4 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.7%
+(MainProcess pid=33) INFO 11-04 06:53:26 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 60.9 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.8%
+(MainProcess pid=33) INFO 11-04 06:53:36 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 63.1 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.9%
+(MainProcess pid=33) INFO 11-04 06:53:46 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 63.2 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.9%
+(MainProcess pid=33) INFO 11-04 06:53:56 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 62.3 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 14.0%
+(MainProcess pid=33) INFO 11-04 06:54:07 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 62.7 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 14.1%
+(MainProcess pid=33) INFO 11-04 06:54:17 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 62.9 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 14.2%
+(MainProcess pid=33) INFO 11-04 06:54:27 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 63.1 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 14.3%
+(MainProcess pid=33) INFO 11-04 06:54:37 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 59.3 tokens/s, Running: 3 reqs, Waiting: 0 reqs, XPU KV cache usage: 5.9%
+(MainProcess pid=33) INFO 11-04 06:54:47 [loggers.py:335] Engine 000: Avg prompt throughput: 3371.8 tokens/s, Avg generation throughput: 6.7 tokens/s, Running: 2 reqs, Waiting: 4 reqs, XPU KV cache usage: 2.7%
+(MainProcess pid=33) INFO 11-04 06:54:57 [loggers.py:335] Engine 000: Avg prompt throughput: 3576.3 tokens/s, Avg generation throughput: 2.9 tokens/s, Running: 2 reqs, Waiting: 1 reqs, XPU KV cache usage: 2.3%
+(MainProcess pid=33) INFO 11-04 06:55:09 [loggers.py:335] Engine 000: Avg prompt throughput: 3074.4 tokens/s, Avg generation throughput: 1.0 tokens/s, Running: 1 reqs, Waiting: 0 reqs, XPU KV cache usage: 2.4%
+group 0: 8 rollouts in 187s, hits 8
+(MainProcess pid=33) INFO 11-04 06:55:19 [loggers.py:335] Engine 000: Avg prompt throughput: 3237.2 tokens/s, Avg generation throughput: 7.0 tokens/s, Running: 4 reqs, Waiting: 4 reqs, XPU KV cache usage: 5.8%
+(MainProcess pid=33) INFO 11-04 06:55:29 [loggers.py:335] Engine 000: Avg prompt throughput: 3150.4 tokens/s, Avg generation throughput: 15.0 tokens/s, Running: 7 reqs, Waiting: 1 reqs, XPU KV cache usage: 10.5%
+(MainProcess pid=33) INFO 11-04 06:55:39 [loggers.py:335] Engine 000: Avg prompt throughput: 1603.9 tokens/s, Avg generation throughput: 14.5 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.4%
+(MainProcess pid=33) INFO 11-04 06:55:50 [loggers.py:335] Engine 000: Avg prompt throughput: 1628.2 tokens/s, Avg generation throughput: 65.1 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.4%
+(MainProcess pid=33) INFO 11-04 06:56:00 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 65.1 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.5%
+(MainProcess pid=33) INFO 11-04 06:56:10 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 65.0 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.6%
+(MainProcess pid=33) INFO 11-04 06:56:20 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 64.5 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.7%
+(MainProcess pid=33) INFO 11-04 06:56:30 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 64.3 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.7%
+(MainProcess pid=33) INFO 11-04 06:56:40 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 64.2 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.8%
+(MainProcess pid=33) INFO 11-04 06:56:50 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 63.9 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.9%
+(MainProcess pid=33) INFO 11-04 06:57:00 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 63.7 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 14.0%
+(MainProcess pid=33) INFO 11-04 06:57:10 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 63.6 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 14.1%
+(MainProcess pid=33) INFO 11-04 06:57:20 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 63.4 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 14.2%
+(MainProcess pid=33) INFO 11-04 06:57:30 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 63.3 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 14.3%
+(MainProcess pid=33) INFO 11-04 06:57:40 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 60.7 tokens/s, Running: 4 reqs, Waiting: 0 reqs, XPU KV cache usage: 7.2%
+(MainProcess pid=33) INFO 11-04 06:57:53 [loggers.py:335] Engine 000: Avg prompt throughput: 2923.3 tokens/s, Avg generation throughput: 9.8 tokens/s, Running: 2 reqs, Waiting: 4 reqs, XPU KV cache usage: 2.7%
+(MainProcess pid=33) INFO 11-04 06:58:03 [loggers.py:335] Engine 000: Avg prompt throughput: 3524.3 tokens/s, Avg generation throughput: 2.8 tokens/s, Running: 2 reqs, Waiting: 1 reqs, XPU KV cache usage: 2.3%
+(MainProcess pid=33) INFO 11-04 06:58:15 [loggers.py:335] Engine 000: Avg prompt throughput: 2805.5 tokens/s, Avg generation throughput: 0.9 tokens/s, Running: 1 reqs, Waiting: 0 reqs, XPU KV cache usage: 2.4%
+group 1: 8 rollouts in 187s, hits 8
+(MainProcess pid=33) INFO 11-04 06:58:25 [loggers.py:335] Engine 000: Avg prompt throughput: 3253.7 tokens/s, Avg generation throughput: 6.4 tokens/s, Running: 4 reqs, Waiting: 4 reqs, XPU KV cache usage: 5.5%
+(MainProcess pid=33) INFO 11-04 06:58:35 [loggers.py:335] Engine 000: Avg prompt throughput: 3237.0 tokens/s, Avg generation throughput: 14.2 tokens/s, Running: 7 reqs, Waiting: 1 reqs, XPU KV cache usage: 10.1%
+(MainProcess pid=33) INFO 11-04 06:58:46 [loggers.py:335] Engine 000: Avg prompt throughput: 1546.8 tokens/s, Avg generation throughput: 14.3 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.2%
+(MainProcess pid=33) INFO 11-04 06:58:56 [loggers.py:335] Engine 000: Avg prompt throughput: 1622.1 tokens/s, Avg generation throughput: 56.8 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.4%
+(MainProcess pid=33) INFO 11-04 06:59:06 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 62.1 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.5%
+(MainProcess pid=33) INFO 11-04 06:59:16 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 62.7 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.6%
+(MainProcess pid=33) INFO 11-04 06:59:26 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 63.8 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.6%
+(MainProcess pid=33) INFO 11-04 06:59:36 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 63.2 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.7%
+(MainProcess pid=33) INFO 11-04 06:59:46 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 62.0 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.8%
+(MainProcess pid=33) INFO 11-04 06:59:57 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 61.8 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.9%
+(MainProcess pid=33) INFO 11-04 07:00:07 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 61.4 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 14.0%
+(MainProcess pid=33) INFO 11-04 07:00:17 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 61.3 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 14.1%
+(MainProcess pid=33) INFO 11-04 07:00:27 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 61.3 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 14.1%
+(MainProcess pid=33) INFO 11-04 07:00:37 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 62.2 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 14.2%
+(MainProcess pid=33) INFO 11-04 07:00:47 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 62.2 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 14.3%
+(MainProcess pid=33) INFO 11-04 07:00:57 [loggers.py:335] Engine 000: Avg prompt throughput: 917.2 tokens/s, Avg generation throughput: 38.8 tokens/s, Running: 2 reqs, Waiting: 6 reqs, XPU KV cache usage: 2.5%
+(MainProcess pid=33) INFO 11-04 07:01:10 [loggers.py:335] Engine 000: Avg prompt throughput: 3315.6 tokens/s, Avg generation throughput: 1.4 tokens/s, Running: 2 reqs, Waiting: 3 reqs, XPU KV cache usage: 2.7%
+(MainProcess pid=33) INFO 11-04 07:01:20 [loggers.py:335] Engine 000: Avg prompt throughput: 3562.3 tokens/s, Avg generation throughput: 2.9 tokens/s, Running: 2 reqs, Waiting: 0 reqs, XPU KV cache usage: 3.4%
+group 2: 8 rollouts in 191s, hits 8
+(MainProcess pid=33) INFO 11-04 07:01:31 [loggers.py:335] Engine 000: Avg prompt throughput: 3311.0 tokens/s, Avg generation throughput: 3.5 tokens/s, Running: 3 reqs, Waiting: 5 reqs, XPU KV cache usage: 3.8%
+(MainProcess pid=33) INFO 11-04 07:01:41 [loggers.py:335] Engine 000: Avg prompt throughput: 1635.2 tokens/s, Avg generation throughput: 5.9 tokens/s, Running: 4 reqs, Waiting: 4 reqs, XPU KV cache usage: 6.8%
+(MainProcess pid=33) INFO 11-04 07:01:51 [loggers.py:335] Engine 000: Avg prompt throughput: 4872.0 tokens/s, Avg generation throughput: 18.3 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 11.6%
+(MainProcess pid=33) INFO 11-04 07:02:01 [loggers.py:335] Engine 000: Avg prompt throughput: 1631.1 tokens/s, Avg generation throughput: 32.0 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.3%
+(MainProcess pid=33) INFO 11-04 07:02:11 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 63.6 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.4%
+(MainProcess pid=33) INFO 11-04 07:02:21 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 63.3 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.5%
+(MainProcess pid=33) INFO 11-04 07:02:31 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 63.4 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.6%
+(MainProcess pid=33) INFO 11-04 07:02:41 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 63.1 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.7%
+(MainProcess pid=33) INFO 11-04 07:02:51 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 62.6 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.8%
+(MainProcess pid=33) INFO 11-04 07:03:01 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 60.5 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.9%
+(MainProcess pid=33) INFO 11-04 07:03:11 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 61.3 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 13.9%
+(MainProcess pid=33) INFO 11-04 07:03:21 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 60.8 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 14.0%
+(MainProcess pid=33) INFO 11-04 07:03:31 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 61.0 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 14.1%
+(MainProcess pid=33) INFO 11-04 07:03:41 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 60.6 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 14.2%
+(MainProcess pid=33) INFO 11-04 07:03:51 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 60.6 tokens/s, Running: 8 reqs, Waiting: 0 reqs, XPU KV cache usage: 14.3%
+(MainProcess pid=33) INFO 11-04 07:04:01 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 59.4 tokens/s, Running: 5 reqs, Waiting: 0 reqs, XPU KV cache usage: 9.5%
+(MainProcess pid=33) INFO 11-04 07:04:15 [loggers.py:335] Engine 000: Avg prompt throughput: 2605.5 tokens/s, Avg generation throughput: 12.0 tokens/s, Running: 2 reqs, Waiting: 4 reqs, XPU KV cache usage: 2.7%
+(MainProcess pid=33) INFO 11-04 07:04:25 [loggers.py:335] Engine 000: Avg prompt throughput: 3566.9 tokens/s, Avg generation throughput: 2.5 tokens/s, Running: 2 reqs, Waiting: 1 reqs, XPU KV cache usage: 1.8%
+(MainProcess pid=33) INFO 11-04 07:04:38 [loggers.py:335] Engine 000: Avg prompt throughput: 2791.8 tokens/s, Avg generation throughput: 1.2 tokens/s, Running: 1 reqs, Waiting: 0 reqs, XPU KV cache usage: 2.4%
+group 3: 8 rollouts in 192s, hits 8
+RESULT rollouts_stock_c1024_g8 | recall 32/32 = 100.0% (95% CI 89.3-100.0%) | per length 8K 16/16, 16K 16/16 | {'dev seeds 0-1': {'hits': 8, 'n': 8}, 'held-out seeds': {'hits': 24, 'n': 24}} | 757s
+wrote /mnt/ssd/lfm3-kv/release/lfm3-kv800/eval/out/rollouts_stock_c1024_g8.json
+(MainProcess pid=33) INFO 11-04 07:04:38 [xpu_worker.py:229] XPUWorker shutdown: cleaning up (rank=0, local_rank=0)
+(MainProcess pid=33) INFO 11-04 07:04:39 [xpu_worker.py:239] XPUWorker shutdown: done (rank=0, local_rank=0)

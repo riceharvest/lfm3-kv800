@@ -1,0 +1,316 @@
+Name: lfm3-kv800
+Version: 0.1.0
+ERROR: Pipe to stdout was broken
+W1104 07:09:41.601000 33 torch/_opaque_base.py:6] torch._opaque_base is deprecated, use torch._custom_class_base instead
+W1104 07:09:41.601000 33 torch/_library/opaque_object.py:288] register_opaque_type is deprecated, use register_custom_class instead
+W1104 07:09:41.602000 33 torch/_library/opaque_object.py:211] typ='value' is deprecated, use typ='constant' instead
+INFO 11-04 07:09:49 [lfm3_kv800] LFM3_KV800=1: Lfm3ForCausalLM -> lfm3_kv800.vllm_model:Lfm3ForCausalLM with the 800h KV cache
+(MainProcess pid=33) INFO 11-04 07:09:49 [api_utils.py:286] non-default args: {'trust_remote_code': True, 'dtype': 'bfloat16', 'max_model_len': 36864, 'enable_prefix_caching': False, 'gpu_memory_utilization': 0.85, 'max_num_batched_tokens': 8192, 'max_num_seqs': 768, 'enforce_eager': True, 'compilation_config': {'mode': <CompilationMode.NONE: 0>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': [], 'ir_enable_torch_wrap': None, 'splitting_ops': None, 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'cudagraph_decoder_replay': True, 'decoder_replay_cudagraph_capture_sizes': [], 'decoder_replay_trim_threshold': 768, 'compile_sizes': None, 'compile_ranges_endpoints': None, 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': None, 'cudagraph_num_of_warmups': 0, 'cudagraph_capture_sizes': None, 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': None, 'pass_config': {}, 'max_cudagraph_capture_size': None, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': None, 'static_all_moe_layers': []}, 'model': '/mnt/ssd/huggingface/hub/models--LiquidAI--LFM3-1.7B-Base/snapshots/7bca5038823c0d0f14efe06439109354a10e014c'}
+(MainProcess pid=33) WARNING 11-04 07:09:49 [interface.py:1457] Unknown vLLM environment variable detected: VLLM_XPU_ENABLE_XPU_GRAPH
+(MainProcess pid=33) WARNING 11-04 07:09:49 [arg_utils.py:1945] The global random seed is set to 0. Since VLLM_ENABLE_V1_MULTIPROCESSING is set to False, this may affect the random state of the Python process that launched vLLM.
+(MainProcess pid=33) INFO 11-04 07:09:58 [model.py:733] Resolved architecture: Lfm3ForCausalLM
+(MainProcess pid=33) INFO 11-04 07:09:58 [model.py:2152] Using max model len 36864
+(MainProcess pid=33) INFO 11-04 07:09:58 [scheduler.py:307] Chunked prefill is enabled with max_num_batched_tokens=8192.
+(MainProcess pid=33) WARNING 11-04 07:09:58 [vllm.py:1703] Enforce eager set, disabling torch.compile, CUDAGraphs, and JIT kernel warmup. This is equivalent to setting -cc.mode=none -cc.cudagraph_mode=none and --kernel_config.enable_jit_warmup=False
+(MainProcess pid=33) WARNING 11-04 07:09:58 [vllm.py:1727] Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
+(MainProcess pid=33) INFO 11-04 07:09:58 [kernel.py:467] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'], gelu_and_mul_sparse=['native'])
+(MainProcess pid=33) INFO 11-04 07:09:58 [vllm.py:1929] Cudagraph is disabled under eager mode
+(MainProcess pid=33) INFO 11-04 07:09:58 [xpu.py:447] XPU platform: set server shutdown_timeout=5.
+(MainProcess pid=33) INFO 11-04 07:09:58 [compilation.py:317] Enabled custom fusions: norm_quant, act_quant
+(MainProcess pid=33) INFO 11-04 07:10:01 [core.py:133] Initializing a V1 LLM engine (v0.32.0) with config: model='/mnt/ssd/huggingface/hub/models--LiquidAI--LFM3-1.7B-Base/snapshots/7bca5038823c0d0f14efe06439109354a10e014c', speculative_config=None, tokenizer='/mnt/ssd/huggingface/hub/models--LiquidAI--LFM3-1.7B-Base/snapshots/7bca5038823c0d0f14efe06439109354a10e014c', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=36864, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, decode_context_parallel_size=1, dcp_comm_backend=ag_rs, disable_custom_all_reduce=True, quantization=None, quantization_config=None, enforce_eager=True, aux_output_config=AuxOutputConfig(enable_return_routed_experts=False, max_bytes=None), kv_cache_dtype=auto, device_config=xpu, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, per_request_spec_decode_metrics='none', kv_cache_metrics=False, kv_cache_metrics_sample=0.01, custom_histogram_buckets=None, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False, jit_monitor_mode='warn', jit_monitor_verbose=False), seed=0, served_model_name=/mnt/ssd/huggingface/hub/models--LiquidAI--LFM3-1.7B-Base/snapshots/7bca5038823c0d0f14efe06439109354a10e014c, enable_prefix_caching=False, enable_chunked_prefill=True, pooler_config=None, compilation_config={'mode': <CompilationMode.NONE: 0>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['all'], 'ir_enable_torch_wrap': False, 'splitting_ops': [], 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'cudagraph_decoder_replay': True, 'decoder_replay_cudagraph_capture_sizes': [], 'decoder_replay_trim_threshold': 768, 'compile_sizes': [], 'compile_ranges_endpoints': [8192], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.NONE: 0>, 'cudagraph_num_of_warmups': 0, 'cudagraph_capture_sizes': [], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': True, 'fuse_act_quant': True, 'fuse_attn_quant': False, 'fuse_allreduce_rms': False, 'enable_qk_norm_rope_fusion': False, 'fuse_rope_kvcache_cat_mla': False, 'fuse_act_padding': False, 'fuse_qk_norm_rope_kvcache': False}, 'max_cudagraph_capture_size': 0, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': False, 'static_all_moe_layers': []}, kernel_config=KernelConfig(ir_op_priority=IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'], gelu_and_mul_sparse=['native']), enable_flashinfer_autotune=True, enable_rocm_segmented_attn_autotune=False, enable_cutedsl_warmup=True, enable_jit_warmup=False, moe_backend='auto', sparse_indexer_topk_backend='auto', linear_backend='auto', linear_backend_per_quant=None)
+(MainProcess pid=33) INFO 11-04 07:10:01 [parallel_state.py:1906] world_size=1 rank=0 local_rank=0 distributed_init_method=file:///tmp/vllm_dist_733b7493f02144f4b1371008e8c7056a backend=xccl
+(MainProcess pid=33) INFO 11-04 07:10:01 [parallel_state.py:2350] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, ETP rank 0, EP rank N/A, EPLB rank N/A
+(MainProcess pid=33) INFO 11-04 07:10:01 [xpu_worker.py:198] Using V2 Model Runner
+(MainProcess pid=33) INFO 11-04 07:10:02 [model_runner.py:395] Loading model from scratch...
+(MainProcess pid=33) INFO 11-04 07:10:02 [base_loader.py:82] Initializing model took 0.171314 seconds
+(MainProcess pid=33) INFO 11-04 07:10:02 [weight_utils.py:1108] Filesystem type for checkpoints: BTRFS. Checkpoint size: 3.22 GiB. Available RAM: 22.90 GiB.
+(MainProcess pid=33) INFO 11-04 07:10:02 [weight_utils.py:1131] Auto-prefetch is disabled because the filesystem (BTRFS) is not a recognized network FS (NFS/Lustre). If you want to force prefetching, start vLLM with --safetensors-load-strategy=prefetch.
+Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  2.22it/s]
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  2.22it/s]
+
+(MainProcess pid=33) INFO 11-04 07:10:03 [default_loader.py:501] Loading weights took 0.54 seconds
+(MainProcess pid=33) INFO 11-04 07:10:04 [model_runner.py:427] Model loading took 3.22 GiB memory and 2.667284 seconds
+(MainProcess pid=33) INFO 11-04 07:10:04 [topk_topp_sampler.py:157] Using the fused XPU kernel for top-p & top-k sampling.
+(MainProcess pid=33) INFO 11-04 07:10:04 [torch_utils.py:295] Reducing Torch threads from 16 to 1 for serving. Set OMP_NUM_THREADS in the external environment to override.
+(MainProcess pid=33) INFO 11-04 07:10:04 [interface.py:1120] Padding mamba page size by 33.33% to ensure that mamba page size and attention page size are exactly equal.
+(MainProcess pid=33) INFO 11-04 07:10:04 [utils.py:347] Using LBNHC KV cache layout.
+(MainProcess pid=33) INFO 11-04 07:10:16 [gpu_worker.py:759] Available KV cache memory: 21.35 GiB
+(MainProcess pid=33) WARNING 11-04 07:10:16 [kv_cache_utils.py:1483] Add 3 padding layers, may waste at most 23.08% KV cache memory
+(MainProcess pid=33) WARNING 11-04 07:10:16 [kv_cache_utils.py:1483] Add 2 padding layers, may waste at most 33.33% KV cache memory
+(MainProcess pid=33) WARNING 11-04 07:10:16 [kv_cache_utils.py:1483] Add 3 padding layers, may waste at most 60.00% KV cache memory
+(MainProcess pid=33) INFO 11-04 07:10:16 [kv_cache_utils.py:2327] XPU KV cache size: 1,431,344 tokens, Maximum concurrency for 36,864 tokens per request: 38.83x
+(MainProcess pid=33) INFO 11-04 07:10:16 [kv_cache_utils.py:853] kv cache group sizes (36864, 36864, 36864, 36864, 128, 128, 128, 128, 1280)
+(MainProcess pid=33) INFO 11-04 07:10:16 [kv_cache_utils.py:854] kv lcm block sizes 184320
+(MainProcess pid=33) INFO 11-04 07:10:17 [gpu_worker.py:1034] Free memory on device (29.03/30.3 GiB) on startup. Desired GPU memory utilization is (0.85, 25.75 GiB). Actual usage is 3.93 GiB for consumed memory (weights + non-torch), 0.48 GiB for peak activation, and 0.0 GiB for CUDAGraph memory. Replace gpu_memory_utilization config with `--kv-cache-memory=22764782695` (21.2 GiB) to fit into requested memory, or `--kv-cache-memory=26289926656` (24.48 GiB) to fully utilize gpu memory. Current kv cache memory in use is 21.35 GiB.
+(MainProcess pid=33) INFO 11-04 07:10:17 [core.py:402] init engine (profile, create kv cache, warmup model) took 12.99 s
+(MainProcess pid=33) INFO 11-04 07:10:18 [hf.py:648] Detected the chat template content format to be 'openai'. You can set `--chat-template-content-format` to override this.
+model path: {'model_module': 'lfm3_kv800.vllm_model', 'model_file': '/opt/venv/lib/python3.12/site-packages/lfm3_kv800/vllm_model.py', 'in_tree_modules_loaded': [], 'lfm3_kv800_file': '/opt/venv/lib/python3.12/site-packages/lfm3_kv800/__init__.py'}
+{
+ "request_tokens": 32832,
+ "num_blocks": 21860,
+ "pool_bytes": 22921871360,
+ "pool_GiB": 21.34765625,
+ "bytes_per_block_id": 1048576.0,
+ "max_in_flight_tokens": 16384,
+ "vllm_logged_max_concurrency": 38.827708703374775,
+ "vllm_logged_kv_tokens": 1431344,
+ "vllm_logged_for_max_model_len": 36864,
+ "stated_concurrency": 39.035714285714285,
+ "stated_source": "vllm",
+ "stated_N": 39,
+ "admission_blocks_per_request": 560,
+ "steady_blocks_per_request": 48,
+ "admission_bytes_per_request": 587202560.0,
+ "steady_bytes_per_request": 50331648.0,
+ "steady_N": 444,
+ "layer_types": {
+  "conv state": {
+   "layers": [
+    0,
+    7,
+    15,
+    23,
+    1,
+    9,
+    17,
+    3,
+    11,
+    19,
+    5,
+    13,
+    21
+   ],
+   "page_bytes": 262144,
+   "content_page_bytes": 24576,
+   "block_size": 36864,
+   "window": null,
+   "fixed_bytes_per_request_all_layers": 319488,
+   "alloc_bytes_per_request_all_layers": 3407872
+  },
+  "window 640": {
+   "layers": [
+    2,
+    10,
+    18,
+    6,
+    14,
+    22
+   ],
+   "page_bytes": 262144,
+   "content_page_bytes": 262144,
+   "block_size": 128,
+   "window": 640,
+   "bytes_per_token_per_layer": 2048.0,
+   "fixed_bytes_per_request_all_layers": 7864320.0
+  },
+  "window 256": {
+   "layers": [
+    4,
+    12,
+    20,
+    8,
+    16
+   ],
+   "page_bytes": 262144,
+   "content_page_bytes": 262144,
+   "block_size": 128,
+   "window": 256,
+   "bytes_per_token_per_layer": 2048.0,
+   "fixed_bytes_per_request_all_layers": 2621440.0
+  },
+  "800h quant": {
+   "layers": [
+    6,
+    10,
+    14,
+    22
+   ],
+   "page_bytes": 262144,
+   "content_page_bytes": 256000,
+   "block_size": 1280,
+   "window": null,
+   "bytes_per_token_per_layer": 200.0,
+   "alloc_bytes_per_token_per_layer": 204.8,
+   "bytes_per_token_all_layers": 800.0,
+   "alloc_bytes_per_token_all_layers": 819.2
+  }
+ }
+}
+RESULT concurrency_kv800_sweep capacity | 32832-token requests | pool 21.35 GiB, 21860 blocks x 1048576 B | vLLM stated 39.04x (admission 560 blocks/request) | steady-state 444 (48 blocks/request)
+wrote /mnt/ssd/lfm3-kv/release/lfm3-kv800/eval/out/concurrency_kv800_sweep.json
+INFO 11-04 07:10:24 [lfm3_kv800] prefill flash vs torch (window layer 2, 8192 q at 8192, 8451 k): rel 1.72e-03
+INFO 11-04 07:10:24 [lfm3_kv800] prefill flash vs torch (slide layer 4, 8192 q at 8192, 8447 k): rel 1.74e-03
+INFO 11-04 07:10:24 [lfm3_kv800] prefill flash vs torch (quant layer 6, 8192 q at 8192, 16384 k): rel 1.69e-03
+INFO 11-04 07:10:26 [lfm3_kv800] decode backend on xpu: sycl (forced; prebuilt op /opt/venv/lib/python3.12/site-packages/lfm3_kv800/_lib/kv800_sycl.so)
+(MainProcess pid=33) INFO 11-04 07:10:38 [loggers.py:335] Engine 000: Avg prompt throughput: 4703.1 tokens/s, Avg generation throughput: 1.1 tokens/s, Running: 4 reqs, Waiting: 23 reqs, XPU KV cache usage: 3.2%
+(MainProcess pid=33) INFO 11-04 07:10:48 [loggers.py:335] Engine 000: Avg prompt throughput: 13034.4 tokens/s, Avg generation throughput: 7.0 tokens/s, Running: 8 reqs, Waiting: 19 reqs, XPU KV cache usage: 4.0%
+(MainProcess pid=33) INFO 11-04 07:10:59 [loggers.py:335] Engine 000: Avg prompt throughput: 9451.5 tokens/s, Avg generation throughput: 12.4 tokens/s, Running: 12 reqs, Waiting: 15 reqs, XPU KV cache usage: 4.8%
+(MainProcess pid=33) INFO 11-04 07:11:09 [loggers.py:335] Engine 000: Avg prompt throughput: 12647.1 tokens/s, Avg generation throughput: 17.9 tokens/s, Running: 15 reqs, Waiting: 12 reqs, XPU KV cache usage: 5.6%
+(MainProcess pid=33) INFO 11-04 07:11:20 [loggers.py:335] Engine 000: Avg prompt throughput: 12149.6 tokens/s, Avg generation throughput: 24.1 tokens/s, Running: 19 reqs, Waiting: 8 reqs, XPU KV cache usage: 6.5%
+(MainProcess pid=33) INFO 11-04 07:11:31 [loggers.py:335] Engine 000: Avg prompt throughput: 12217.8 tokens/s, Avg generation throughput: 30.2 tokens/s, Running: 23 reqs, Waiting: 4 reqs, XPU KV cache usage: 7.4%
+(MainProcess pid=33) INFO 11-04 07:11:41 [loggers.py:335] Engine 000: Avg prompt throughput: 12503.6 tokens/s, Avg generation throughput: 37.0 tokens/s, Running: 27 reqs, Waiting: 0 reqs, XPU KV cache usage: 8.3%
+RESULT concurrency_kv800_sweep sweep c=27 | PASS | decode 861 tok/s aggregate, TPOT 31.4 ms over 136 all-decoding steps | prefill 10732 tok/s, TTFT median 47.6s max 82.4s | KV usage 7.3% | preemptions 0 | wall 87s
+wrote /mnt/ssd/lfm3-kv/release/lfm3-kv800/eval/out/concurrency_kv800_sweep.json
+(MainProcess pid=33) INFO 11-04 07:11:51 [loggers.py:335] Engine 000: Avg prompt throughput: 6350.9 tokens/s, Avg generation throughput: 358.8 tokens/s, Running: 3 reqs, Waiting: 61 reqs, XPU KV cache usage: 2.8%
+(MainProcess pid=33) INFO 11-04 07:12:01 [loggers.py:335] Engine 000: Avg prompt throughput: 12912.8 tokens/s, Avg generation throughput: 4.5 tokens/s, Running: 6 reqs, Waiting: 58 reqs, XPU KV cache usage: 3.6%
+(MainProcess pid=33) INFO 11-04 07:12:12 [loggers.py:335] Engine 000: Avg prompt throughput: 12611.9 tokens/s, Avg generation throughput: 9.9 tokens/s, Running: 10 reqs, Waiting: 54 reqs, XPU KV cache usage: 4.4%
+(MainProcess pid=33) INFO 11-04 07:12:22 [loggers.py:335] Engine 000: Avg prompt throughput: 9703.2 tokens/s, Avg generation throughput: 14.5 tokens/s, Running: 13 reqs, Waiting: 51 reqs, XPU KV cache usage: 5.2%
+(MainProcess pid=33) INFO 11-04 07:12:32 [loggers.py:335] Engine 000: Avg prompt throughput: 12673.8 tokens/s, Avg generation throughput: 20.5 tokens/s, Running: 17 reqs, Waiting: 47 reqs, XPU KV cache usage: 6.0%
+(MainProcess pid=33) INFO 11-04 07:12:43 [loggers.py:335] Engine 000: Avg prompt throughput: 12656.0 tokens/s, Avg generation throughput: 25.9 tokens/s, Running: 21 reqs, Waiting: 43 reqs, XPU KV cache usage: 6.8%
+(MainProcess pid=33) INFO 11-04 07:12:53 [loggers.py:335] Engine 000: Avg prompt throughput: 9688.6 tokens/s, Avg generation throughput: 31.9 tokens/s, Running: 25 reqs, Waiting: 39 reqs, XPU KV cache usage: 7.7%
+(MainProcess pid=33) INFO 11-04 07:13:03 [loggers.py:335] Engine 000: Avg prompt throughput: 12945.1 tokens/s, Avg generation throughput: 37.6 tokens/s, Running: 28 reqs, Waiting: 36 reqs, XPU KV cache usage: 8.5%
+(MainProcess pid=33) INFO 11-04 07:13:13 [loggers.py:335] Engine 000: Avg prompt throughput: 12504.3 tokens/s, Avg generation throughput: 44.6 tokens/s, Running: 32 reqs, Waiting: 32 reqs, XPU KV cache usage: 9.3%
+(MainProcess pid=33) INFO 11-04 07:13:24 [loggers.py:335] Engine 000: Avg prompt throughput: 12327.0 tokens/s, Avg generation throughput: 50.0 tokens/s, Running: 36 reqs, Waiting: 28 reqs, XPU KV cache usage: 10.2%
+(MainProcess pid=33) INFO 11-04 07:13:35 [loggers.py:335] Engine 000: Avg prompt throughput: 12383.3 tokens/s, Avg generation throughput: 56.3 tokens/s, Running: 40 reqs, Waiting: 24 reqs, XPU KV cache usage: 11.1%
+(MainProcess pid=33) INFO 11-04 07:13:45 [loggers.py:335] Engine 000: Avg prompt throughput: 12658.6 tokens/s, Avg generation throughput: 63.7 tokens/s, Running: 44 reqs, Waiting: 20 reqs, XPU KV cache usage: 12.0%
+(MainProcess pid=33) INFO 11-04 07:13:55 [loggers.py:335] Engine 000: Avg prompt throughput: 12864.2 tokens/s, Avg generation throughput: 71.1 tokens/s, Running: 48 reqs, Waiting: 16 reqs, XPU KV cache usage: 12.9%
+(MainProcess pid=33) INFO 11-04 07:14:05 [loggers.py:335] Engine 000: Avg prompt throughput: 12885.4 tokens/s, Avg generation throughput: 77.5 tokens/s, Running: 52 reqs, Waiting: 12 reqs, XPU KV cache usage: 13.7%
+(MainProcess pid=33) INFO 11-04 07:14:16 [loggers.py:335] Engine 000: Avg prompt throughput: 12359.1 tokens/s, Avg generation throughput: 85.5 tokens/s, Running: 57 reqs, Waiting: 7 reqs, XPU KV cache usage: 14.6%
+(MainProcess pid=33) INFO 11-04 07:14:27 [loggers.py:335] Engine 000: Avg prompt throughput: 15548.2 tokens/s, Avg generation throughput: 93.0 tokens/s, Running: 61 reqs, Waiting: 3 reqs, XPU KV cache usage: 15.6%
+(MainProcess pid=33) INFO 11-04 07:14:37 [loggers.py:335] Engine 000: Avg prompt throughput: 13095.5 tokens/s, Avg generation throughput: 124.3 tokens/s, Running: 64 reqs, Waiting: 0 reqs, XPU KV cache usage: 14.1%
+RESULT concurrency_kv800_sweep sweep c=64 | PASS | decode 1719 tok/s aggregate, TPOT 37.2 ms over 142 all-decoding steps | prefill 12329 tok/s, TTFT median 89.5s max 170.1s | KV usage 16.4% | preemptions 0 | wall 175s
+wrote /mnt/ssd/lfm3-kv/release/lfm3-kv800/eval/out/concurrency_kv800_sweep.json
+(MainProcess pid=33) INFO 11-04 07:14:47 [loggers.py:335] Engine 000: Avg prompt throughput: 3096.9 tokens/s, Avg generation throughput: 826.2 tokens/s, Running: 3 reqs, Waiting: 125 reqs, XPU KV cache usage: 2.8%
+(MainProcess pid=33) INFO 11-04 07:14:58 [loggers.py:335] Engine 000: Avg prompt throughput: 12540.5 tokens/s, Avg generation throughput: 4.4 tokens/s, Running: 6 reqs, Waiting: 122 reqs, XPU KV cache usage: 3.6%
+(MainProcess pid=33) INFO 11-04 07:15:08 [loggers.py:335] Engine 000: Avg prompt throughput: 9651.5 tokens/s, Avg generation throughput: 9.2 tokens/s, Running: 10 reqs, Waiting: 118 reqs, XPU KV cache usage: 4.4%
+(MainProcess pid=33) INFO 11-04 07:15:18 [loggers.py:335] Engine 000: Avg prompt throughput: 12273.0 tokens/s, Avg generation throughput: 14.6 tokens/s, Running: 13 reqs, Waiting: 115 reqs, XPU KV cache usage: 5.2%
+(MainProcess pid=33) INFO 11-04 07:15:29 [loggers.py:335] Engine 000: Avg prompt throughput: 13044.7 tokens/s, Avg generation throughput: 21.1 tokens/s, Running: 17 reqs, Waiting: 111 reqs, XPU KV cache usage: 6.0%
+(MainProcess pid=33) INFO 11-04 07:15:39 [loggers.py:335] Engine 000: Avg prompt throughput: 12943.8 tokens/s, Avg generation throughput: 26.5 tokens/s, Running: 21 reqs, Waiting: 107 reqs, XPU KV cache usage: 6.8%
+(MainProcess pid=33) INFO 11-04 07:15:49 [loggers.py:335] Engine 000: Avg prompt throughput: 12379.4 tokens/s, Avg generation throughput: 32.9 tokens/s, Running: 25 reqs, Waiting: 103 reqs, XPU KV cache usage: 7.7%
+(MainProcess pid=33) INFO 11-04 07:16:00 [loggers.py:335] Engine 000: Avg prompt throughput: 12707.7 tokens/s, Avg generation throughput: 39.9 tokens/s, Running: 29 reqs, Waiting: 99 reqs, XPU KV cache usage: 8.6%
+(MainProcess pid=33) INFO 11-04 07:16:10 [loggers.py:335] Engine 000: Avg prompt throughput: 12554.6 tokens/s, Avg generation throughput: 45.6 tokens/s, Running: 33 reqs, Waiting: 95 reqs, XPU KV cache usage: 9.5%
+(MainProcess pid=33) INFO 11-04 07:16:20 [loggers.py:335] Engine 000: Avg prompt throughput: 9830.1 tokens/s, Avg generation throughput: 50.4 tokens/s, Running: 37 reqs, Waiting: 91 reqs, XPU KV cache usage: 10.3%
+(MainProcess pid=33) INFO 11-04 07:16:30 [loggers.py:335] Engine 000: Avg prompt throughput: 12681.7 tokens/s, Avg generation throughput: 58.1 tokens/s, Running: 41 reqs, Waiting: 87 reqs, XPU KV cache usage: 11.1%
+(MainProcess pid=33) INFO 11-04 07:16:41 [loggers.py:335] Engine 000: Avg prompt throughput: 12729.2 tokens/s, Avg generation throughput: 64.5 tokens/s, Running: 45 reqs, Waiting: 83 reqs, XPU KV cache usage: 12.0%
+(MainProcess pid=33) INFO 11-04 07:16:51 [loggers.py:335] Engine 000: Avg prompt throughput: 12892.6 tokens/s, Avg generation throughput: 71.6 tokens/s, Running: 49 reqs, Waiting: 79 reqs, XPU KV cache usage: 12.9%
+(MainProcess pid=33) INFO 11-04 07:17:01 [loggers.py:335] Engine 000: Avg prompt throughput: 15480.7 tokens/s, Avg generation throughput: 79.7 tokens/s, Running: 53 reqs, Waiting: 75 reqs, XPU KV cache usage: 13.8%
+(MainProcess pid=33) INFO 11-04 07:17:12 [loggers.py:335] Engine 000: Avg prompt throughput: 12482.7 tokens/s, Avg generation throughput: 87.2 tokens/s, Running: 57 reqs, Waiting: 71 reqs, XPU KV cache usage: 14.8%
+(MainProcess pid=33) INFO 11-04 07:17:22 [loggers.py:335] Engine 000: Avg prompt throughput: 12410.4 tokens/s, Avg generation throughput: 93.5 tokens/s, Running: 61 reqs, Waiting: 67 reqs, XPU KV cache usage: 15.7%
+(MainProcess pid=33) INFO 11-04 07:17:33 [loggers.py:335] Engine 000: Avg prompt throughput: 12809.7 tokens/s, Avg generation throughput: 97.3 tokens/s, Running: 65 reqs, Waiting: 63 reqs, XPU KV cache usage: 16.6%
+(MainProcess pid=33) INFO 11-04 07:17:43 [loggers.py:335] Engine 000: Avg prompt throughput: 12883.1 tokens/s, Avg generation throughput: 97.1 tokens/s, Running: 69 reqs, Waiting: 59 reqs, XPU KV cache usage: 17.3%
+(MainProcess pid=33) INFO 11-04 07:17:53 [loggers.py:335] Engine 000: Avg prompt throughput: 12348.6 tokens/s, Avg generation throughput: 105.1 tokens/s, Running: 73 reqs, Waiting: 55 reqs, XPU KV cache usage: 18.2%
+(MainProcess pid=33) INFO 11-04 07:18:04 [loggers.py:335] Engine 000: Avg prompt throughput: 12494.6 tokens/s, Avg generation throughput: 112.5 tokens/s, Running: 77 reqs, Waiting: 51 reqs, XPU KV cache usage: 19.1%
+(MainProcess pid=33) INFO 11-04 07:18:14 [loggers.py:335] Engine 000: Avg prompt throughput: 12699.2 tokens/s, Avg generation throughput: 120.5 tokens/s, Running: 81 reqs, Waiting: 47 reqs, XPU KV cache usage: 20.0%
+(MainProcess pid=33) INFO 11-04 07:18:24 [loggers.py:335] Engine 000: Avg prompt throughput: 12844.3 tokens/s, Avg generation throughput: 128.2 tokens/s, Running: 85 reqs, Waiting: 43 reqs, XPU KV cache usage: 20.8%
+(MainProcess pid=33) INFO 11-04 07:18:35 [loggers.py:335] Engine 000: Avg prompt throughput: 12743.8 tokens/s, Avg generation throughput: 133.4 tokens/s, Running: 89 reqs, Waiting: 39 reqs, XPU KV cache usage: 21.7%
+(MainProcess pid=33) INFO 11-04 07:18:45 [loggers.py:335] Engine 000: Avg prompt throughput: 9505.8 tokens/s, Avg generation throughput: 138.7 tokens/s, Running: 93 reqs, Waiting: 35 reqs, XPU KV cache usage: 22.6%
+(MainProcess pid=33) INFO 11-04 07:18:56 [loggers.py:335] Engine 000: Avg prompt throughput: 12459.1 tokens/s, Avg generation throughput: 142.2 tokens/s, Running: 97 reqs, Waiting: 31 reqs, XPU KV cache usage: 23.4%
+(MainProcess pid=33) INFO 11-04 07:19:06 [loggers.py:335] Engine 000: Avg prompt throughput: 12580.9 tokens/s, Avg generation throughput: 149.7 tokens/s, Running: 101 reqs, Waiting: 27 reqs, XPU KV cache usage: 24.3%
+(MainProcess pid=33) INFO 11-04 07:19:16 [loggers.py:335] Engine 000: Avg prompt throughput: 12572.5 tokens/s, Avg generation throughput: 155.8 tokens/s, Running: 105 reqs, Waiting: 23 reqs, XPU KV cache usage: 25.2%
+(MainProcess pid=33) INFO 11-04 07:19:27 [loggers.py:335] Engine 000: Avg prompt throughput: 12664.6 tokens/s, Avg generation throughput: 163.1 tokens/s, Running: 109 reqs, Waiting: 19 reqs, XPU KV cache usage: 26.1%
+(MainProcess pid=33) INFO 11-04 07:19:37 [loggers.py:335] Engine 000: Avg prompt throughput: 12469.5 tokens/s, Avg generation throughput: 166.7 tokens/s, Running: 112 reqs, Waiting: 16 reqs, XPU KV cache usage: 26.9%
+(MainProcess pid=33) INFO 11-04 07:19:48 [loggers.py:335] Engine 000: Avg prompt throughput: 12441.9 tokens/s, Avg generation throughput: 182.9 tokens/s, Running: 117 reqs, Waiting: 11 reqs, XPU KV cache usage: 27.8%
+(MainProcess pid=33) INFO 11-04 07:19:58 [loggers.py:335] Engine 000: Avg prompt throughput: 15942.5 tokens/s, Avg generation throughput: 194.6 tokens/s, Running: 121 reqs, Waiting: 7 reqs, XPU KV cache usage: 28.7%
+(MainProcess pid=33) INFO 11-04 07:20:08 [loggers.py:335] Engine 000: Avg prompt throughput: 13012.9 tokens/s, Avg generation throughput: 193.4 tokens/s, Running: 125 reqs, Waiting: 3 reqs, XPU KV cache usage: 29.6%
+(MainProcess pid=33) INFO 11-04 07:20:18 [loggers.py:335] Engine 000: Avg prompt throughput: 13103.6 tokens/s, Avg generation throughput: 290.6 tokens/s, Running: 128 reqs, Waiting: 0 reqs, XPU KV cache usage: 28.1%
+RESULT concurrency_kv800_sweep sweep c=128 | PASS | decode 3336 tok/s aggregate, TPOT 38.4 ms over 149 all-decoding steps | prefill 12456 tok/s, TTFT median 170.7s max 336.7s | KV usage 29.3% | preemptions 0 | wall 343s
+wrote /mnt/ssd/lfm3-kv/release/lfm3-kv800/eval/out/concurrency_kv800_sweep.json
+(MainProcess pid=33) INFO 11-04 07:20:29 [loggers.py:335] Engine 000: Avg prompt throughput: 3054.8 tokens/s, Avg generation throughput: 1701.0 tokens/s, Running: 2 reqs, Waiting: 396 reqs, XPU KV cache usage: 2.7%
+(MainProcess pid=33) INFO 11-04 07:20:39 [loggers.py:335] Engine 000: Avg prompt throughput: 9303.9 tokens/s, Avg generation throughput: 3.6 tokens/s, Running: 6 reqs, Waiting: 392 reqs, XPU KV cache usage: 3.5%
+(MainProcess pid=33) INFO 11-04 07:20:50 [loggers.py:335] Engine 000: Avg prompt throughput: 12240.7 tokens/s, Avg generation throughput: 9.0 tokens/s, Running: 9 reqs, Waiting: 389 reqs, XPU KV cache usage: 4.3%
+(MainProcess pid=33) INFO 11-04 07:21:00 [loggers.py:335] Engine 000: Avg prompt throughput: 12801.6 tokens/s, Avg generation throughput: 14.8 tokens/s, Running: 13 reqs, Waiting: 385 reqs, XPU KV cache usage: 5.2%
+(MainProcess pid=33) INFO 11-04 07:21:11 [loggers.py:335] Engine 000: Avg prompt throughput: 12969.7 tokens/s, Avg generation throughput: 20.6 tokens/s, Running: 17 reqs, Waiting: 381 reqs, XPU KV cache usage: 6.0%
+(MainProcess pid=33) INFO 11-04 07:21:21 [loggers.py:335] Engine 000: Avg prompt throughput: 9677.5 tokens/s, Avg generation throughput: 26.0 tokens/s, Running: 21 reqs, Waiting: 377 reqs, XPU KV cache usage: 6.8%
+(MainProcess pid=33) INFO 11-04 07:21:31 [loggers.py:335] Engine 000: Avg prompt throughput: 12877.8 tokens/s, Avg generation throughput: 31.5 tokens/s, Running: 24 reqs, Waiting: 374 reqs, XPU KV cache usage: 7.6%
+(MainProcess pid=33) INFO 11-04 07:21:41 [loggers.py:335] Engine 000: Avg prompt throughput: 13078.4 tokens/s, Avg generation throughput: 37.6 tokens/s, Running: 28 reqs, Waiting: 370 reqs, XPU KV cache usage: 8.4%
+(MainProcess pid=33) INFO 11-04 07:21:51 [loggers.py:335] Engine 000: Avg prompt throughput: 12429.6 tokens/s, Avg generation throughput: 44.0 tokens/s, Running: 32 reqs, Waiting: 366 reqs, XPU KV cache usage: 9.3%
+(MainProcess pid=33) INFO 11-04 07:22:02 [loggers.py:335] Engine 000: Avg prompt throughput: 12973.7 tokens/s, Avg generation throughput: 48.8 tokens/s, Running: 36 reqs, Waiting: 362 reqs, XPU KV cache usage: 10.1%
+(MainProcess pid=33) INFO 11-04 07:22:12 [loggers.py:335] Engine 000: Avg prompt throughput: 12637.3 tokens/s, Avg generation throughput: 56.7 tokens/s, Running: 40 reqs, Waiting: 358 reqs, XPU KV cache usage: 11.0%
+(MainProcess pid=33) INFO 11-04 07:22:22 [loggers.py:335] Engine 000: Avg prompt throughput: 12864.1 tokens/s, Avg generation throughput: 64.0 tokens/s, Running: 44 reqs, Waiting: 354 reqs, XPU KV cache usage: 11.8%
+(MainProcess pid=33) INFO 11-04 07:22:32 [loggers.py:335] Engine 000: Avg prompt throughput: 12957.1 tokens/s, Avg generation throughput: 70.8 tokens/s, Running: 48 reqs, Waiting: 350 reqs, XPU KV cache usage: 12.7%
+(MainProcess pid=33) INFO 11-04 07:22:42 [loggers.py:335] Engine 000: Avg prompt throughput: 12764.6 tokens/s, Avg generation throughput: 76.0 tokens/s, Running: 52 reqs, Waiting: 346 reqs, XPU KV cache usage: 13.6%
+(MainProcess pid=33) INFO 11-04 07:22:53 [loggers.py:335] Engine 000: Avg prompt throughput: 12724.4 tokens/s, Avg generation throughput: 81.9 tokens/s, Running: 56 reqs, Waiting: 342 reqs, XPU KV cache usage: 14.5%
+(MainProcess pid=33) INFO 11-04 07:23:03 [loggers.py:335] Engine 000: Avg prompt throughput: 12539.4 tokens/s, Avg generation throughput: 86.9 tokens/s, Running: 60 reqs, Waiting: 338 reqs, XPU KV cache usage: 15.4%
+(MainProcess pid=33) INFO 11-04 07:23:14 [loggers.py:335] Engine 000: Avg prompt throughput: 12615.3 tokens/s, Avg generation throughput: 93.6 tokens/s, Running: 64 reqs, Waiting: 334 reqs, XPU KV cache usage: 16.2%
+(MainProcess pid=33) INFO 11-04 07:23:24 [loggers.py:335] Engine 000: Avg prompt throughput: 9558.3 tokens/s, Avg generation throughput: 94.0 tokens/s, Running: 67 reqs, Waiting: 331 reqs, XPU KV cache usage: 17.0%
+(MainProcess pid=33) INFO 11-04 07:23:35 [loggers.py:335] Engine 000: Avg prompt throughput: 12302.7 tokens/s, Avg generation throughput: 102.5 tokens/s, Running: 71 reqs, Waiting: 327 reqs, XPU KV cache usage: 17.9%
+(MainProcess pid=33) INFO 11-04 07:23:45 [loggers.py:335] Engine 000: Avg prompt throughput: 12328.4 tokens/s, Avg generation throughput: 108.7 tokens/s, Running: 75 reqs, Waiting: 323 reqs, XPU KV cache usage: 18.8%
+(MainProcess pid=33) INFO 11-04 07:23:56 [loggers.py:335] Engine 000: Avg prompt throughput: 12516.3 tokens/s, Avg generation throughput: 116.5 tokens/s, Running: 79 reqs, Waiting: 319 reqs, XPU KV cache usage: 19.6%
+(MainProcess pid=33) INFO 11-04 07:24:06 [loggers.py:335] Engine 000: Avg prompt throughput: 12863.3 tokens/s, Avg generation throughput: 126.0 tokens/s, Running: 83 reqs, Waiting: 315 reqs, XPU KV cache usage: 20.5%
+(MainProcess pid=33) INFO 11-04 07:24:16 [loggers.py:335] Engine 000: Avg prompt throughput: 12872.3 tokens/s, Avg generation throughput: 132.4 tokens/s, Running: 87 reqs, Waiting: 311 reqs, XPU KV cache usage: 21.4%
+(MainProcess pid=33) INFO 11-04 07:24:26 [loggers.py:335] Engine 000: Avg prompt throughput: 13006.0 tokens/s, Avg generation throughput: 140.1 tokens/s, Running: 91 reqs, Waiting: 307 reqs, XPU KV cache usage: 22.3%
+(MainProcess pid=33) INFO 11-04 07:24:37 [loggers.py:335] Engine 000: Avg prompt throughput: 12496.6 tokens/s, Avg generation throughput: 140.3 tokens/s, Running: 95 reqs, Waiting: 303 reqs, XPU KV cache usage: 23.1%
+(MainProcess pid=33) INFO 11-04 07:24:47 [loggers.py:335] Engine 000: Avg prompt throughput: 12564.3 tokens/s, Avg generation throughput: 147.2 tokens/s, Running: 99 reqs, Waiting: 299 reqs, XPU KV cache usage: 24.0%
+(MainProcess pid=33) INFO 11-04 07:24:57 [loggers.py:335] Engine 000: Avg prompt throughput: 12596.8 tokens/s, Avg generation throughput: 153.8 tokens/s, Running: 103 reqs, Waiting: 295 reqs, XPU KV cache usage: 24.9%
+(MainProcess pid=33) INFO 11-04 07:25:08 [loggers.py:335] Engine 000: Avg prompt throughput: 12797.2 tokens/s, Avg generation throughput: 162.5 tokens/s, Running: 107 reqs, Waiting: 291 reqs, XPU KV cache usage: 25.8%
+(MainProcess pid=33) INFO 11-04 07:25:18 [loggers.py:335] Engine 000: Avg prompt throughput: 12740.5 tokens/s, Avg generation throughput: 168.0 tokens/s, Running: 111 reqs, Waiting: 287 reqs, XPU KV cache usage: 26.6%
+(MainProcess pid=33) INFO 11-04 07:25:28 [loggers.py:335] Engine 000: Avg prompt throughput: 12933.9 tokens/s, Avg generation throughput: 176.5 tokens/s, Running: 115 reqs, Waiting: 283 reqs, XPU KV cache usage: 27.4%
+(MainProcess pid=33) INFO 11-04 07:25:39 [loggers.py:335] Engine 000: Avg prompt throughput: 12485.5 tokens/s, Avg generation throughput: 187.7 tokens/s, Running: 119 reqs, Waiting: 279 reqs, XPU KV cache usage: 28.4%
+(MainProcess pid=33) INFO 11-04 07:25:49 [loggers.py:335] Engine 000: Avg prompt throughput: 12805.9 tokens/s, Avg generation throughput: 199.5 tokens/s, Running: 123 reqs, Waiting: 275 reqs, XPU KV cache usage: 29.3%
+(MainProcess pid=33) INFO 11-04 07:25:59 [loggers.py:335] Engine 000: Avg prompt throughput: 12678.3 tokens/s, Avg generation throughput: 204.5 tokens/s, Running: 128 reqs, Waiting: 270 reqs, XPU KV cache usage: 30.2%
+(MainProcess pid=33) INFO 11-04 07:26:10 [loggers.py:335] Engine 000: Avg prompt throughput: 12284.1 tokens/s, Avg generation throughput: 192.4 tokens/s, Running: 131 reqs, Waiting: 267 reqs, XPU KV cache usage: 31.1%
+(MainProcess pid=33) INFO 11-04 07:26:20 [loggers.py:335] Engine 000: Avg prompt throughput: 12399.0 tokens/s, Avg generation throughput: 200.2 tokens/s, Running: 135 reqs, Waiting: 263 reqs, XPU KV cache usage: 32.0%
+(MainProcess pid=33) INFO 11-04 07:26:31 [loggers.py:335] Engine 000: Avg prompt throughput: 12558.6 tokens/s, Avg generation throughput: 208.9 tokens/s, Running: 139 reqs, Waiting: 259 reqs, XPU KV cache usage: 32.9%
+(MainProcess pid=33) INFO 11-04 07:26:41 [loggers.py:335] Engine 000: Avg prompt throughput: 12908.9 tokens/s, Avg generation throughput: 221.0 tokens/s, Running: 143 reqs, Waiting: 255 reqs, XPU KV cache usage: 33.7%
+(MainProcess pid=33) INFO 11-04 07:26:51 [loggers.py:335] Engine 000: Avg prompt throughput: 12579.7 tokens/s, Avg generation throughput: 221.1 tokens/s, Running: 147 reqs, Waiting: 251 reqs, XPU KV cache usage: 34.6%
+(MainProcess pid=33) INFO 11-04 07:27:02 [loggers.py:335] Engine 000: Avg prompt throughput: 12952.5 tokens/s, Avg generation throughput: 234.0 tokens/s, Running: 151 reqs, Waiting: 247 reqs, XPU KV cache usage: 35.5%
+(MainProcess pid=33) INFO 11-04 07:27:12 [loggers.py:335] Engine 000: Avg prompt throughput: 13059.3 tokens/s, Avg generation throughput: 242.3 tokens/s, Running: 155 reqs, Waiting: 243 reqs, XPU KV cache usage: 36.4%
+(MainProcess pid=33) INFO 11-04 07:27:22 [loggers.py:335] Engine 000: Avg prompt throughput: 12697.5 tokens/s, Avg generation throughput: 241.6 tokens/s, Running: 159 reqs, Waiting: 239 reqs, XPU KV cache usage: 37.2%
+(MainProcess pid=33) INFO 11-04 07:27:32 [loggers.py:335] Engine 000: Avg prompt throughput: 12819.6 tokens/s, Avg generation throughput: 250.0 tokens/s, Running: 163 reqs, Waiting: 235 reqs, XPU KV cache usage: 38.1%
+(MainProcess pid=33) INFO 11-04 07:27:42 [loggers.py:335] Engine 000: Avg prompt throughput: 13006.6 tokens/s, Avg generation throughput: 260.0 tokens/s, Running: 167 reqs, Waiting: 231 reqs, XPU KV cache usage: 39.0%
+(MainProcess pid=33) INFO 11-04 07:27:53 [loggers.py:335] Engine 000: Avg prompt throughput: 9493.5 tokens/s, Avg generation throughput: 259.0 tokens/s, Running: 171 reqs, Waiting: 227 reqs, XPU KV cache usage: 39.9%
+(MainProcess pid=33) INFO 11-04 07:28:03 [loggers.py:335] Engine 000: Avg prompt throughput: 12636.3 tokens/s, Avg generation throughput: 264.5 tokens/s, Running: 175 reqs, Waiting: 223 reqs, XPU KV cache usage: 40.7%
+(MainProcess pid=33) INFO 11-04 07:28:13 [loggers.py:335] Engine 000: Avg prompt throughput: 12833.3 tokens/s, Avg generation throughput: 274.9 tokens/s, Running: 179 reqs, Waiting: 219 reqs, XPU KV cache usage: 41.7%
+(MainProcess pid=33) INFO 11-04 07:28:24 [loggers.py:335] Engine 000: Avg prompt throughput: 12623.7 tokens/s, Avg generation throughput: 276.5 tokens/s, Running: 182 reqs, Waiting: 216 reqs, XPU KV cache usage: 42.5%
+(MainProcess pid=33) INFO 11-04 07:28:34 [loggers.py:335] Engine 000: Avg prompt throughput: 12666.0 tokens/s, Avg generation throughput: 283.3 tokens/s, Running: 186 reqs, Waiting: 212 reqs, XPU KV cache usage: 43.4%
+(MainProcess pid=33) INFO 11-04 07:28:44 [loggers.py:335] Engine 000: Avg prompt throughput: 12788.9 tokens/s, Avg generation throughput: 292.3 tokens/s, Running: 190 reqs, Waiting: 208 reqs, XPU KV cache usage: 44.3%
+(MainProcess pid=33) INFO 11-04 07:28:54 [loggers.py:335] Engine 000: Avg prompt throughput: 13045.4 tokens/s, Avg generation throughput: 304.4 tokens/s, Running: 194 reqs, Waiting: 204 reqs, XPU KV cache usage: 45.2%
+(MainProcess pid=33) INFO 11-04 07:29:05 [loggers.py:335] Engine 000: Avg prompt throughput: 12456.4 tokens/s, Avg generation throughput: 315.2 tokens/s, Running: 198 reqs, Waiting: 200 reqs, XPU KV cache usage: 46.1%
+(MainProcess pid=33) INFO 11-04 07:29:15 [loggers.py:335] Engine 000: Avg prompt throughput: 12381.2 tokens/s, Avg generation throughput: 320.1 tokens/s, Running: 202 reqs, Waiting: 196 reqs, XPU KV cache usage: 47.0%
+(MainProcess pid=33) INFO 11-04 07:29:26 [loggers.py:335] Engine 000: Avg prompt throughput: 12522.9 tokens/s, Avg generation throughput: 310.7 tokens/s, Running: 206 reqs, Waiting: 192 reqs, XPU KV cache usage: 47.9%
+(MainProcess pid=33) INFO 11-04 07:29:36 [loggers.py:335] Engine 000: Avg prompt throughput: 12794.6 tokens/s, Avg generation throughput: 323.7 tokens/s, Running: 210 reqs, Waiting: 188 reqs, XPU KV cache usage: 48.8%
+(MainProcess pid=33) INFO 11-04 07:29:46 [loggers.py:335] Engine 000: Avg prompt throughput: 9735.9 tokens/s, Avg generation throughput: 292.4 tokens/s, Running: 214 reqs, Waiting: 184 reqs, XPU KV cache usage: 49.5%
+(MainProcess pid=33) INFO 11-04 07:29:56 [loggers.py:335] Engine 000: Avg prompt throughput: 13044.6 tokens/s, Avg generation throughput: 341.6 tokens/s, Running: 218 reqs, Waiting: 180 reqs, XPU KV cache usage: 50.4%
+(MainProcess pid=33) INFO 11-04 07:30:06 [loggers.py:335] Engine 000: Avg prompt throughput: 12916.6 tokens/s, Avg generation throughput: 344.5 tokens/s, Running: 221 reqs, Waiting: 177 reqs, XPU KV cache usage: 51.3%
+(MainProcess pid=33) INFO 11-04 07:30:16 [loggers.py:335] Engine 000: Avg prompt throughput: 12929.6 tokens/s, Avg generation throughput: 350.8 tokens/s, Running: 225 reqs, Waiting: 173 reqs, XPU KV cache usage: 52.1%
+(MainProcess pid=33) INFO 11-04 07:30:27 [loggers.py:335] Engine 000: Avg prompt throughput: 12239.7 tokens/s, Avg generation throughput: 359.3 tokens/s, Running: 230 reqs, Waiting: 168 reqs, XPU KV cache usage: 53.0%
+(MainProcess pid=33) INFO 11-04 07:30:38 [loggers.py:335] Engine 000: Avg prompt throughput: 12264.7 tokens/s, Avg generation throughput: 344.8 tokens/s, Running: 233 reqs, Waiting: 165 reqs, XPU KV cache usage: 53.9%
+(MainProcess pid=33) INFO 11-04 07:30:48 [loggers.py:335] Engine 000: Avg prompt throughput: 12765.4 tokens/s, Avg generation throughput: 365.0 tokens/s, Running: 237 reqs, Waiting: 161 reqs, XPU KV cache usage: 54.8%
+(MainProcess pid=33) INFO 11-04 07:30:58 [loggers.py:335] Engine 000: Avg prompt throughput: 13107.1 tokens/s, Avg generation throughput: 380.9 tokens/s, Running: 241 reqs, Waiting: 157 reqs, XPU KV cache usage: 55.7%
+(MainProcess pid=33) INFO 11-04 07:31:08 [loggers.py:335] Engine 000: Avg prompt throughput: 12642.6 tokens/s, Avg generation throughput: 397.0 tokens/s, Running: 245 reqs, Waiting: 153 reqs, XPU KV cache usage: 56.6%
+(MainProcess pid=33) INFO 11-04 07:31:19 [loggers.py:335] Engine 000: Avg prompt throughput: 13037.0 tokens/s, Avg generation throughput: 391.7 tokens/s, Running: 249 reqs, Waiting: 149 reqs, XPU KV cache usage: 57.5%
+(MainProcess pid=33) INFO 11-04 07:31:29 [loggers.py:335] Engine 000: Avg prompt throughput: 12849.8 tokens/s, Avg generation throughput: 392.1 tokens/s, Running: 253 reqs, Waiting: 145 reqs, XPU KV cache usage: 58.4%
+(MainProcess pid=33) INFO 11-04 07:31:39 [loggers.py:335] Engine 000: Avg prompt throughput: 9759.0 tokens/s, Avg generation throughput: 377.7 tokens/s, Running: 257 reqs, Waiting: 141 reqs, XPU KV cache usage: 59.1%
+(MainProcess pid=33) INFO 11-04 07:31:49 [loggers.py:335] Engine 000: Avg prompt throughput: 12708.5 tokens/s, Avg generation throughput: 399.5 tokens/s, Running: 261 reqs, Waiting: 137 reqs, XPU KV cache usage: 60.0%
+(MainProcess pid=33) INFO 11-04 07:31:59 [loggers.py:335] Engine 000: Avg prompt throughput: 12717.7 tokens/s, Avg generation throughput: 405.8 tokens/s, Running: 264 reqs, Waiting: 134 reqs, XPU KV cache usage: 60.9%
+(MainProcess pid=33) INFO 11-04 07:32:10 [loggers.py:335] Engine 000: Avg prompt throughput: 12311.8 tokens/s, Avg generation throughput: 423.7 tokens/s, Running: 269 reqs, Waiting: 129 reqs, XPU KV cache usage: 61.8%
+(MainProcess pid=33) INFO 11-04 07:32:21 [loggers.py:335] Engine 000: Avg prompt throughput: 12346.4 tokens/s, Avg generation throughput: 406.0 tokens/s, Running: 272 reqs, Waiting: 126 reqs, XPU KV cache usage: 62.7%
+(MainProcess pid=33) INFO 11-04 07:32:31 [loggers.py:335] Engine 000: Avg prompt throughput: 12783.9 tokens/s, Avg generation throughput: 426.4 tokens/s, Running: 276 reqs, Waiting: 122 reqs, XPU KV cache usage: 63.5%
+(MainProcess pid=33) INFO 11-04 07:32:41 [loggers.py:335] Engine 000: Avg prompt throughput: 12971.2 tokens/s, Avg generation throughput: 411.1 tokens/s, Running: 280 reqs, Waiting: 118 reqs, XPU KV cache usage: 64.3%
+(MainProcess pid=33) INFO 11-04 07:32:51 [loggers.py:335] Engine 000: Avg prompt throughput: 12718.3 tokens/s, Avg generation throughput: 435.9 tokens/s, Running: 284 reqs, Waiting: 114 reqs, XPU KV cache usage: 65.2%
+(MainProcess pid=33) INFO 11-04 07:33:02 [loggers.py:335] Engine 000: Avg prompt throughput: 12385.7 tokens/s, Avg generation throughput: 457.3 tokens/s, Running: 288 reqs, Waiting: 110 reqs, XPU KV cache usage: 66.1%
+(MainProcess pid=33) INFO 11-04 07:33:12 [loggers.py:335] Engine 000: Avg prompt throughput: 9650.0 tokens/s, Avg generation throughput: 453.4 tokens/s, Running: 292 reqs, Waiting: 106 reqs, XPU KV cache usage: 67.0%
+(MainProcess pid=33) INFO 11-04 07:33:22 [loggers.py:335] Engine 000: Avg prompt throughput: 12858.8 tokens/s, Avg generation throughput: 459.1 tokens/s, Running: 296 reqs, Waiting: 102 reqs, XPU KV cache usage: 67.8%
+(MainProcess pid=33) INFO 11-04 07:33:33 [loggers.py:335] Engine 000: Avg prompt throughput: 12424.1 tokens/s, Avg generation throughput: 449.6 tokens/s, Running: 299 reqs, Waiting: 99 reqs, XPU KV cache usage: 68.7%
+(MainProcess pid=33) INFO 11-04 07:33:43 [loggers.py:335] Engine 000: Avg prompt throughput: 12490.9 tokens/s, Avg generation throughput: 457.8 tokens/s, Running: 303 reqs, Waiting: 95 reqs, XPU KV cache usage: 69.6%
+(MainProcess pid=33) INFO 11-04 07:33:54 [loggers.py:335] Engine 000: Avg prompt throughput: 12878.9 tokens/s, Avg generation throughput: 478.0 tokens/s, Running: 307 reqs, Waiting: 91 reqs, XPU KV cache usage: 70.5%
+(MainProcess pid=33) INFO 11-04 07:34:04 [loggers.py:335] Engine 000: Avg prompt throughput: 12905.7 tokens/s, Avg generation throughput: 485.2 tokens/s, Running: 311 reqs, Waiting: 87 reqs, XPU KV cache usage: 71.3%
+(MainProcess pid=33) INFO 11-04 07:34:14 [loggers.py:335] Engine 000: Avg prompt throughput: 12808.1 tokens/s, Avg generation throughput: 487.4 tokens/s, Running: 315 reqs, Waiting: 83 reqs, XPU KV cache usage: 72.1%
+(MainProcess pid=33) INFO 11-04 07:34:24 [loggers.py:335] Engine 000: Avg prompt throughput: 9589.0 tokens/s, Avg generation throughput: 492.6 tokens/s, Running: 319 reqs, Waiting: 79 reqs, XPU KV cache usage: 73.0%
+(MainProcess pid=33) INFO 11-04 07:34:34 [loggers.py:335] Engine 000: Avg prompt throughput: 12868.3 tokens/s, Avg generation throughput: 501.9 tokens/s, Running: 323 reqs, Waiting: 75 reqs, XPU KV cache usage: 73.9%
+(MainProcess pid=33) INFO 11-04 07:34:45 [loggers.py:335] Engine 000: Avg prompt throughput: 12782.8 tokens/s, Avg generation throughput: 504.5 tokens/s, Running: 326 reqs, Waiting: 72 reqs, XPU KV cache usage: 74.7%
+(MainProcess pid=33) INFO 11-04 07:34:55 [loggers.py:335] Engine 000: Avg prompt throughput: 12809.6 tokens/s, Avg generation throughput: 511.6 tokens/s, Running: 330 reqs, Waiting: 68 reqs, XPU KV cache usage: 75.6%
+(MainProcess pid=33) INFO 11-04 07:35:05 [loggers.py:335] Engine 000: Avg prompt throughput: 12735.3 tokens/s, Avg generation throughput: 514.6 tokens/s, Running: 334 reqs, Waiting: 64 reqs, XPU KV cache usage: 76.5%
+(MainProcess pid=33) INFO 11-04 07:35:15 [loggers.py:335] Engine 000: Avg prompt throughput: 13032.9 tokens/s, Avg generation throughput: 532.7 tokens/s, Running: 338 reqs, Waiting: 60 reqs, XPU KV cache usage: 77.3%
+(MainProcess pid=33) INFO 11-04 07:35:25 [loggers.py:335] Engine 000: Avg prompt throughput: 9814.6 tokens/s, Avg generation throughput: 541.0 tokens/s, Running: 342 reqs, Waiting: 56 reqs, XPU KV cache usage: 78.2%
+(MainProcess pid=33) INFO 11-04 07:35:35 [loggers.py:335] Engine 000: Avg prompt throughput: 12932.9 tokens/s, Avg generation throughput: 540.7 tokens/s, Running: 346 reqs, Waiting: 52 reqs, XPU KV cache usage: 79.0%
+(MainProcess pid=33) INFO 11-04 07:35:46 [loggers.py:335] Engine 000: Avg prompt throughput: 12758.4 tokens/s, Avg generation throughput: 539.5 tokens/s, Running: 349 reqs, Waiting: 49 reqs, XPU KV cache usage: 79.9%
+(MainProcess pid=33) INFO 11-04 07:35:56 [loggers.py:335] Engine 000: Avg prompt throughput: 12766.8 tokens/s, Avg generation throughput: 545.8 tokens/s, Running: 353 reqs, Waiting: 45 reqs, XPU KV cache usage: 80.8%
+(MainProcess pid=33) INFO 11-04 07:36:06 [loggers.py:335] Engine 000: Avg prompt throughput: 12425.8 tokens/s, Avg generation throughput: 537.0 tokens/s, Running: 357 reqs, Waiting: 41 reqs, XPU KV cache usage: 81.6%
+(MainProcess pid=33) INFO 11-04 07:36:17 [loggers.py:335] Engine 000: Avg prompt throughput: 12749.1 tokens/s, Avg generation throughput: 556.9 tokens/s, Running: 361 reqs, Waiting: 37 reqs, XPU KV cache usage: 82.4%
+(MainProcess pid=33) INFO 11-04 07:36:27 [loggers.py:335] Engine 000: Avg prompt throughput: 12490.6 tokens/s, Avg generation throughput: 586.1 tokens/s, Running: 365 reqs, Waiting: 33 reqs, XPU KV cache usage: 83.3%
+(MainProcess pid=33) INFO 11-04 07:36:37 [loggers.py:335] Engine 000: Avg prompt throughput: 13080.2 tokens/s, Avg generation throughput: 584.0 tokens/s, Running: 369 reqs, Waiting: 29 reqs, XPU KV cache usage: 84.2%
+(MainProcess pid=33) INFO 11-04 07:36:48 [loggers.py:335] Engine 000: Avg prompt throughput: 9354.9 tokens/s, Avg generation throughput: 562.6 tokens/s, Running: 373 reqs, Waiting: 25 reqs, XPU KV cache usage: 85.1%
+(MainProcess pid=33) INFO 11-04 07:36:58 [loggers.py:335] Engine 000: Avg prompt throughput: 12333.3 tokens/s, Avg generation throughput: 562.1 tokens/s, Running: 376 reqs, Waiting: 22 reqs, XPU KV cache usage: 85.9%
+(MainProcess pid=33) INFO 11-04 07:37:09 [loggers.py:335] Engine 000: Avg prompt throughput: 12883.0 tokens/s, Avg generation throughput: 555.9 tokens/s, Running: 380 reqs, Waiting: 18 reqs, XPU KV cache usage: 86.7%
+(MainProcess pid=33) INFO 11-04 07:37:19 [loggers.py:335] Engine 000: Avg prompt throughput: 9765.1 tokens/s, Avg generation throughput: 567.1 tokens/s, Running: 384 reqs, Waiting: 14 reqs, XPU KV cache usage: 87.5%
+(MainProcess pid=33) INFO 11-04 07:37:29 [loggers.py:335] Engine 000: Avg prompt throughput: 12819.0 tokens/s, Avg generation throughput: 601.4 tokens/s, Running: 387 reqs, Waiting: 11 reqs, XPU KV cache usage: 88.4%
+(MainProcess pid=33) INFO 11-04 07:37:39 [loggers.py:335] Engine 000: Avg prompt throughput: 12823.2 tokens/s, Avg generation throughput: 607.5 tokens/s, Running: 391 reqs, Waiting: 7 reqs, XPU KV cache usage: 89.3%
+(MainProcess pid=33) INFO 11-04 07:37:49 [loggers.py:335] Engine 000: Avg prompt throughput: 12729.2 tokens/s, Avg generation throughput: 609.0 tokens/s, Running: 395 reqs, Waiting: 3 reqs, XPU KV cache usage: 90.1%
+(MainProcess pid=33) INFO 11-04 07:37:59 [loggers.py:335] Engine 000: Avg prompt throughput: 12973.3 tokens/s, Avg generation throughput: 626.7 tokens/s, Running: 398 reqs, Waiting: 0 reqs, XPU KV cache usage: 89.6%
+(MainProcess pid=33) INFO 11-04 07:38:09 [loggers.py:335] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 5516.8 tokens/s, Running: 398 reqs, Waiting: 0 reqs, XPU KV cache usage: 88.8%
+RESULT concurrency_kv800_sweep sweep c=398 | PASS | decode 5124 tok/s aggregate, TPOT 77.7 ms over 183 all-decoding steps | prefill 12363 tok/s, TTFT median 524.7s max 1054.9s | KV usage 90.7% | preemptions 0 | wall 1071s
+wrote /mnt/ssd/lfm3-kv/release/lfm3-kv800/eval/out/concurrency_kv800_sweep.json
+(MainProcess pid=33) INFO 11-04 07:38:15 [xpu_worker.py:229] XPUWorker shutdown: cleaning up (rank=0, local_rank=0)
+(MainProcess pid=33) INFO 11-04 07:38:15 [xpu_worker.py:239] XPUWorker shutdown: done (rank=0, local_rank=0)

@@ -1,0 +1,10 @@
+{
+ "torch": "2.14.0+xpu",
+ "arch": "bmg-g31",
+ "targets": "spir64_gen,spir64",
+ "compiler": "Intel(R) oneAPI DPC++/C++ Compiler 2026.0.0 (2026.0.0.20260331)",
+ "image": "ghcr.io/riceharvest/b70-vllm:v0.32.0-b70.7",
+ "source_sha256": "2e4ce1641ce8ff24b95e1a191c37a0feb232d77721f19384de4a06aff8ae6404",
+ "so_sha256": "f5807e3cc88321caf4164045b77028ee33ac38b3c2451e343f2929ab00d0f5e5",
+ "so_bytes": 419264
+}

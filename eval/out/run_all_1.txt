@@ -1,0 +1,7 @@
+[06:39:04] start conc_stock: concurrency.py --mode stock
+[06:39:47] done  conc_stock rc=0 in 0 min
+RESULT concurrency_stock capacity | 32832-token requests | pool 21.58 GiB, 35353 blocks x 655360 B | vLLM stated 27.41x (admission 1290 blocks/request) | steady-state 33 (1034 blocks/request)
+[06:39:47] start conc_kv800: concurrency.py --mode kv800 --confirm stated
+[06:42:37] done  conc_kv800 rc=0 in 2 min
+RESULT concurrency_kv800 capacity | 32832-token requests | pool 21.58 GiB, 22098 blocks x 1048576 B | vLLM stated 39.46x (admission 560 blocks/request) | steady-state 449 (48 blocks/request)
+RESULT concurrency_kv800 confirm N=39 | PASS | preemptions 0 | max resident with full 32768-token prompt 39/39 for 132 steps (4s) | KV usage then 0.10028510657555323 | 284 new tokens each | wall 125s

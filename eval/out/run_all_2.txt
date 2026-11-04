@@ -1,0 +1,17 @@
+[06:43:15] start needles_kv800: needles.py --mode kv800 --mnbt 2048
+[06:45:38] done  needles_kv800 rc=0 in 2 min
+RESULT needles_kv800_c2048 | recall 71/96 = 74.0% (95% CI 64.4-81.7%) | per length 1K 22/24, 4K 16/24, 16K 14/24, 32K 19/24 | {'dev seeds 3-5': {'hits': 20, 'n': 24}, 'held-out seeds': {'hits': 51, 'n': 72}} | 93s
+[06:45:38] start needles_kv800_8k: needles.py --mode kv800 --mnbt 8192
+[06:48:15] done  needles_kv800_8k rc=0 in 2 min
+RESULT needles_kv800_c8192 | recall 64/96 = 66.7% (95% CI 56.8-75.3%) | per length 1K 20/24, 4K 20/24, 16K 11/24, 32K 13/24 | {'dev seeds 3-5': {'hits': 19, 'n': 24}, 'held-out seeds': {'hits': 45, 'n': 72}} | 112s
+[06:48:15] start rollouts_kv800: rollouts.py --mode kv800 --mnbt 2048
+[06:50:24] done  rollouts_kv800 rc=0 in 2 min
+RESULT rollouts_kv800_c2048 | recall 14/32 = 43.8% (95% CI 28.2-60.7%) | per length 8K 7/16, 16K 7/16 | {'dev seeds 0-1': {'hits': 0, 'n': 8}, 'held-out seeds': {'hits': 14, 'n': 24}} | 86s
+[06:50:24] start rollouts_kv800_8k: rollouts.py --mode kv800 --mnbt 8192
+[06:52:43] done  rollouts_kv800_8k rc=0 in 2 min
+RESULT rollouts_kv800_c8192 | recall 7/32 = 21.9% (95% CI 11.0-38.8%) | per length 8K 3/16, 16K 4/16 | {'dev seeds 0-1': {'hits': 0, 'n': 8}, 'held-out seeds': {'hits': 7, 'n': 24}} | 95s
+[06:52:43] start stretch: concurrency.py --mode kv800 --confirm steady --stagger --max-num-seqs 768 --tag steady
+[07:15:48] done  stretch rc=0 in 23 min
+RESULT concurrency_kv800_steady capacity | 32832-token requests | pool 21.31 GiB, 21817 blocks x 1048576 B | vLLM stated 38.96x (admission 560 blocks/request) | steady-state 443 (48 blocks/request)
+RESULT concurrency_kv800_steady confirm N=398 | PASS | preemptions 0 | max resident with full 32768-token prompt 398/398 for 183 steps (15s) | KV usage then 0.9088283828382838 | 182-1851 new tokens each | wall 1091s
+[07:15:48] start needles_stock: needles.py --mode stock --mnbt 1024 --util 0.6 --budget-min 40

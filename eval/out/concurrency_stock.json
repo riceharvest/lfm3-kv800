@@ -1,0 +1,204 @@
+{
+ "info": {
+  "mode": "stock",
+  "plugin": false,
+  "mnbt": 8192,
+  "util": 0.85,
+  "max_model_len": 36864,
+  "max_num_seqs": 256,
+  "vllm": "0.32.0",
+  "torch": "2.14.0+xpu",
+  "backend": "vllm attn",
+  "time": "2026-11-04 05:39:44",
+  "kv_num_blocks": 35353,
+  "kv_groups": [
+   "MambaSpec(bs=36864, page=131072, win=None) x5",
+   "MambaSpec(bs=36864, page=131072, win=None) x4",
+   "MambaSpec(bs=36864, page=131072, win=None) x4",
+   "FullAttentionSpec(bs=64, page=131072, win=None) x3",
+   "FullAttentionSpec(bs=64, page=131072, win=None) x3",
+   "SlidingWindowSpec(bs=64, page=131072, win=256) x5"
+  ]
+ },
+ "capacity": {
+  "request_tokens": 32832,
+  "num_blocks": 35353,
+  "pool_bytes": 23168942080,
+  "pool_GiB": 21.5777587890625,
+  "bytes_per_block_id": 655360.0,
+  "max_in_flight_tokens": 16384,
+  "vllm_logged_max_concurrency": 24.96680790960452,
+  "vllm_logged_kv_tokens": 920376,
+  "vllm_logged_for_max_model_len": 36864,
+  "stated_concurrency": 27.405426356589146,
+  "stated_source": "vllm",
+  "stated_N": 27,
+  "admission_blocks_per_request": 1290,
+  "steady_blocks_per_request": 1034,
+  "admission_bytes_per_request": 845414400.0,
+  "steady_bytes_per_request": 677642240.0,
+  "steady_N": 33,
+  "groups": [
+   {
+    "spec": "MambaSpec",
+    "kind": "conv state",
+    "layers": [
+     "model.layers.0.short_conv",
+     "model.layers.5.short_conv",
+     "model.layers.11.short_conv",
+     "model.layers.17.short_conv",
+     "model.layers.23.short_conv"
+    ],
+    "n_layers": 5,
+    "block_size": 36864,
+    "page_bytes": 131072,
+    "content_page_bytes": 24576,
+    "window": null,
+    "admission_blocks": 1,
+    "steady_blocks": 1
+   },
+   {
+    "spec": "MambaSpec",
+    "kind": "conv state",
+    "layers": [
+     "model.layers.1.short_conv",
+     "model.layers.7.short_conv",
+     "model.layers.13.short_conv",
+     "model.layers.19.short_conv"
+    ],
+    "n_layers": 4,
+    "block_size": 36864,
+    "page_bytes": 131072,
+    "content_page_bytes": 24576,
+    "window": null,
+    "admission_blocks": 1,
+    "steady_blocks": 1
+   },
+   {
+    "spec": "MambaSpec",
+    "kind": "conv state",
+    "layers": [
+     "model.layers.3.short_conv",
+     "model.layers.9.short_conv",
+     "model.layers.15.short_conv",
+     "model.layers.21.short_conv"
+    ],
+    "n_layers": 4,
+    "block_size": 36864,
+    "page_bytes": 131072,
+    "content_page_bytes": 24576,
+    "window": null,
+    "admission_blocks": 1,
+    "steady_blocks": 1
+   },
+   {
+    "spec": "FullAttentionSpec",
+    "kind": "full attention bf16",
+    "layers": [
+     "model.layers.2.self_attn.attn",
+     "model.layers.10.self_attn.attn",
+     "model.layers.18.self_attn.attn"
+    ],
+    "n_layers": 3,
+    "block_size": 64,
+    "page_bytes": 131072,
+    "content_page_bytes": 131072,
+    "window": null,
+    "admission_blocks": 513,
+    "steady_blocks": 513
+   },
+   {
+    "spec": "FullAttentionSpec",
+    "kind": "full attention bf16",
+    "layers": [
+     "model.layers.6.self_attn.attn",
+     "model.layers.14.self_attn.attn",
+     "model.layers.22.self_attn.attn"
+    ],
+    "n_layers": 3,
+    "block_size": 64,
+    "page_bytes": 131072,
+    "content_page_bytes": 131072,
+    "window": null,
+    "admission_blocks": 513,
+    "steady_blocks": 513
+   },
+   {
+    "spec": "SlidingWindowSpec",
+    "kind": "window 256",
+    "layers": [
+     "model.layers.4.self_attn.attn",
+     "model.layers.8.self_attn.attn",
+     "model.layers.12.self_attn.attn",
+     "model.layers.16.self_attn.attn",
+     "model.layers.20.self_attn.attn"
+    ],
+    "n_layers": 5,
+    "block_size": 64,
+    "page_bytes": 131072,
+    "content_page_bytes": 131072,
+    "window": 256,
+    "admission_blocks": 261,
+    "steady_blocks": 5
+   }
+  ],
+  "layer_types": {
+   "conv state": {
+    "layers": [
+     0,
+     5,
+     11,
+     17,
+     23,
+     1,
+     7,
+     13,
+     19,
+     3,
+     9,
+     15,
+     21
+    ],
+    "page_bytes": 131072,
+    "content_page_bytes": 24576,
+    "block_size": 36864,
+    "window": null,
+    "fixed_bytes_per_request_all_layers": 319488,
+    "alloc_bytes_per_request_all_layers": 1703936
+   },
+   "full attention bf16": {
+    "layers": [
+     2,
+     10,
+     18,
+     6,
+     14,
+     22
+    ],
+    "page_bytes": 131072,
+    "content_page_bytes": 131072,
+    "block_size": 64,
+    "window": null,
+    "bytes_per_token_per_layer": 2048.0,
+    "alloc_bytes_per_token_per_layer": 2048.0,
+    "bytes_per_token_all_layers": 12288.0,
+    "alloc_bytes_per_token_all_layers": 12288.0
+   },
+   "window 256": {
+    "layers": [
+     4,
+     8,
+     12,
+     16,
+     20
+    ],
+    "page_bytes": 131072,
+    "content_page_bytes": 131072,
+    "block_size": 64,
+    "window": 256,
+    "bytes_per_token_per_layer": 2048.0,
+    "fixed_bytes_per_request_all_layers": 2621440.0
+   }
+  }
+ }
+}

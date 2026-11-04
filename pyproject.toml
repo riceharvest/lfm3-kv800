@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lfm3-kv800"
+version = "0.1.0"
+description = "800h KV cache (2-bit K / 1-bit V paged cache) for LiquidAI LFM3, with decode kernels and a vLLM plugin"
+readme = "README_INSTALL.md"
+requires-python = ">=3.10"
+dependencies = ["torch>=2.4"]
+
+[project.optional-dependencies]
+vllm = ["vllm>=0.32"]
+test = ["pytest"]
+
+[project.entry-points."vllm.general_plugins"]
+lfm3_kv800 = "lfm3_kv800.plugin:register"
+
+[tool.setuptools.packages.find]
+include = ["lfm3_kv800*"]
+
+[tool.setuptools.package-data]
+lfm3_kv800 = ["csrc/*.sycl", "_lib/*.so", "_lib/*.json"]

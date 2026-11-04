@@ -1,0 +1,11 @@
+[08:05:09] start sweep_stock: concurrency.py --mode stock --attn-backend TRITON_ATTN --sweep stated --window 0 --tag sweep
+[08:09:37] done  sweep_stock rc=0 in 4 min
+RESULT concurrency_stock_sweep capacity | 32832-token requests | pool 21.48 GiB, 140781 blocks x 163840 B | vLLM stated 27.35x (admission 5148 blocks/request) | steady-state 33 (4124 blocks/request)
+RESULT concurrency_stock_sweep sweep c=27 | PASS | decode 431 tok/s aggregate, TPOT 62.6 ms over 136 all-decoding steps | prefill 11252 tok/s, TTFT median 42.2s max 78.6s | KV usage 79.5% | preemptions 0 | wall 87s
+[08:09:37] start sweep: concurrency.py --mode kv800 --sweep 27,64,128,398 --window 0 --max-num-seqs 768 --tag sweep
+[08:38:18] done  sweep rc=0 in 28 min
+RESULT concurrency_kv800_sweep capacity | 32832-token requests | pool 21.35 GiB, 21860 blocks x 1048576 B | vLLM stated 39.04x (admission 560 blocks/request) | steady-state 444 (48 blocks/request)
+RESULT concurrency_kv800_sweep sweep c=27 | PASS | decode 861 tok/s aggregate, TPOT 31.4 ms over 136 all-decoding steps | prefill 10732 tok/s, TTFT median 47.6s max 82.4s | KV usage 7.3% | preemptions 0 | wall 87s
+RESULT concurrency_kv800_sweep sweep c=64 | PASS | decode 1719 tok/s aggregate, TPOT 37.2 ms over 142 all-decoding steps | prefill 12329 tok/s, TTFT median 89.5s max 170.1s | KV usage 16.4% | preemptions 0 | wall 175s
+RESULT concurrency_kv800_sweep sweep c=128 | PASS | decode 3336 tok/s aggregate, TPOT 38.4 ms over 149 all-decoding steps | prefill 12456 tok/s, TTFT median 170.7s max 336.7s | KV usage 29.3% | preemptions 0 | wall 343s
+RESULT concurrency_kv800_sweep sweep c=398 | PASS | decode 5124 tok/s aggregate, TPOT 77.7 ms over 183 all-decoding steps | prefill 12363 tok/s, TTFT median 524.7s max 1054.9s | KV usage 90.7% | preemptions 0 | wall 1071s

@@ -1,0 +1,14 @@
+[07:44:18] start needles_kv800_8k: needles.py --mode kv800 --mnbt 8192
+[07:46:52] done  needles_kv800_8k rc=0 in 2 min
+RESULT needles_kv800_c8192 | recall 79/96 = 82.3% (95% CI 73.5-88.6%) | per length 1K 24/24, 4K 22/24, 16K 15/24, 32K 18/24 | {'dev seeds 3-5': {'hits': 19, 'n': 24}, 'held-out seeds': {'hits': 60, 'n': 72}} | 108s
+[07:46:52] start rollouts_kv800: rollouts.py --mode kv800 --mnbt 2048
+[07:49:02] done  rollouts_kv800 rc=0 in 2 min
+RESULT rollouts_kv800_c2048 | recall 28/32 = 87.5% (95% CI 71.9-95.0%) | per length 8K 15/16, 16K 13/16 | {'dev seeds 0-1': {'hits': 7, 'n': 8}, 'held-out seeds': {'hits': 21, 'n': 24}} | 85s
+[07:49:02] start rollouts_kv800_8k: rollouts.py --mode kv800 --mnbt 8192
+[07:51:20] done  rollouts_kv800_8k rc=0 in 2 min
+RESULT rollouts_kv800_c8192 | recall 28/32 = 87.5% (95% CI 71.9-95.0%) | per length 8K 16/16, 16K 12/16 | {'dev seeds 0-1': {'hits': 6, 'n': 8}, 'held-out seeds': {'hits': 22, 'n': 24}} | 93s
+[07:51:20] start rollouts_stock: rollouts.py --mode stock --mnbt 1024 --util 0.6 --group 8 --budget-min 25
+[08:04:42] done  rollouts_stock rc=0 in 13 min
+RESULT rollouts_stock_c1024_g8 | recall 32/32 = 100.0% (95% CI 89.3-100.0%) | per length 8K 16/16, 16K 16/16 | {'dev seeds 0-1': {'hits': 8, 'n': 8}, 'held-out seeds': {'hits': 24, 'n': 24}} | 757s
+./run_all.sh: line 76: syntax error near unexpected token `)'
+./run_all.sh: line 76: `uts_kv800_zkv)    run $s rollouts.py --mode kv800 --mnbt 2048 --group 8 --zero-kv ;;'

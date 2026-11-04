@@ -1,0 +1,566 @@
+// 800h KV cache decode for LFM3 on Intel Xe2 (B70), paged layout of lfm3_kv800/kv800.py: torch ops kv800::{qdecode,
+// xdecode, combine}. Quant sub-blocks of 51,200 B addressed by BOFF[b, j] (bytes); exact tokens in pages addressed by
+// EOFF[b, p / ebs] (elements). Sub-block fields (same semantics as the Triton kernels and lfm3_kv800/torch_decode.py):
+//   kc  [256, 4, 32]  u8   planar 2-bit K, byte j of (token, head) = dims j, j+32, j+64, j+96 at bits 0-1/2-3/4-5/6-7
+//   vb  [256, 4, 16]  u8   planar 1-bit V (Hadamard-rotated), byte j = dims j + 16i at bit i
+//   vlo, vsc [256, 2] fp8 e4m3, per (token, group of 2 heads)
+//   klo, ksc [4, 128] fp8 e4m3, per (head, channel), pre-RoPE
+//   exact pages: pre-RoPE K | unrotated V, bf16; sinks sk, sv [4, 4, 128] bf16 at SKOFF / SVOFF
+//   cos, sin [P, 32] bf16 (the 32 rotating pairs; dims d and d+64 share frequency d, d < 32)
+// Kernels: QDecodeP (SIMT) and QDecodePX (XMX / DPAS) for the quantized sub-blocks, XDecodeP for sinks + exact tokens,
+// Combine for the split merge. One work-group = one 16-lane sub-group. Partials (m, l, acc) per split are merged by
+// combine(), which applies the 128-point Hadamard to the quantized part with an in-register FWHT.
+#include <sycl/sycl.hpp>
+#include <torch/extension.h>
+#include <c10/xpu/XPUStream.h>
+#include <cstdint>
+#include <type_traits>
+#include <sycl/ext/intel/experimental/grf_size_properties.hpp>
+
+// XMX (DPAS) operand types for one sg16 bf16 multiply-accumulate with M = 4 rows, K = 16, N = 16:
+//   A short4 (lane = k, component = row), B int8 (lane = n, dword j = rows 2j | 2j+1 << 16, VNNI), C float4 (lane = n,
+//   component = row). GCC vector types: the host side of this file is compiled by g++.
+typedef short xv4s __attribute__((vector_size(8)));
+typedef int xv8i __attribute__((vector_size(32)));
+typedef float xv4f __attribute__((vector_size(16)));
+#ifdef __SYCL_DEVICE_ONLY__
+SYCL_EXTERNAL xv4f intel_sub_group_bf16_bf16_matrix_mad_k16(xv4s, xv8i, xv4f);   // IGC builtin (cl_intel_subgroup_matrix_multiply_accumulate)
+#endif
+
+namespace {
+constexpr int SG = 16;
+constexpr int BLK = 256;
+constexpr float NEG_INF = -__builtin_huge_valf();
+
+inline float bf2f(uint16_t x) { return sycl::bit_cast<float>(uint32_t(x) << 16); }
+inline float bfround(float f) {                       // round to bf16 (nearest even) and back
+  uint32_t u = sycl::bit_cast<uint32_t>(f);
+  u += 0x7FFFu + ((u >> 16) & 1u);
+  return sycl::bit_cast<float>(u & 0xFFFF0000u);
+}
+inline float f8(uint8_t v) {                          // fp8 e4m3fn -> float (no NaN handling needed for scales)
+  const uint32_t e = (v >> 3) & 0xFu, m = v & 7u;
+  const float mag = e ? sycl::bit_cast<float>(((e + 120u) << 23) | (m << 20)) : float(m) * 0.001953125f;
+  return (v & 0x80u) ? -mag : mag;
+}
+
+
+struct QDecodeP {   // program = (b*4 + kv head) x split; q and per-block scales are sub-group-uniform registers
+  const uint16_t* q; const uint8_t* qp; const int64_t* boff; int bstride; const int* nq;
+  const uint16_t* cos; const uint16_t* sin; float* mo; float* lo; float* ao;
+  int ns, spb; float scale;
+
+  [[sycl::reqd_sub_group_size(SG)]] void operator()(sycl::nd_item<1> it) const {
+    auto sg = it.get_sub_group();
+    const int wg = it.get_group(0), lane = it.get_local_id(0);
+    const int bh = wg / ns, s = wg % ns, b = bh >> 2, h = bh & 3;
+    const uint16_t* qb = q + ((int64_t)b * 16 + h * 4) * 128;
+    float uq0[32][4], uq2[32][4], uqs1[32][4], uqs3[32][4], uks[32][4];
+#pragma unroll
+    for (int j = 0; j < 32; ++j)
+#pragma unroll
+      for (int r = 0; r < 4; ++r) { uq0[j][r] = bf2f(qb[r * 128 + j]); uq2[j][r] = bf2f(qb[r * 128 + 64 + j]); }
+    float m[4], lp[4], lvp[4], acc[4][8];
+#pragma unroll
+    for (int r = 0; r < 4; ++r) {
+      m[r] = -1e30f; lp[r] = 0.f; lvp[r] = 0.f;
+#pragma unroll
+      for (int i = 0; i < 8; ++i) acc[r][i] = 0.f;
+    }
+    const int j0 = s * spb, j1 = sycl::min(j0 + spb, nq[b]);
+    for (int jb = j0; jb < j1; ++jb) {
+      const int64_t base = boff[(int64_t)b * bstride + jb];
+      const uint8_t* klo = qp + base + 50176 + h * 128;
+      const uint8_t* ksc = qp + base + 50688 + h * 128;
+      float c13[4] = {0.f, 0.f, 0.f, 0.f};
+#pragma unroll
+      for (int j = 0; j < 32; ++j) {
+        const float sc1 = f8(ksc[32 + j]), lo1 = f8(klo[32 + j]), sc3 = f8(ksc[96 + j]), lo3 = f8(klo[96 + j]);
+#pragma unroll
+        for (int r = 0; r < 4; ++r) {
+          const float q1 = bf2f(qb[r * 128 + 32 + j]), q3 = bf2f(qb[r * 128 + 96 + j]);
+          uqs1[j][r] = q1 * sc1; uqs3[j][r] = q3 * sc3;
+          c13[r] += q1 * lo1 + q3 * lo3;
+        }
+        uks[j][0] = f8(ksc[j]); uks[j][1] = f8(klo[j]); uks[j][2] = f8(ksc[64 + j]); uks[j][3] = f8(klo[64 + j]);
+      }
+      for (int t0 = 0; t0 < BLK; t0 += SG) {
+        const int tr = t0 + lane;                                   // token row in the sub-block
+        const int64_t pos = (int64_t)jb * BLK + tr;
+        const uint8_t* vrow = qp + base + 32768 + ((int64_t)t0 * 4 + h) * 16 + lane;
+        uint32_t vbyte[SG];
+#pragma unroll
+        for (int t = 0; t < SG; ++t) vbyte[t] = vrow[(int64_t)t * 64];
+        const sycl::vec<uint32_t, 4>* kp = reinterpret_cast<const sycl::vec<uint32_t, 4>*>(qp + base + ((int64_t)tr * 4 + h) * 32);
+        const sycl::vec<uint32_t, 4> kw0 = kp[0], kw1 = kp[1];
+        const sycl::vec<uint32_t, 4>* cp4 = reinterpret_cast<const sycl::vec<uint32_t, 4>*>(cos + pos * 32);
+        const sycl::vec<uint32_t, 4>* sp4 = reinterpret_cast<const sycl::vec<uint32_t, 4>*>(sin + pos * 32);
+        uint32_t kw[8];
+#pragma unroll
+        for (int i = 0; i < 4; ++i) { kw[i] = kw0[i]; kw[4 + i] = kw1[i]; }
+        float sc[4] = {c13[0], c13[1], c13[2], c13[3]};
+#pragma unroll
+        for (int j = 0; j < 32; ++j) {
+          const sycl::vec<uint32_t, 4> c4 = cp4[j >> 3], s4 = sp4[j >> 3];
+          const uint32_t byte = (kw[j >> 2] >> (8 * (j & 3))) & 0xFFu;
+          const float c0 = float(byte & 3u), c1 = float((byte >> 2) & 3u), c2 = float((byte >> 4) & 3u), c3 = float(byte >> 6);
+          const float cs = bf2f(uint16_t(c4[(j & 7) >> 1] >> (16 * (j & 1)))), sn = bf2f(uint16_t(s4[(j & 7) >> 1] >> (16 * (j & 1))));
+          const float k0 = c0 * uks[j][0] + uks[j][1], k2 = c2 * uks[j][2] + uks[j][3];
+          const float kr0 = k0 * cs - k2 * sn, kr2 = k2 * cs + k0 * sn;
+#pragma unroll
+          for (int r = 0; r < 4; ++r) sc[r] += uq0[j][r] * kr0 + uq2[j][r] * kr2 + uqs1[j][r] * c1 + uqs3[j][r] * c3;
+        }
+        const float vl = f8(qp[base + 49152 + tr * 2 + (h >> 1)]), vs = f8(qp[base + 49664 + tr * 2 + (h >> 1)]);
+        float pv[4];
+#pragma unroll
+        for (int r = 0; r < 4; ++r) {
+          const float x = sc[r] * scale;
+          const float mn = sycl::max(m[r], sycl::reduce_over_group(sg, x, sycl::maximum<float>()));
+          const float al = sycl::exp2(m[r] - mn), p = sycl::exp2(x - mn);
+          m[r] = mn; lp[r] = lp[r] * al + p; lvp[r] = lvp[r] * al + p * vl; pv[r] = p * vs;
+#pragma unroll
+          for (int i = 0; i < 8; ++i) acc[r][i] *= al;
+        }
+#pragma unroll
+        for (int t = 0; t < SG; ++t) {
+          const uint32_t byte = vbyte[t];
+          float w[4];
+#pragma unroll
+          for (int r = 0; r < 4; ++r) w[r] = sycl::select_from_group(sg, pv[r], t);
+#pragma unroll
+          for (int i = 0; i < 8; ++i) {
+            const float bit = float((byte >> i) & 1u);
+#pragma unroll
+            for (int r = 0; r < 4; ++r) acc[r][i] += w[r] * bit;
+          }
+        }
+      }
+    }
+    const int64_t o = (int64_t)b * (ns + 1) + s;
+#pragma unroll
+    for (int r = 0; r < 4; ++r) {
+      const float l = sycl::reduce_over_group(sg, lp[r], sycl::plus<float>());
+      const float lv = sycl::reduce_over_group(sg, lvp[r], sycl::plus<float>());
+      const int64_t row = o * 16 + h * 4 + r;
+      if (lane == 0) { mo[row] = m[r]; lo[row] = l; }
+#pragma unroll
+      for (int i = 0; i < 8; ++i) ao[row * 128 + lane + 16 * i] = acc[r][i] + lv;
+    }
+  }
+};
+
+inline xv4f dpas(xv4s a, xv8i b, xv4f c) {            // c += a (4 x 16 bf16) @ b (16 x 16 bf16), fp32
+#ifdef __SYCL_DEVICE_ONLY__
+  return intel_sub_group_bf16_bf16_matrix_mad_k16(a, b, c);
+#else
+  (void)a; (void)b; return c;
+#endif
+}
+inline uint32_t f2bf(float x) {                        // fp32 -> bf16 bits, round to nearest even
+#ifdef __SYCL_DEVICE_ONLY__
+  return __spirv_ConvertFToBF16INTEL(x);
+#else
+  const uint32_t u = sycl::bit_cast<uint32_t>(x);
+  return (u + 0x7FFFu + ((u >> 16) & 1u)) >> 16;
+#endif
+}
+inline float asf(uint32_t u) { return sycl::bit_cast<float>(u); }
+inline uint32_t shl(uint32_t x, int s) { return s >= 0 ? x << s : x >> -s; }   // s is a constant after unrolling
+
+// XMX variant of QDecode: one sub-group per (b, kv head, split), 16-token tiles, QK and PV on DPAS (M = 4 query rows).
+// QK: C[4 x 16 tok] = A[4 x 128 features] @ B[128 features x 16 tok], 8 K-chunks of 16 features:
+//   chunks 0-3: RoPE planes. Chunk c, B dword m (lane = token) = bf16 (kr0, kr2) of dim d = 8c + m with
+//               k = f * S + T, f = 1 + code/4 (fp32 bit trick), S = 4 sc, T = lo - 4 sc; A lane l = q[d + 64 (l & 1)],
+//               d = 8c + (l >> 1).
+//   chunks 4-5 / 6-7: NoPE planes 1 / 3. B = bf16 (1 + code/4) straight from the code bytes (0x3F80 | code << 5);
+//               A = bf16(4 q sc) per block, constant part sum(q lo) - sum(A) folded into the accumulator init (c13).
+//               Chunk 4 + cc, B dword m = bytes (4w + (m & 1), 4w + 2 + (m & 1)) of K word w = 4cc + (m >> 1);
+//               A lane l = dim jl = 16cc + 4 (l >> 2) + ((l >> 1) & 1) + 2 (l & 1).
+// PV: acc chunk i [4 x 16 dims 16i + lane] += A[4 x 16 tok] @ B[16 tok x 16 dims]: A lane t = bf16(p * vs / 2) of
+//   token t, B = 2.0 * bit i of byte `lane` (bf16 0x4000 = bit moved to bit 14 / 30 of the token-pair word).
+// Softmax: lazy max (rescale only when a score exceeds the running max by > 8 in log2 units, p <= 256).
+struct QDecodePX {   // paged XMX variant (GRF 128)
+  const uint16_t* q; const uint8_t* qp; const int64_t* boff; int bstride; const int* nq;
+  const uint16_t* cos; const uint16_t* sin; float* mo; float* lo; float* ao;
+  int ns, spb; float scale;
+
+  auto get(sycl::ext::oneapi::experimental::properties_tag) const {
+    namespace ie = sycl::ext::intel::experimental;
+    return sycl::ext::oneapi::experimental::properties{ie::grf_size<128>};
+  }
+
+  [[sycl::reqd_sub_group_size(SG)]] void operator()(sycl::nd_item<1> it) const {
+    auto sg = it.get_sub_group();
+    const int wg = it.get_group(0), lane = it.get_local_id(0);
+    const int bh = wg / ns, s = wg % ns, b = bh >> 2, h = bh & 3;
+    const uint16_t* qb = q + ((int64_t)b * 16 + h * 4) * 128;     // the 4 query rows of this kv head
+    xv4s aq[8];
+#pragma unroll
+    for (int c = 0; c < 4; ++c) {
+      const int dq = 8 * c + (lane >> 1) + 64 * (lane & 1);
+#pragma unroll
+      for (int r = 0; r < 4; ++r) aq[c][r] = (short)qb[r * 128 + dq];
+    }
+    int jl[2];
+#pragma unroll
+    for (int cc = 0; cc < 2; ++cc) jl[cc] = 16 * cc + 4 * (lane >> 2) + ((lane >> 1) & 1) + 2 * (lane & 1);
+    float m[4], lp[4], lvp[4];
+    xv4f acc[8];
+#pragma unroll
+    for (int r = 0; r < 4; ++r) { m[r] = -1e30f; lp[r] = 0.f; lvp[r] = 0.f; }
+#pragma unroll
+    for (int i = 0; i < 8; ++i) { const xv4f z = {0.f, 0.f, 0.f, 0.f}; acc[i] = z; }
+    const int j0 = s * spb, j1 = sycl::min(j0 + spb, nq[b]);
+    for (int jb = j0; jb < j1; ++jb) {
+      const int64_t base = boff[(int64_t)b * bstride + jb];
+      const uint8_t* klo = qp + base + 50176 + h * 128;
+      const uint8_t* ksc = qp + base + 50688 + h * 128;
+      constexpr int so = 0;
+      // ---- per block: A of planes 1/3 and their constant part
+      float cp[4] = {0.f, 0.f, 0.f, 0.f};
+#pragma unroll
+      for (int cc = 0; cc < 2; ++cc) {
+        const int j = jl[cc];
+        const float s1 = 4.f * f8(ksc[so + 32 + j]), l1 = f8(klo[so + 32 + j]);
+        const float s3 = 4.f * f8(ksc[so + 96 + j]), l3 = f8(klo[so + 96 + j]);
+#pragma unroll
+        for (int r = 0; r < 4; ++r) {
+          const float q1 = bf2f(qb[r * 128 + 32 + j]), q3 = bf2f(qb[r * 128 + 96 + j]);
+          const uint32_t u1 = f2bf(q1 * s1), u3 = f2bf(q3 * s3);
+          aq[4 + cc][r] = (short)u1; aq[6 + cc][r] = (short)u3;
+          cp[r] += q1 * l1 + q3 * l3 - bf2f(uint16_t(u1)) - bf2f(uint16_t(u3));
+        }
+      }
+      float c13[4];
+#pragma unroll
+      for (int r = 0; r < 4; ++r) c13[r] = sycl::reduce_over_group(sg, cp[r], sycl::plus<float>());
+      // ---- per block: RoPE-plane dequant k = f * S + T, computed for d = lane, lane + 16, broadcast as uniforms
+      float S0[32], T0[32], S2[32], T2[32];
+      {
+        float s0v[2], t0v[2], s2v[2], t2v[2];
+#pragma unroll
+        for (int k = 0; k < 2; ++k) {
+          const int d = lane + 16 * k;
+          s0v[k] = 4.f * f8(ksc[so + d]); t0v[k] = f8(klo[so + d]) - s0v[k];
+          s2v[k] = 4.f * f8(ksc[so + 64 + d]); t2v[k] = f8(klo[so + 64 + d]) - s2v[k];
+        }
+#pragma unroll
+        for (int d = 0; d < 32; ++d) {
+          S0[d] = sycl::select_from_group(sg, s0v[d >> 4], d & 15); T0[d] = sycl::select_from_group(sg, t0v[d >> 4], d & 15);
+          S2[d] = sycl::select_from_group(sg, s2v[d >> 4], d & 15); T2[d] = sycl::select_from_group(sg, t2v[d >> 4], d & 15);
+        }
+      }
+      for (int t0 = 0; t0 < BLK; t0 += SG) {
+        const int tr = t0 + lane;                                  // token row in the sub-block
+        const int64_t pos = (int64_t)jb * BLK + t0 + lane;
+        // V: lane n = byte column n of the tile's 16 tokens, token pairs (2k, 2k+1) in the low / high half of vx[k]
+        const uint8_t* vrow = qp + base + 32768 + ((int64_t)t0 * 4 + h) * 16 + lane;
+        uint32_t vx[8];
+#pragma unroll
+        for (int k = 0; k < 8; ++k) vx[k] = uint32_t(vrow[(int64_t)(2 * k) * 64]) | (uint32_t(vrow[(int64_t)(2 * k + 1) * 64]) << 16);
+        const float vl = f8(qp[base + 49152 + tr * 2 + (h >> 1)]), vs = f8(qp[base + 49664 + tr * 2 + (h >> 1)]);
+        // ---- QK
+        const sycl::vec<uint32_t, 4>* kp = reinterpret_cast<const sycl::vec<uint32_t, 4>*>(qp + base + ((int64_t)tr * 4 + h) * 32);
+        const sycl::vec<uint32_t, 4> kw0 = kp[0], kw1 = kp[1];
+        uint32_t kw[8];
+#pragma unroll
+        for (int i = 0; i < 4; ++i) { kw[i] = kw0[i]; kw[4 + i] = kw1[i]; }
+        const sycl::vec<uint32_t, 4>* cp4 = reinterpret_cast<const sycl::vec<uint32_t, 4>*>(cos + pos * 32);
+        const sycl::vec<uint32_t, 4>* sp4 = reinterpret_cast<const sycl::vec<uint32_t, 4>*>(sin + pos * 32);
+        xv4f sc = {c13[0], c13[1], c13[2], c13[3]};
+#pragma unroll
+        for (int c = 0; c < 4; ++c) {
+          const sycl::vec<uint32_t, 4> c4 = cp4[c], s4 = sp4[c];       // cos / sin of dims 8c .. 8c+7
+          xv8i bq;
+#pragma unroll
+          for (int mm = 0; mm < 8; ++mm) {
+            const int d = 8 * c + mm, bsh = 8 * (d & 3);
+            const uint32_t w = kw[d >> 2];
+            const float f0 = asf((shl(w, 21 - bsh) & 0x00600000u) | 0x3F800000u);    // code bits -> fp32 mantissa 21-22
+            const float f2 = asf((shl(w, 17 - bsh) & 0x00600000u) | 0x3F800000u);
+            const float k0 = f0 * S0[d] + T0[d], k2 = f2 * S2[d] + T2[d];
+            const uint32_t cw = c4[mm >> 1], sw = s4[mm >> 1];
+            const float cs = asf((mm & 1) ? (cw & 0xFFFF0000u) : (cw << 16));
+            const float sn = asf((mm & 1) ? (sw & 0xFFFF0000u) : (sw << 16));
+            bq[mm] = (int)(f2bf(k0 * cs - k2 * sn) | (f2bf(k2 * cs + k0 * sn) << 16));
+          }
+          sc = dpas(aq[c], bq, sc);
+        }
+#pragma unroll
+        for (int cc = 0; cc < 2; ++cc) {
+          xv8i b1, b3;
+#pragma unroll
+          for (int mm = 0; mm < 8; ++mm) {
+            const uint32_t w = kw[4 * cc + (mm >> 1)];                     // even mm: bytes 0, 2; odd mm: bytes 1, 3
+            b1[mm] = (int)((shl(w, (mm & 1) ? -5 : 3) & 0x00600060u) | 0x3F803F80u);    // plane 1 (bits 2-3) -> 5-6
+            b3[mm] = (int)((shl(w, (mm & 1) ? -9 : -1) & 0x00600060u) | 0x3F803F80u);   // plane 3 (bits 6-7) -> 5-6
+          }
+          sc = dpas(aq[4 + cc], b1, sc);
+          sc = dpas(aq[6 + cc], b3, sc);
+        }
+        // ---- online softmax, lazy rescale
+        float x[4];
+        bool need = false;
+#pragma unroll
+        for (int r = 0; r < 4; ++r) { x[r] = sc[r] * scale; need |= x[r] > m[r] + 8.f; }
+        if (sycl::any_of_group(sg, need)) {
+          xv4f alv;
+#pragma unroll
+          for (int r = 0; r < 4; ++r) {
+            const float mn = sycl::max(m[r], sycl::reduce_over_group(sg, x[r], sycl::maximum<float>()));
+            const float al = sycl::exp2(m[r] - mn);
+            m[r] = mn; lp[r] *= al; lvp[r] *= al; alv[r] = al;
+          }
+#pragma unroll
+          for (int i = 0; i < 8; ++i) acc[i] *= alv;
+        }
+        xv4s pa;
+#pragma unroll
+        for (int r = 0; r < 4; ++r) {
+          const float p = sycl::exp2(x[r] - m[r]);
+          lp[r] += p; lvp[r] += p * vl;
+          pa[r] = (short)f2bf(p * vs * 0.5f);
+        }
+        // ---- PV
+#pragma unroll
+        for (int i = 0; i < 8; ++i) {
+          xv8i bv;
+#pragma unroll
+          for (int k = 0; k < 8; ++k) bv[k] = (int)((vx[k] << (14 - i)) & 0x40004000u);
+          acc[i] = dpas(pa, bv, acc[i]);
+        }
+      }
+    }
+    const int64_t o = (int64_t)b * (ns + 1) + s;
+#pragma unroll
+    for (int r = 0; r < 4; ++r) {
+      const float l = sycl::reduce_over_group(sg, lp[r], sycl::plus<float>());
+      const float lv = sycl::reduce_over_group(sg, lvp[r], sycl::plus<float>());
+      const int64_t row = o * 16 + h * 4 + r;
+      if (lane == 0) { mo[row] = m[r]; lo[row] = l; }
+#pragma unroll
+      for (int i = 0; i < 8; ++i) ao[row * 128 + lane + 16 * i] = acc[i][r] + lv;
+    }
+  }
+};
+
+struct XDecodeP {   // program = b*4 + kv head: sinks + exact positions [lo_e, n) from paged exact storage
+  const uint16_t* q; const uint16_t* ep; const int64_t* eoff; int estride, ebs, e_hs, e_ts, e_v;
+  const uint16_t* skp; const uint16_t* svp; const int64_t* skoff; const int64_t* svoff;
+  const int* n_; const int* nq; const uint16_t* cos; const uint16_t* sin; float* mo; float* lo; float* ao;
+  int ns, win, nsink; float scale;
+  sycl::local_accessor<sycl::float4, 1> slm;          // [0,128): q rows (r = 0..3) at dim d
+
+  template <typename VOff>
+  inline void tile(sycl::sub_group sg, int lane, const uint16_t* K, const uint16_t* V, int64_t koff, int64_t pos, bool valid,
+                   int cnt, VOff voff, const sycl::float4* S, float* m, float* lp, float (*acc)[8]) const {
+    float sc[4] = {0.f, 0.f, 0.f, 0.f};
+    if (valid) {
+      const sycl::vec<uint32_t, 4>* kp = reinterpret_cast<const sycl::vec<uint32_t, 4>*>(K + koff);
+      const sycl::vec<uint32_t, 4>* cp4 = reinterpret_cast<const sycl::vec<uint32_t, 4>*>(cos + pos * 32);
+      const sycl::vec<uint32_t, 4>* sp4 = reinterpret_cast<const sycl::vec<uint32_t, 4>*>(sin + pos * 32);
+#pragma unroll
+      for (int g = 0; g < 4; ++g) {
+        const sycl::vec<uint32_t, 4> w0 = kp[g], w1 = kp[4 + g], w2 = kp[8 + g], w3 = kp[12 + g];
+        const sycl::vec<uint32_t, 4> c4 = cp4[g], s4 = sp4[g];
+#pragma unroll
+        for (int e = 0; e < 8; ++e) {
+          const int j = g * 8 + e;
+          const float k0 = bf2f(uint16_t(w0[e >> 1] >> (16 * (e & 1)))), k1 = bf2f(uint16_t(w1[e >> 1] >> (16 * (e & 1))));
+          const float k2 = bf2f(uint16_t(w2[e >> 1] >> (16 * (e & 1)))), k3 = bf2f(uint16_t(w3[e >> 1] >> (16 * (e & 1))));
+          const float cs = bf2f(uint16_t(c4[e >> 1] >> (16 * (e & 1)))), sn = bf2f(uint16_t(s4[e >> 1] >> (16 * (e & 1))));
+          const float kr0 = bfround(k0 * cs - k2 * sn), kr2 = bfround(k2 * cs + k0 * sn);
+          const sycl::float4 a = S[j], b1 = S[32 + j], c = S[64 + j], d = S[96 + j];
+#pragma unroll
+          for (int r = 0; r < 4; ++r) sc[r] += a[r] * kr0 + b1[r] * k1 + c[r] * kr2 + d[r] * k3;
+        }
+      }
+    }
+    float pr[4];
+#pragma unroll
+    for (int r = 0; r < 4; ++r) {
+      const float x = valid ? sc[r] * scale : NEG_INF;
+      const float mn = sycl::max(m[r], sycl::reduce_over_group(sg, x, sycl::maximum<float>()));
+      const float al = sycl::exp2(m[r] - mn), p = valid ? sycl::exp2(x - mn) : 0.f;
+      m[r] = mn; lp[r] = lp[r] * al + p; pr[r] = p;
+#pragma unroll
+      for (int i = 0; i < 8; ++i) acc[r][i] *= al;
+    }
+    for (int t = 0; t < cnt; ++t) {
+      const sycl::vec<uint32_t, 4> vw = *reinterpret_cast<const sycl::vec<uint32_t, 4>*>(V + voff(t) + 8 * lane);
+      float w[4];
+#pragma unroll
+      for (int r = 0; r < 4; ++r) w[r] = sycl::select_from_group(sg, pr[r], t);
+#pragma unroll
+      for (int e = 0; e < 8; ++e) {
+        const float v = bf2f(uint16_t(vw[e >> 1] >> (16 * (e & 1))));
+#pragma unroll
+        for (int r = 0; r < 4; ++r) acc[r][e] += w[r] * v;
+      }
+    }
+  }
+
+  [[sycl::reqd_sub_group_size(SG)]] void operator()(sycl::nd_item<1> it) const {
+    auto sg = it.get_sub_group();
+    const int bh = it.get_group(0), lane = it.get_local_id(0), b = bh >> 2, h = bh & 3;
+    sycl::float4* S = &slm[0];
+#pragma unroll
+    for (int k = 0; k < 8; ++k) {
+      const int d = lane + 16 * k;
+      sycl::float4 a;
+#pragma unroll
+      for (int r = 0; r < 4; ++r) a[r] = bf2f(q[((int64_t)b * 16 + h * 4 + r) * 128 + d]);
+      S[d] = a;
+    }
+    sycl::group_barrier(it.get_group());
+    float m[4], lp[4], acc[4][8];
+#pragma unroll
+    for (int r = 0; r < 4; ++r) {
+      m[r] = -1e30f; lp[r] = 0.f;
+#pragma unroll
+      for (int i = 0; i < 8; ++i) acc[r][i] = 0.f;
+    }
+    const int n = n_[b];
+    int lo_e = nq[b] * BLK;
+    if (win > 0) lo_e = sycl::max(lo_e, n - win);
+    if (nsink > 0) {
+      const int cnt = sycl::min(sycl::min(nsink, lo_e), n);
+      if (cnt > 0) {
+        const bool valid = lane < cnt;
+        const int64_t kb = skoff[b], vb = svoff[b];
+        auto voff = [&](int t) { return vb + ((int64_t)t * 4 + h) * 128; };
+        tile(sg, lane, skp, svp, kb + ((int64_t)(valid ? lane : 0) * 4 + h) * 128, lane, valid, cnt, voff, S, m, lp, acc);
+      }
+    }
+    const int64_t* et = eoff + (int64_t)b * estride;
+    for (int p0 = lo_e; p0 < n; p0 += SG) {
+      const int cnt = sycl::min(SG, n - p0);
+      const bool valid = lane < cnt;
+      auto koff = [&](int p) { return et[p / ebs] + (int64_t)h * e_hs + (int64_t)(p % ebs) * e_ts; };
+      auto voff = [&](int t) { return koff(p0 + t) + e_v; };
+      tile(sg, lane, ep, ep, koff(valid ? p0 + lane : p0), p0 + lane, valid, cnt, voff, S, m, lp, acc);
+    }
+    const int64_t o = (int64_t)b * (ns + 1) + ns;
+#pragma unroll
+    for (int r = 0; r < 4; ++r) {
+      const float l = sycl::reduce_over_group(sg, lp[r], sycl::plus<float>());
+      const int64_t row = o * 16 + h * 4 + r;
+      if (lane == 0) { mo[row] = m[r]; lo[row] = l; }
+#pragma unroll
+      for (int e = 0; e < 8; ++e) ao[row * 128 + 8 * lane + e] = acc[r][e];
+    }
+  }
+};
+
+struct Combine {   // one work-group per (b, query row); lane owns dims 8*lane .. 8*lane+7
+  const float* mo; const float* lo; const float* ao; uint16_t* out; int ns;
+  [[sycl::reqd_sub_group_size(SG)]] void operator()(sycl::nd_item<1> it) const {
+    auto sg = it.get_sub_group();
+    const int g = it.get_group(0), lane = it.get_local_id(0), b = g >> 4, r = g & 15;
+    const int S = ns + 1;
+    float M = NEG_INF;
+    for (int s = 0; s < S; ++s) M = sycl::max(M, mo[((int64_t)b * S + s) * 16 + r]);
+    float L = 0.f, xq[8] = {0, 0, 0, 0, 0, 0, 0, 0}, xe[8];
+    for (int s = 0; s < S; ++s) {
+      const int64_t row = ((int64_t)b * S + s) * 16 + r;
+      const float w = sycl::exp2(mo[row] - M);
+      L += w * lo[row];
+      const float* a = ao + row * 128 + 8 * lane;
+      if (s < ns) {
+#pragma unroll
+        for (int e = 0; e < 8; ++e) xq[e] += w * a[e];
+      } else {
+#pragma unroll
+        for (int e = 0; e < 8; ++e) xe[e] = w * a[e];
+      }
+    }
+    if (ns > 0) {                                       // y = H x (Sylvester, normalized): FWHT over d = 8*lane + e
+#pragma unroll
+      for (int k = 0; k < 3; ++k) {
+#pragma unroll
+        for (int e = 0; e < 8; ++e) {
+          if (!(e & (1 << k))) { const float a = xq[e], c = xq[e | (1 << k)]; xq[e] = a + c; xq[e | (1 << k)] = a - c; }
+        }
+      }
+#pragma unroll
+      for (int k = 0; k < 4; ++k) {
+        const int msk = 1 << k;
+#pragma unroll
+        for (int e = 0; e < 8; ++e) {
+          const float pv = sycl::permute_group_by_xor(sg, xq[e], msk);
+          xq[e] = (lane & msk) ? pv - xq[e] : xq[e] + pv;
+        }
+      }
+    }
+    const float inv = 1.f / L, hn = 0.08838834764831845f;   // 1/sqrt(128)
+#pragma unroll
+    for (int e = 0; e < 8; ++e) {
+      const float y = (xq[e] * hn + xe[e]) * inv;
+      uint32_t u = sycl::bit_cast<uint32_t>(y);
+      u += 0x7FFFu + ((u >> 16) & 1u);
+      out[((int64_t)b * 16 + r) * 128 + 8 * lane + e] = uint16_t(u >> 16);
+    }
+  }
+};
+
+template <typename T> const T* P(const at::Tensor& t) { return reinterpret_cast<const T*>(t.data_ptr()); }
+template <typename T> T* W(at::Tensor& t) { return reinterpret_cast<T*>(t.data_ptr()); }
+
+
+void qdecode(const at::Tensor& q, const at::Tensor& qp, const at::Tensor& boff, const at::Tensor& nq, const at::Tensor& cos,
+             const at::Tensor& sin, at::Tensor mo, at::Tensor lo, at::Tensor ao, int64_t ns, int64_t spb, double scale,
+             int64_t xmx) {
+  const int64_t B = q.size(0);
+  if (ns <= 0) return;
+  if (xmx) {
+    QDecodePX kx{P<uint16_t>(q), P<uint8_t>(qp), P<int64_t>(boff), (int)boff.stride(0), P<int>(nq), P<uint16_t>(cos),
+                 P<uint16_t>(sin), W<float>(mo), W<float>(lo), W<float>(ao), (int)ns, (int)spb, (float)scale};
+    auto& qx = c10::xpu::getCurrentXPUStream().queue();
+    qx.submit([&](sycl::handler& hd) { hd.parallel_for(sycl::nd_range<1>(B * 4 * ns * SG, SG), kx); });
+    return;
+  }
+  QDecodeP k{P<uint16_t>(q), P<uint8_t>(qp), P<int64_t>(boff), (int)boff.stride(0), P<int>(nq), P<uint16_t>(cos),
+             P<uint16_t>(sin), W<float>(mo), W<float>(lo), W<float>(ao), (int)ns, (int)spb, (float)scale};
+  auto& qu = c10::xpu::getCurrentXPUStream().queue();
+  qu.submit([&](sycl::handler& hd) { hd.parallel_for(sycl::nd_range<1>(B * 4 * ns * SG, SG), k); });
+}
+
+void xdecode(const at::Tensor& q, const at::Tensor& ep, const at::Tensor& eoff, int64_t ebs, int64_t e_hs, int64_t e_ts,
+             int64_t e_v, const at::Tensor& skp, const at::Tensor& svp, const at::Tensor& skoff, const at::Tensor& svoff,
+             const at::Tensor& n, const at::Tensor& nq, const at::Tensor& cos, const at::Tensor& sin, at::Tensor mo,
+             at::Tensor lo, at::Tensor ao, int64_t ns, double scale, int64_t win, int64_t nsink) {
+  const int64_t B = q.size(0);
+  XDecodeP k{P<uint16_t>(q), P<uint16_t>(ep), P<int64_t>(eoff), (int)eoff.stride(0), (int)ebs, (int)e_hs, (int)e_ts,
+             (int)e_v, P<uint16_t>(skp), P<uint16_t>(svp), P<int64_t>(skoff), P<int64_t>(svoff), P<int>(n), P<int>(nq),
+             P<uint16_t>(cos), P<uint16_t>(sin), W<float>(mo), W<float>(lo), W<float>(ao), (int)ns, (int)win, (int)nsink,
+             (float)scale, {}};
+  auto& qu = c10::xpu::getCurrentXPUStream().queue();
+  qu.submit([&](sycl::handler& hd) {
+    XDecodeP kk = k; kk.slm = sycl::local_accessor<sycl::float4, 1>(128, hd);
+    hd.parallel_for(sycl::nd_range<1>(B * 4 * SG, SG), kk);
+  });
+}
+
+at::Tensor combine(const at::Tensor& mo, const at::Tensor& lo, const at::Tensor& ao, int64_t ns) {
+  const int64_t B = mo.size(0);
+  auto out = at::empty({B, 16, 128}, mo.options().dtype(at::kBFloat16));
+  Combine k{P<float>(mo), P<float>(lo), P<float>(ao), W<uint16_t>(out), (int)ns};
+  auto& qu = c10::xpu::getCurrentXPUStream().queue();
+  qu.submit([&](sycl::handler& hd) { hd.parallel_for(sycl::nd_range<1>(B * 16 * SG, SG), k); });
+  return out;
+}
+}  // namespace
+
+TORCH_LIBRARY(kv800, m) {
+  m.def("qdecode(Tensor q, Tensor qp, Tensor boff, Tensor nq, Tensor cos, Tensor sin, Tensor(a!) mo, Tensor(b!) lo, "
+        "Tensor(c!) ao, int ns, int spb, float scale, int xmx) -> ()");
+  m.def("xdecode(Tensor q, Tensor ep, Tensor eoff, int ebs, int e_hs, int e_ts, int e_v, Tensor skp, Tensor svp, "
+        "Tensor skoff, Tensor svoff, Tensor n, Tensor nq, Tensor cos, Tensor sin, Tensor(a!) mo, Tensor(b!) lo, "
+        "Tensor(c!) ao, int ns, float scale, int win, int nsink) -> ()");
+  m.def("combine(Tensor mo, Tensor lo, Tensor ao, int ns) -> Tensor");
+}
+TORCH_LIBRARY_IMPL(kv800, XPU, m) {
+  m.impl("qdecode", &qdecode);
+  m.impl("xdecode", &xdecode);
+  m.impl("combine", &combine);
+}
