@@ -24,7 +24,7 @@ Full results, method and limitations are on the model card: **https://huggingfac
 | `examples/` | SFT and TRL GRPO examples (GRPO untested) |
 | `eval/` | concurrency, needles, rollouts, throughput sweep; results in `eval/RESULTS_RELEASE.md` |
 | `tests/` | kernel parity (12 cases, every backend) |
-| `nvidia/` | one-click NVIDIA (Kaggle/Colab) check |
+| `nvidia/` | one-click NVIDIA (Kaggle/Colab) check: on a free T4, parity passes and needles score 21/24 (stock 24/24); the Triton kernels are not yet tuned for NVIDIA (25.6 ms/layer at 64x32K) |
 | `docker/`, `scripts/` | B70 image Dockerfile, SYCL op build script |
 
 ## Quick start

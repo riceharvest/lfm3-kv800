@@ -1,0 +1,588 @@
+{
+ "env": {
+  "python": "3.13.16",
+  "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "triton": "3.6.0",
+  "triton_import_error": null,
+  "kaggle": true,
+  "colab": true,
+  "transformers": "5.20.2",
+  "gpu": "Tesla T4",
+  "n_gpus": 2,
+  "capability": "7.5",
+  "sm": 75,
+  "vram_gb": 14.6,
+  "free_gb": 14.5,
+  "arch_list": [
+   "sm_75",
+   "sm_80",
+   "sm_86",
+   "sm_90",
+   "sm_100",
+   "sm_120"
+  ],
+  "cudnn": 92700,
+  "peak_gbs": 320,
+  "bf16_native": false,
+  "torch_bf16_supported_no_emulation": false,
+  "torch_fp8_cast": true,
+  "package_version": "0.1.0"
+ },
+ "probes": {
+  "bf16 load/round": "ok",
+  "fp8e4nv bitcast (needs sm89)": "unsupported here (expected below sm_89): CompilationError <- ValueError: type fp8e4nv not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e5')",
+  "fp8 integer decode (shim)": "ok",
+  "launch kwarg warp_size=16": "ok"
+ },
+ "parity": [
+  {
+   "backend": "triton",
+   "win": 0,
+   "n": 50,
+   "rel": 0.001686456031166017,
+   "maxabs": 0.007398366928100586,
+   "nq": 0,
+   "ok": true
+  },
+  {
+   "backend": "triton",
+   "win": 0,
+   "n": 383,
+   "rel": 0.0016898743342608213,
+   "maxabs": 0.006874799728393555,
+   "nq": 0,
+   "ok": true
+  },
+  {
+   "backend": "triton",
+   "win": 0,
+   "n": 384,
+   "rel": 0.004184800200164318,
+   "maxabs": 0.05132150650024414,
+   "nq": 1,
+   "ok": true
+  },
+  {
+   "backend": "triton",
+   "win": 0,
+   "n": 700,
+   "rel": 0.005524521693587303,
+   "maxabs": 0.04472470283508301,
+   "nq": 2,
+   "ok": true
+  },
+  {
+   "backend": "triton",
+   "win": 0,
+   "n": 1500,
+   "rel": 0.005808311514556408,
+   "maxabs": 0.05098915100097656,
+   "nq": 5,
+   "ok": true
+  },
+  {
+   "backend": "triton",
+   "win": 0,
+   "n": 5000,
+   "rel": 0.005627560429275036,
+   "maxabs": 0.052442073822021484,
+   "nq": 19,
+   "ok": true,
+   "kernels": [
+    "Activity Buffer Request",
+    "_qdec",
+    "_xdec",
+    "cuLaunchKernel",
+    "cuLaunchKernelEx",
+    "cudaDeviceSynchronize",
+    "cudaLaunchKernel",
+    "cudaOccupancyMaxActiveBlocksPerMultiprocessor",
+    "exp2_kernel_vectorized4_kernel",
+    "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::DivFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::DivFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::DivFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::DivFunctor<float> > const&)::{lambda(int)#1})",
+    "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1})",
+    "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<float> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<float> const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<float> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<float> const&)::{lambda(int)#1})",
+    "void at::native::reduce_kernel<128, 4, at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::MaxNanFunctor<float> >, unsigned int, float, 4, 4> >(at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::MaxNanFunctor<float> >, unsigned int, float, 4, 4>)",
+    "void at::native::reduce_kernel<128, 4, at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, float, 4, 4> >(at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, float, 4, 4>)",
+    "void at::native::vectorized_elementwise_kernel<2, at::native::BUnaryFunctor<long, long, long, at::native::binary_internal::div_floor_kernel_cuda(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long, long)#1}>, std::array<char*, 2ul> >(int, at::native::BUnaryFunctor<long, long, long, at::native::binary_internal::div_floor_kernel_cuda(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long, long)#1}>, std::array<char*, 2ul>)",
+    "void at::native::vectorized_elementwise_kernel<4, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 3ul> >(int, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 3ul>)",
+    "void at::native::vectorized_elementwise_kernel<4, at::native::CUDAFunctor_add<float>, std::array<char*, 3ul> >(int, at::native::CUDAFunctor_add<float>, std::array<char*, 3ul>)",
+    "void at::native::vectorized_elementwise_kernel<4, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(float)#1}, std::array<char*, 2ul> >(int, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(float)#1}, std::array<char*, 2ul>)",
+    "volta_sgemm_32x32_sliced1x4_nn"
+   ],
+   "triton_ran": true
+  },
+  {
+   "backend": "triton",
+   "win": 256,
+   "n": 3,
+   "rel": 0.0016043770592659712,
+   "maxabs": 0.007722377777099609,
+   "nq": 0,
+   "ok": true
+  },
+  {
+   "backend": "triton",
+   "win": 256,
+   "n": 10,
+   "rel": 0.0015833125216886401,
+   "maxabs": 0.007664680480957031,
+   "nq": 0,
+   "ok": true
+  },
+  {
+   "backend": "triton",
+   "win": 256,
+   "n": 200,
+   "rel": 0.0016442745691165328,
+   "maxabs": 0.006548166275024414,
+   "nq": 0,
+   "ok": true
+  },
+  {
+   "backend": "triton",
+   "win": 256,
+   "n": 259,
+   "rel": 0.0016743855085223913,
+   "maxabs": 0.007383584976196289,
+   "nq": 0,
+   "ok": true
+  },
+  {
+   "backend": "triton",
+   "win": 256,
+   "n": 260,
+   "rel": 0.0016846393700689077,
+   "maxabs": 0.0073680877685546875,
+   "nq": 0,
+   "ok": true
+  },
+  {
+   "backend": "triton",
+   "win": 256,
+   "n": 1500,
+   "rel": 0.0016182655235752463,
+   "maxabs": 0.005815267562866211,
+   "nq": 0,
+   "ok": true
+  },
+  {
+   "backend": "triton",
+   "win": 0,
+   "n": 1500,
+   "qdtype": "fp16",
+   "rel": 0.005808311514556408,
+   "info": true
+  },
+  {
+   "backend": "triton",
+   "win": 256,
+   "n": 1500,
+   "qdtype": "fp16",
+   "rel": 0.0016182655235752463,
+   "info": true
+  },
+  {
+   "backend": "torch",
+   "win": 0,
+   "n": 50,
+   "rel": 0.0016864557983353734,
+   "maxabs": 0.007398366928100586,
+   "nq": 0,
+   "ok": true
+  },
+  {
+   "backend": "torch",
+   "win": 0,
+   "n": 383,
+   "rel": 0.0016898743342608213,
+   "maxabs": 0.006874799728393555,
+   "nq": 0,
+   "ok": true
+  },
+  {
+   "backend": "torch",
+   "win": 0,
+   "n": 384,
+   "rel": 0.0016799434088170528,
+   "maxabs": 0.015278339385986328,
+   "nq": 1,
+   "ok": true
+  },
+  {
+   "backend": "torch",
+   "win": 0,
+   "n": 700,
+   "rel": 0.001689972821623087,
+   "maxabs": 0.014059066772460938,
+   "nq": 2,
+   "ok": true
+  },
+  {
+   "backend": "torch",
+   "win": 0,
+   "n": 1500,
+   "rel": 0.0016179498052224517,
+   "maxabs": 0.015264511108398438,
+   "nq": 5,
+   "ok": true
+  },
+  {
+   "backend": "torch",
+   "win": 0,
+   "n": 5000,
+   "rel": 0.0015508506912738085,
+   "maxabs": 0.013934612274169922,
+   "nq": 19,
+   "ok": true,
+   "kernels": [
+    "Activity Buffer Request",
+    "Memcpy DtoD (Device -> Device)",
+    "Memcpy DtoH (Device -> Pageable)",
+    "cudaDeviceSynchronize",
+    "cudaLaunchKernel",
+    "cudaMemcpyAsync",
+    "cudaStreamIsCapturing",
+    "cudaStreamSynchronize",
+    "void (anonymous namespace)::elementwise_kernel_with_index<int, at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}>(int, at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}, function_traits<at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}>::result_type*)",
+    "void at::native::(anonymous namespace)::CatArrayBatchedCopy_vectorized<at::native::(anonymous namespace)::OpaqueType<1u>, unsigned int, 4, 128, 1, 16, 16>(char*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<1u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+    "void at::native::(anonymous namespace)::CatArrayBatchedCopy_vectorized<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 1, 128, 1, 16, 4>(char*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+    "void at::native::(anonymous namespace)::CatArrayBatchedCopy_vectorized<at::native::(anonymous namespace)::OpaqueType<8u>, unsigned int, 1, 128, 1, 16, 2>(char*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<8u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+    "void at::native::(anonymous namespace)::cunn_SoftMaxForwardReg<float, float, float, at::native::(anonymous namespace)::SoftMaxForwardEpilogue, long, 5>(float*, float const*, long)",
+    "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1})",
+    "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<float> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<float> const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<float> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<float> const&)::{lambda(int)#1})",
+    "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<long> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<long> const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<long> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<long> const&)::{lambda(int)#1})",
+    "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1} const&)::{lambda(int)#1})",
+    "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::BUnaryFunctor<unsigned char, unsigned char, unsigned char, at::native::rshift_kernel_cuda(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#1}::operator()() const::{lambda(unsigned char, unsigned char)#1}> >(at::TensorIteratorBase&, at::native::BUnaryFunctor<unsigned char, unsigned char, unsigned char, at::native::rshift_kernel_cuda(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#1}::operator()() const::{lambda(unsigned char, unsigned char)#1}> const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::BUnaryFunctor<unsigned char, unsigned char, unsigned char, at::native::rshift_kernel_cuda(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#1}::operator()() const::{lambda(unsigned char, unsigned char)#1}> >(at::TensorIteratorBase&, at::native::BUnaryFunctor<unsigned char, unsigned char, unsigned char, at::native::rshift_kernel_cuda(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#1}::operator()() const::{lambda(unsigned char, unsigned char)#1}> const&)::{lambda(int)#1})",
+    "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#1}::operator()() const::{lambda(unsigned char)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#1}::operator()() const::{lambda(unsigned char)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#1}::operator()() const::{lambda(unsigned char)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#1}::operator()() const::{lambda(unsigned char)#1} const&)::{lambda(int)#1})",
+    "void at::native::index_elementwise_kernel<128, 4, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<1> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>, at::native::index_kernel_impl<at::native::OpaqueType<1> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1} const&, bool)::{lambda(int)#1}>(long, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<1> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>, at::native::index_kernel_impl<at::native::OpaqueType<1> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1} const&, bool)::{lambda(int)#1})",
+    "void at::native::index_elementwise_kernel<128, 4, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<2> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>, at::native::index_kernel_impl<at::native::OpaqueType<2> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1} const&, bool)::{lambda(int)#1}>(long, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<2> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>, at::native::index_kernel_impl<at::native::OpaqueType<2> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1} const&, bool)::{lambda(int)#1})",
+    "void at::native::index_elementwise_kernel<128, 4, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<8> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>, at::native::index_kernel_impl<at::native::OpaqueType<8> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1} const&, bool)::{lambda(int)#1}>(long, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<8> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>, at::native::index_kernel_impl<at::native::OpaqueType<8> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1} const&, bool)::{lambda(int)#1})",
+    "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>, 4, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1> >(int, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1>)",
+    "void at::native::vectorized_elementwise_kernel<2, at::native::AUnaryFunctor<long, long, long, at::native::binary_internal::MulFunctor<long> >, std::array<char*, 2ul> >(int, at::native::AUnaryFunctor<long, long, long, at::native::binary_internal::MulFunctor<long> >, std::array<char*, 2ul>)",
+    "void at::native::vectorized_elementwise_kernel<2, at::native::BUnaryFunctor<long, long, long, at::native::binary_internal::div_floor_kernel_cuda(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long, long)#1}>, std::array<char*, 2ul> >(int, at::native::BUnaryFunctor<long, long, long, at::native::binary_internal::div_floor_kernel_cuda(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long, long)#1}>, std::array<char*, 2ul>)",
+    "void at::native::vectorized_elementwise_kernel<2, at::native::BUnaryFunctor<long, long, long, at::native::remainder_kernel_cuda(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long, long)#1}>, std::array<char*, 2ul> >(int, at::native::BUnaryFunctor<long, long, long, at::native::remainder_kernel_cuda(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long, long)#1}>, std::array<char*, 2ul>)",
+    "void at::native::vectorized_elementwise_kernel<2, at::native::CUDAFunctorOnSelf_add<long>, std::array<char*, 2ul> >(int, at::native::CUDAFunctorOnSelf_add<long>, std::array<char*, 2ul>)",
+    "void at::native::vectorized_elementwise_kernel<2, at::native::CUDAFunctor_add<long>, std::array<char*, 3ul> >(int, at::native::CUDAFunctor_add<long>, std::array<char*, 3ul>)",
+    "void at::native::vectorized_elementwise_kernel<4, at::native::AUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 2ul> >(int, at::native::AUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 2ul>)",
+    "void at::native::vectorized_elementwise_kernel<4, at::native::AUnaryFunctor<unsigned char, unsigned char, unsigned char, at::native::BitwiseAndFunctor<unsigned char> >, std::array<char*, 2ul> >(int, at::native::AUnaryFunctor<unsigned char, unsigned char, unsigned char, at::native::BitwiseAndFunctor<unsigned char> >, std::array<char*, 2ul>)",
+    "void at::native::vectorized_elementwise_kernel<4, at::native::CUDAFunctor_add<float>, std::array<char*, 3ul> >(int, at::native::CUDAFunctor_add<float>, std::array<char*, 3ul>)",
+    "void at::native::vectorized_elementwise_kernel<4, at::native::FillFunctor<c10::BFloat16>, std::array<char*, 1ul> >(int, at::native::FillFunctor<c10::BFloat16>, std::array<char*, 1ul>)",
+    "void at::native::vectorized_elementwise_kernel<4, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(float)#1}, std::array<char*, 2ul> >(int, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(float)#1}, std::array<char*, 2ul>)",
+    "void at::native::vectorized_gather_kernel<16, long>(char*, char*, long*, int, long, long, long, long, bool)",
+    "void gemmSN_NN_kernel<float, 256, 4, 2, 8, 4, 4, false, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float> >(cublasGemmSmallNParams<cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float>)",
+    "void gemmSN_TN_kernel<float, 128, 16, 2, 4, 4, 4, true, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float> >(cublasGemmSmallNParams<cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float>)",
+    "volta_sgemm_128x64_nn"
+   ],
+   "triton_ran": false
+  },
+  {
+   "backend": "torch",
+   "win": 256,
+   "n": 3,
+   "rel": 0.0016043770592659712,
+   "maxabs": 0.007722377777099609,
+   "nq": 0,
+   "ok": true
+  },
+  {
+   "backend": "torch",
+   "win": 256,
+   "n": 10,
+   "rel": 0.0015833125216886401,
+   "maxabs": 0.007664680480957031,
+   "nq": 0,
+   "ok": true
+  },
+  {
+   "backend": "torch",
+   "win": 256,
+   "n": 200,
+   "rel": 0.0016442745691165328,
+   "maxabs": 0.006548166275024414,
+   "nq": 0,
+   "ok": true
+  },
+  {
+   "backend": "torch",
+   "win": 256,
+   "n": 259,
+   "rel": 0.0016743855085223913,
+   "maxabs": 0.007383584976196289,
+   "nq": 0,
+   "ok": true
+  },
+  {
+   "backend": "torch",
+   "win": 256,
+   "n": 260,
+   "rel": 0.0016846394864842296,
+   "maxabs": 0.0073680877685546875,
+   "nq": 0,
+   "ok": true
+  },
+  {
+   "backend": "torch",
+   "win": 256,
+   "n": 1500,
+   "rel": 0.001618266454897821,
+   "maxabs": 0.005815267562866211,
+   "nq": 0,
+   "ok": true
+  },
+  {
+   "backend": "torch",
+   "win": 0,
+   "n": 1500,
+   "qdtype": "fp16",
+   "rel": 0.0016179498052224517,
+   "info": true
+  },
+  {
+   "backend": "torch",
+   "win": 256,
+   "n": 1500,
+   "qdtype": "fp16",
+   "rel": 0.001618266454897821,
+   "info": true
+  }
+ ],
+ "speed": [
+  {
+   "backend": "triton",
+   "layer": "quant",
+   "B": 64,
+   "n": 32768,
+   "us": 25557.167053222656,
+   "gbs": 17.596161228022087,
+   "pct_peak": 5.498800383756903
+  },
+  {
+   "backend": "torch",
+   "layer": "quant",
+   "B": 64,
+   "n": 32768,
+   "us": 801177.34375,
+   "gbs": 0.5613089729860449,
+   "pct_peak": 0.17540905405813903
+  },
+  {
+   "backend": "triton",
+   "layer": "window",
+   "B": 64,
+   "n": 32768,
+   "us": 333.15041065216064,
+   "gbs": 102.2922947424528,
+   "pct_peak": 31.966342107016498
+  },
+  {
+   "backend": "torch",
+   "layer": "window",
+   "B": 64,
+   "n": 32768,
+   "us": 76707.19604492188,
+   "gbs": 0.444270182683285,
+   "pct_peak": 0.13883443208852658
+  },
+  {
+   "backend": "triton",
+   "layer": "quant",
+   "B": 16,
+   "n": 32768,
+   "us": 12697.179412841797,
+   "gbs": 8.854486838729906,
+   "pct_peak": 2.7670271371030957
+  },
+  {
+   "backend": "torch",
+   "layer": "quant",
+   "B": 16,
+   "n": 32768,
+   "us": 201666.14990234378,
+   "gbs": 0.5574907244197523,
+   "pct_peak": 0.17421585138117263
+  },
+  {
+   "backend": "triton",
+   "layer": "quant",
+   "B": 16,
+   "n": 32768,
+   "num_warps": 1,
+   "us": 6359.950256347656,
+   "gbs": 17.677340776021058,
+   "sweep": true
+  },
+  {
+   "backend": "triton",
+   "layer": "quant",
+   "B": 16,
+   "n": 32768,
+   "num_warps": 2,
+   "us": 6451.630401611329,
+   "gbs": 17.426138975958814,
+   "sweep": true
+  },
+  {
+   "backend": "triton",
+   "layer": "quant",
+   "B": 16,
+   "n": 32768,
+   "num_warps": 4,
+   "us": 6487.2802734375,
+   "gbs": 17.330376253410556,
+   "sweep": true
+  },
+  {
+   "backend": "triton",
+   "layer": "window",
+   "B": 16,
+   "n": 32768,
+   "us": 348.68481159210205,
+   "gbs": 24.4337571260961,
+   "pct_peak": 7.635549101905032
+  },
+  {
+   "backend": "torch",
+   "layer": "window",
+   "B": 16,
+   "n": 32768,
+   "us": 19883.55255126953,
+   "gbs": 0.4284787629389715,
+   "pct_peak": 0.1338996134184286
+  },
+  {
+   "backend": "triton",
+   "layer": "quant",
+   "B": 1,
+   "n": 32768,
+   "us": 530.131196975708,
+   "gbs": 13.254620818555566,
+   "pct_peak": 4.142069005798614
+  },
+  {
+   "backend": "torch",
+   "layer": "quant",
+   "B": 1,
+   "n": 32768,
+   "us": 12823.680114746096,
+   "gbs": 0.5479462944431944,
+   "pct_peak": 0.17123321701349825
+  },
+  {
+   "backend": "triton",
+   "layer": "window",
+   "B": 1,
+   "n": 32768,
+   "us": 338.16640377044683,
+   "gbs": 1.5746094054968767,
+   "pct_peak": 0.492065439217774
+  },
+  {
+   "backend": "torch",
+   "layer": "window",
+   "B": 1,
+   "n": 32768,
+   "us": 1514.2208099365234,
+   "gbs": 0.3516528081676025,
+   "pct_peak": 0.10989150255237579
+  }
+ ],
+ "sdpa": [
+  {
+   "dtype": "bf16",
+   "B": 64,
+   "n": 32768,
+   "error": "RuntimeError: enable_gqa unsupported (OutOfMemoryError: CUDA out of memory. Tried to allocate 16.00 GiB. GPU 0 has a t ...) and the expanded cache does not fit"
+  },
+  {
+   "dtype": "bf16",
+   "B": 16,
+   "n": 32768,
+   "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 4.00 GiB. GPU 0 has a total capacity of 14.56 GiB of which 1.39 GiB is free. Including non-PyTorch memory, this process has 13.17 GiB memory in use. Of the allocated memory 13.02 GiB is allocated by PyTorch, and 17.55 MiB is reserved by PyTorch ..."
+  },
+  {
+   "dtype": "bf16",
+   "B": 1,
+   "n": 32768,
+   "us": 11093.892669677734,
+   "gbs": 6.049171918115325,
+   "how": "enable_gqa",
+   "pct_peak": 1.8903662244110393
+  },
+  {
+   "dtype": "fp16",
+   "B": 64,
+   "n": 32768,
+   "error": "RuntimeError: enable_gqa unsupported (OutOfMemoryError: CUDA out of memory. Tried to allocate 4.00 GiB. GPU 0 has a to ...) and the expanded cache does not fit"
+  },
+  {
+   "dtype": "fp16",
+   "B": 16,
+   "n": 32768,
+   "us": 19158.460998535156,
+   "gbs": 56.04530677501171,
+   "how": "expanded to 16 heads",
+   "pct_peak": 17.51415836719116
+  },
+  {
+   "dtype": "fp16",
+   "B": 1,
+   "n": 32768,
+   "us": 10855.035400390625,
+   "gbs": 6.182279608004322,
+   "how": "enable_gqa",
+   "pct_peak": 1.9319623775013504
+  }
+ ],
+ "e2e": {
+  "backend": "triton",
+  "dtype": "bf16",
+  "lossless": {
+   "max_dlogit": 0.1875,
+   "rel": 0.013232726603746414,
+   "argmax_agree": true
+  },
+  "stock": {
+   "recall": "24/24",
+   "mean_logp": -0.031631205315837484,
+   "per_length": {
+    "1K": "8/8",
+    "4K": "8/8",
+    "16K": "8/8"
+   },
+   "prefill_tok_s": 491.1915001653946,
+   "decode_ms_per_token": 48.59536065750163,
+   "wall_s": 390.5148935317993
+  },
+  "kv800": {
+   "recall": "21/24",
+   "mean_logp": -1.239664383843774,
+   "per_length": {
+    "1K": "6/8",
+    "4K": "7/8",
+    "16K": "8/8"
+   },
+   "prefill_tok_s": 500.7937739564916,
+   "decode_ms_per_token": 48.47510481250055,
+   "wall_s": 383.78873562812805
+  }
+ },
+ "notes": [
+  "e2e runs the model in bf16 on a GPU without native bf16 (sm < 80): matmuls are emulated, expect it slow; --e2e-dtype fp16 is faster but LFM3 was not validated in fp16"
+ ],
+ "active_triton_label": "triton",
+ "auto_backend": {
+  "reported": "triton",
+  "triton_kernels_ran": true
+ },
+ "parity_status": {
+  "triton": "PASS",
+  "torch": "PASS"
+ },
+ "parity_final": {
+  "triton": "PASS",
+  "torch": "PASS"
+ },
+ "wall_s": 878.1248202323914
+}
