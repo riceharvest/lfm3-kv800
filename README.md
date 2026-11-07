@@ -2,14 +2,20 @@
 
 A 15x smaller KV cache for [LiquidAI/LFM3-1.7B-Base](https://huggingface.co/LiquidAI/LFM3-1.7B-Base) with no training: about 800 bytes/token instead of 12,288. It comes with decode kernels, a vLLM plugin and a training hook. On one 32 GB Intel Arc Pro B70, 800h fits 398 concurrent 32K-token sequences where stock vLLM fits 27, and decodes 11.9x stock's total throughput (5,124 vs 431 tok/s).
 
+## 0.1.1: bug fix, please update
+
+0.1.0 had a bug in the vLLM integration: past token 384, layer 10 quantized keys and values from the wrong cache pages, because a per-step flush plan was shared across KV groups (one-line fix in `lfm3_kv800/vllm_attn.py`). Every multi-token generation past that point was affected, in all decode backends. The training hook did not have the bug, so trainer and engine disagreed: on long rollouts from my own finetune, 13 % of tokens fell outside the [0.5, 5] importance ratio band, now 0.5 %.
+
+Measured again after the fix: needles (chunk 2048) 88/96 to 91/96, needles (chunk 8192) 79/96 to 88/96, rollouts (chunk 2048) 28/32 to 30/32, rollouts (chunk 8192) 28/32 to 31/32. Not measured again: capacity, throughput, and the cross-entropy and recovery tables, which did not go through this code path.
+
 Full results, method and limitations are on the model card: **https://huggingface.co/darioooooo0o/LFM3-1.7B-Base-KV800** (it also hosts the optional recovery LoRA).
 
 | at 32K, one B70 | stock vLLM | 800h |
 |---|---|---|
 | sequences that fit | 27 | 398 (measured, all resident) |
 | decode throughput | 431 tok/s (c=27) | 861 tok/s at c=27, 5,124 tok/s at c=398 |
-| needles 1K-32K (96) | 96/96 | 88/96 |
-| rollouts (32) | 32/32 | 28/32 |
+| needles 1K-32K (96) | 96/96 | 91/96 |
+| rollouts (32) | 32/32 | 30/32 |
 | cross-entropy cost | - | about +0.3 nats/token without training |
 
 ## What's here

@@ -298,7 +298,7 @@ class KV800Attention(nn.Module):
             # ---- 2. flush sub-blocks that became eligible this step (n >= 256 j + 384); plan computed once per step
             mq: KV800Meta = amd[self.q_name]
             qv = self.qc.kv_cache; qf = kv800.flat(qv); bsq = qv.shape[2]; qs0 = qv.stride(0)
-            fkey = ("flush", s0, s1, s2, ebs, qs0, bsq)
+            fkey = ("flush", id(mx), s0, s1, s2, ebs, qs0, bsq)    # the plan reads this layer's exact pages, and exact layers can sit in different KV groups
             if fkey not in mq.cache:
                 nq_prev = torch.clamp(prev - kv800.LAG, min=0) // kv800.BLK
                 nq_new = torch.clamp(sl - kv800.LAG, min=0) // kv800.BLK

@@ -6,17 +6,18 @@
   "util": 0.75,
   "max_model_len": 34816,
   "max_num_seqs": 128,
+  "attn_backend": "default",
   "vllm": "0.32.0",
   "torch": "2.14.0+xpu",
   "backend": "sycl",
-  "time": "2026-11-04 06:49:43",
+  "time": "2026-11-07 09:18:20",
   "model_path": {
    "model_module": "lfm3_kv800.vllm_model",
    "model_file": "/opt/venv/lib/python3.12/site-packages/lfm3_kv800/vllm_model.py",
    "in_tree_modules_loaded": [],
    "lfm3_kv800_file": "/opt/venv/lib/python3.12/site-packages/lfm3_kv800/__init__.py"
   },
-  "kv_num_blocks": 19087,
+  "kv_num_blocks": 19055,
   "kv_groups": [
    "MambaSpec(bs=34816, page=262144, win=None) x4",
    "MambaSpec(bs=34816, page=262144, win=None) x3",
@@ -41,29 +42,29 @@
  ],
  "gen_tokens": 1024,
  "n": 32,
- "hits": 28,
+ "hits": 31,
  "wilson95": [
-  0.7193169437055493,
-  0.9502986564709404
+  0.8425573603233156,
+  0.9944621398972968
  ],
- "seconds": 92.78943991661072,
+ "seconds": 90.94575262069702,
  "per_length": {
   "8K": {
    "hits": 16,
    "n": 16
   },
   "16K": {
-   "hits": 12,
+   "hits": 15,
    "n": 16
   }
  },
  "dev_vs_heldout": {
   "dev seeds 0-1": {
-   "hits": 6,
+   "hits": 8,
    "n": 8
   },
   "held-out seeds": {
-   "hits": 22,
+   "hits": 23,
    "n": 24
   }
  },
@@ -76,7 +77,7 @@
    "code": "6730",
    "out": " 6730.\n\nQuestion: What is",
    "hit": true,
-   "gen_head": "=parameters, annotations=annotations)\n\n\ndef _signature_from_builtin(cls, func, func_code):\n    \"\"\"Get signature for builtin function.\"\"\"\n    return _signature_from_function(func, func_code)\n\n\ndef _sig"
+   "gen_head": "=parameters, return_annotation=annotation,\n               annotations=annotations, defaults=defaults, keyword_defaults=kwdefaults)\n\n\ndef _signature_fromstr(signature, *, format=Format):\n    \"\"\"Private"
   },
   {
    "id": "s0:8K@75%",
@@ -86,7 +87,7 @@
    "code": "9304",
    "out": " 9304.\n\nQuestion: What is",
    "hit": true,
-   "gen_head": "message': message}\n        self.print_usage(_sys.stderr)\n        self.exit(1, _('unrecognized arguments: %(message)s'))\n        self.error(message)\n\n    def _get_value(self, action, value):\n        # "
+   "gen_head": "message': message}\n        self._print_message(message, _sys.stderr)\n\n    def _get_value(self, value):\n        # convert the value to the appropriate type\n        if isinstance(value, str):\n          "
   },
   {
    "id": "s0:16K@25%",
@@ -94,9 +95,9 @@
    "len": 16384,
    "depth": 0.25,
    "code": "9731",
-   "out": " 4.\n\nQuestion: How many times",
-   "hit": false,
-   "gen_head": "'], 0, 8, 'abc', 0, 0)\n        >>> for r in results:\n        ...     print(r)\n        replace\n        a[0:8] b[0:3]\n        insert a[8:8] b[3:3]\n        insert a[8:8] b[3:3]\n        insert a[8:8] b[3:"
+   "out": " 9731.\n\nQuestion: How many",
+   "hit": true,
+   "gen_head": "', 'abc', 'xyz'],\n        ...                               ['abc', 'defghi', 'xyz'])\n        >>> for tag, i1, i2, j1, j2 in results:\n        ...     print(tag, i1, i2, j1, j2)\n        replace a[0:3] "
   },
   {
    "id": "s0:16K@75%",
@@ -106,7 +107,7 @@
    "code": "2313",
    "out": " 2313.\n\nQuestion: How many",
    "hit": true,
-   "gen_head": "kwds)\n            except KeyError:\n                return func(*args, **kwds)\n\n        return inner\n\n    return decorator\n\n\ndef _signature_from_annotations(cls, obj, *, eval_str=False):\n    \"\"\"Get sig"
+   "gen_head": "kwds)\n            except KeyError:\n                # This is a case where the function is not cached.\n                # We can't use the cached version, so we have to\n                # re-evaluate the"
   },
   {
    "id": "s1:8K@25%",
@@ -114,9 +115,9 @@
    "len": 8192,
    "depth": 0.25,
    "code": "4514",
-   "out": " 4514.\n\nQuestion: What is",
+   "out": " 4514.\n\nQuestion: How many",
    "hit": true,
-   "gen_head": "{self.__name__} is deprecated and will be removed in {self._removal_version}\"\n        )\n        return super().__instancecheck__(inst)\n\n    def __getitem__(self, args):\n        raise TypeError(f\"{self"
+   "gen_head": "{self.__name__} is deprecated. \"\n            f\"Use {self.__origin__} instead.\"\n        )\n        return self.__instancecheck__(type(inst))\n\n    def __getitem__(self, args):\n        return self.__class"
   },
   {
    "id": "s1:8K@75%",
@@ -124,9 +125,9 @@
    "len": 8192,
    "depth": 0.75,
    "code": "4632",
-   "out": " 4632.\n\nQuestion: How many",
+   "out": " 4632.\n\ndef _get_",
    "hit": true,
-   "gen_head": "annotations__ dictionary of annotations for the function\n        __code__        code object for the function\n        __codecoords__  list of code objects for the function's parameters\n        __closu"
+   "gen_head": "qualname__    qualified name of this function\n        __doc__         documentation string\n        __name__        name with which this function was defined\n        __module__      name of the module "
   },
   {
    "id": "s1:16K@25%",
@@ -134,9 +135,9 @@
    "len": 16384,
    "depth": 0.25,
    "code": "8953",
-   "out": " 895.\n\nQuestion: What is the",
-   "hit": false,
-   "gen_head": "__ = 'Paul Rubin <paul@paulrubin.com>'\n\n__all__ = ['ismodule', 'isclass', 'isinstance', 'isinstance', 'isinstance',\n           'isinstance', 'isinstance', 'isinstance', 'isinstance', 'isinstance',\n   "
+   "out": " 8953.\n\nQuestion: How many",
+   "hit": true,
+   "gen_head": "__ = 'David M. Gay'\n\n__all__ = ['isclass','isfunction','isgenerator','isgeneratorfunction',\n           'isgeneratorfunction', 'isclass', 'isclass', 'isfunction',\n           'isgenerator', 'isgenerator"
   },
   {
    "id": "s1:16K@75%",
@@ -144,9 +145,9 @@
    "len": 16384,
    "depth": 0.75,
    "code": "6390",
-   "out": " 6390.\n\nQuestion: How many",
+   "out": " 6390.\n\n    if not is",
    "hit": true,
-   "gen_head": "Tuple',\n    'Union',\n    'UnionType',\n    'UnionAlias',\n    'UnionType',\n    'UnionAlias',\n    'UnionType',\n    'UnionAlias',\n    'UnionType',\n    'UnionAlias',\n    'UnionType',\n    'UnionAlias',\n    "
+   "gen_head": "Tuple',\n    'Union',\n    'UnionAlias',\n    'UnionAlias',\n    'UnionAlias',\n    'UnionAlias',\n    'UnionAlias',\n    'UnionAlias',\n    'UnionAlias',\n    'UnionAlias',\n    'UnionAlias',\n    'UnionAlias',"
   },
   {
    "id": "s2:8K@25%",
@@ -154,9 +155,9 @@
    "len": 8192,
    "depth": 0.25,
    "code": "3989",
-   "out": " 3989.\n\nQuestion: What is",
+   "out": " 3989.\n\nQuestion: How many",
    "hit": true,
-   "gen_head": "}, '\n                'code_context={!r}, index={!r}, positions={!r})'.format(\n                self.frame, self.filename, self.lineno, self.f_code.co_name,\n                self.code_context, self.index"
+   "gen_head": "}, '\n                'code_context={!r}, index={!r}, positions={!r})'.format(\n                self.frame, self.filename, self.ln, self.f_code, self.code_context,\n                self.index, self.posit"
   },
   {
    "id": "s2:8K@75%",
@@ -166,7 +167,7 @@
    "code": "5797",
    "out": " 5797.\n\nQuestion: What is",
    "hit": true,
-   "gen_head": "def _is_forward_ref(attr):\n    \"\"\"Check if an attribute is a forward reference.\"\"\"\n    if isinstance(attr, type):\n        return True\n    return False\n\n\ndef _forward_refs_are_allowed(module):\n    \"\"\"C"
+   "gen_head": "# The following are all used to implement the type system.\n# They are not meant to be used directly.\n# They are used to implement the type system.\n# They are not meant to be used directly.\n# They are "
   },
   {
    "id": "s2:16K@25%",
@@ -176,7 +177,7 @@
    "code": "8030",
    "out": " 8030.\n\nQuestion: How many",
    "hit": true,
-   "gen_head": " __init_subclass__(cls, *args, **kwargs):\n        super().__init_subclass__(*args, **kwargs)\n        if cls.__name__ == 'Protocol':\n            # This is a special case for protocols.\n            # We"
+   "gen_head": " __init_subclass__(cls, *args, **kwargs):\n        super().__init_subclass__(*args, **kwargs)\n        if cls.__name__ == 'Protocol':\n            raise TypeError(\"Protocol cannot be subclassed\")\n\n    de"
   },
   {
    "id": "s2:16K@75%",
@@ -184,9 +185,9 @@
    "len": 16384,
    "depth": 0.75,
    "code": "1708",
-   "out": " 1708.\n\nQuestion: What is",
+   "out": " 1708.\n\ndef _type_check",
    "hit": true,
-   "gen_head": " should be (float, int, str)\n                # Not (float, int, str, ...)\n                new_args = (new_arg,)\n            else:\n                raise TypeError(\"unpacked type\")\n        return new_ar"
+   "gen_head": " should be (float, int, str).\n                # But if we don't, we get (float, int, str, int).\n                raise TypeError(\n                    f\"Too many arguments for {self.__name__}[{self.__ar"
   },
   {
    "id": "s3:8K@25%",
@@ -196,7 +197,7 @@
    "code": "2278",
    "out": " 2278.\n\nQuestion: How many",
    "hit": true,
-   "gen_head": "\"Callable[{_type_convert(args[0])!r}, {_type_convert(args[1])!r}]\")\n\n    def __reduce__(self):\n        return self.__args__\n\n\nclass _GenericAlias(_GenericAlias, _root=True):\n    def __init__(self, ori"
+   "gen_head": "\"typing.{self.__name__}({', '.join(_repr(arg) for arg in args)})\"\n\n    def __reduce__(self):\n        return self.__class__.__reduce__(*self.__args__)\n\n\nclass _GenericAlias(_GenericAlias, _root=True):\n"
   },
   {
    "id": "s3:8K@75%",
@@ -204,9 +205,9 @@
    "len": 8192,
    "depth": 0.75,
    "code": "2997",
-   "out": " 2997.\n\nQuestion: How many",
+   "out": " 2997.\n\nQuestion: What is",
    "hit": true,
-   "gen_head": "_locals = base.__globals__, base.__globals__\n            base_globals, base_locals = base_locals, base_globals\n            base_globals, base_locals = base.__globals__, base.__globals__\n            ba"
+   "gen_head": "_locals = base_globals, base_locals\n            if not isinstance(base, _TypedDict):\n                raise TypeError(\n                    f\"Type {type(base).__name__} does not support type \"\n         "
   },
   {
    "id": "s3:16K@25%",
@@ -216,7 +217,7 @@
    "code": "7262",
    "out": " 7262.\n\nQuestion: How many",
    "hit": true,
-   "gen_head": " else arg\n            return _eval_type(t, globals=globals, localns=locals, type_params=type_params,\n                           parent_fwdref=parent_fwdref, format=format, recursive_guard=recursive_gu"
+   "gen_head": " else arg\n                for arg in t.args\n            return _defer_type(t, args, recursive_guard=recursive_guard)\n        elif isinstance(t, Union):\n            return _defer_type(t, recursive_guar"
   },
   {
    "id": "s3:16K@75%",
@@ -224,9 +225,9 @@
    "len": 16384,
    "depth": 0.75,
    "code": "6539",
-   "out": " 1.\n\nQuestion: How many times",
+   "out": " 653.\n\nQuestion: How many times",
    "hit": false,
-   "gen_head": "``.\n    \"\"\"\n    def __call__(self, *args, **kwargs):\n        if not isinstance(args, tuple):\n            raise TypeError(\"Expected a tuple of arguments\")\n        if not isinstance(kwargs, dict):\n     "
+   "gen_head": "``.\n    \"\"\"\n    def __init__(self, *args, **kwargs):\n        self.original = self.__class__\n        self.original.__init__ = self.__init__\n\n    def __init__(self, *args, **kwargs):\n        super().__i"
   },
   {
    "id": "s4:8K@25%",
@@ -236,7 +237,7 @@
    "code": "1110",
    "out": " 1110.\n\nQuestion: What is",
    "hit": true,
-   "gen_head": "edDict is not a class')\n\n    def __getitem__(self, key):\n        return self.__dict__.get(key, None)\n\n    def __setitem__(self, key, value):\n        if key in self.__dict__:\n            raise TypeErro"
+   "gen_head": "edDict is not subclassable')\n\n    def __new__(cls, *args, **kwargs):\n        return _TypedDictMeta(*args, **kwargs)\n\n    def __init__(self, *args, **kwargs):\n        self.__annotations__ = self.__anno"
   },
   {
    "id": "s4:8K@75%",
@@ -246,7 +247,7 @@
    "code": "3049",
    "out": " 3049.\n\nQuestion: How many",
    "hit": true,
-   "gen_head": "2)\n\n        self.mode = mode\n        self.bufsize = bufsize\n        self.encoding = encoding\n        self.errors = errors\n\n    def __repr__(self):\n        return 'FileType(%(mode)s, %(bufsize)s, %(enc"
+   "gen_head": "2\n        )\n        self.mode = mode\n        self.bufsize = bufsize\n        self.encoding = encoding\n        self.errors = errors\n\n    def __repr__(self):\n        return 'FileType(mode=%s, bufsize=%s,"
   },
   {
    "id": "s4:16K@25%",
@@ -256,7 +257,7 @@
    "code": "3731",
    "out": " 3731.\n\nQuestion: How many",
    "hit": true,
-   "gen_head": " number of matches to\n    return.  The default is 3.\n\n    Optional arg cutoff (default 0.6) is a threshold for the ratio of\n    matching elements.  The default is 0.6.\n\n    Returns a list of tuples (m"
+   "gen_head": " number of matches to\n    return.  The default is 3, which is a good value for most cases.\n\n    Optional arg cutoff (default 0.6) is the minimum ratio to be\n    considered a match.  The default is 0.6"
   },
   {
    "id": "s4:16K@75%",
@@ -266,7 +267,7 @@
    "code": "3409",
    "out": " 3409.\n\nQuestion: How many",
    "hit": true,
-   "gen_head": " = (a[alo:alo+ai] == b[blo:blo+bjl])\n                if g:\n                    print('replace %s' % a[alo:alo+ai])\n            elif tag == 'delete':\n                print('delete %d:%d' % (alo, alo+ai"
+   "gen_head": " = cruncher.get_opcodes()\n                # The first block is a replacement, so we need to\n                # insert the block in the middle of the first block\n                # (i.e. the one precedin"
   },
   {
    "id": "s5:8K@25%",
@@ -276,7 +277,7 @@
    "code": "6483",
    "out": " 6483.\n\nQuestion: What is",
    "hit": true,
-   "gen_head": " CO_ASYNCGEN)\n\ndef isasyncgenfunction(func):\n    \"\"\"Return true if the object is a user-defined async generator function.\n\n    This is a special case of isgeneratorfunction, but with additional\n    in"
+   "gen_head": " CO_ASYNC_GENERATOR)\n\ndef isasyncgenfunction(obj):\n    \"\"\"Return true if the object is a coroutine function.\n\n    Coroutine functions are normally defined with \"async def\" syntax, but may\n    be marke"
   },
   {
    "id": "s5:8K@75%",
@@ -284,9 +285,9 @@
    "len": 8192,
    "depth": 0.75,
    "code": "3683",
-   "out": " 3683.\n\ndef getblocklines",
+   "out": " 3683.\n\ndef getmembers",
    "hit": true,
-   "gen_head": " indentation\" in str(e):\n            raise\n        raise\n    return BlockFinder.getblock(lines)\n\ndef getblocklines(lines):\n    \"\"\"Return the lines of a block of code.\"\"\"\n    return getblock(lines)\n\nde"
+   "gen_head": "\" in str(e):\n            raise EndOfBlock\n        raise\n\ndef getblocklines(lines):\n    \"\"\"Return a list of lines from the given lines that are part of a block.\"\"\"\n    return [line for line in lines if"
   },
   {
    "id": "s5:16K@25%",
@@ -294,9 +295,9 @@
    "len": 16384,
    "depth": 0.25,
    "code": "3714",
-   "out": " 3714.\n\n    def _get",
+   "out": " 3714.\n\nQuestion: How many",
    "hit": true,
-   "gen_head": "    \"\"\"Check types of arguments\"\"\"\n    if a is None:\n        raise TypeError('a must be a sequence')\n    if a is b:\n        return\n    if a in b:\n        raise TypeError('a and b must be different')\n "
+   "gen_head": "    \"\"\"Check that the arguments are of the right type.\n\n    >>> a = [1, 2, 3]\n    >>> b = [1, 2, 3]\n    >>> a, b, fromfile, tofile, fromfiledate, tofiledate, lineterm = _check_types(a, b,\n    ...     "
   },
   {
    "id": "s5:16K@75%",
@@ -304,9 +305,9 @@
    "len": 16384,
    "depth": 0.75,
    "code": "2638",
-   "out": " 1.\n\nQuestion: How many times",
-   "hit": false,
-   "gen_head": "            title: str\n            # The \"title\" key is optional\n\n        class Point2D(TypedDict, total=False):\n            x: int\n            y: int\n            # The \"x\" and \"y\" keys are optional\n\n"
+   "out": " 2638.\n\nQuestion: How many",
+   "hit": true,
+   "gen_head": "            title: str\n            year: int\n            # The 'title' key is required, but 'year' is optional\n            # and can be omitted.\n            # The 'year' key can be omitted, but the 't"
   },
   {
    "id": "s6:8K@25%",
@@ -316,7 +317,7 @@
    "code": "2046",
    "out": " 2046.\n\nQuestion: How many",
    "hit": true,
-   "gen_head": " the synch\n            yield from self._fancy_plain_replace(a, alo, ahi,\n                                                b, blo, blo, bhi)\n            # and continue\n            #\n\n        # end of lo"
+   "gen_head": " the synch\n            yield from self._fancy_sync(a, b, alo, blo, best_i, best_j)\n\n    def _dump(self, tag, x, lo, hi):\n        \"\"\"Dump a single line of output for a given tag.\n\n        >>> d = Diffe"
   },
   {
    "id": "s6:8K@75%",
@@ -324,9 +325,9 @@
    "len": 8192,
    "depth": 0.75,
    "code": "9095",
-   "out": " 9095.\n\nQuestion: What is",
+   "out": " 9095.\n\nQuestion: How many",
    "hit": true,
-   "gen_head": "module__ == 'builtins':\n            return annotation.__name__\n        elif annotation.__module__ == 'typing':\n            return annotation.__name__\n        else:\n            return str(annotation)\n "
+   "gen_head": "name__ == 'Any':\n            return 'Any'\n        elif annotation.__name__ == 'Optional':\n            return 'Optional[{}]'.format(annotation.__name__)\n        elif annotation.__name__ == 'Union':\n   "
   },
   {
    "id": "s6:16K@25%",
@@ -336,7 +337,7 @@
    "code": "8155",
    "out": " 8155.\n\nQuestion: How many",
    "hit": true,
-   "gen_head": "        if len(arguments) == expected_len:\n            return\n        elif len(arguments) == expected_len + 1:\n            # check if the last argument is a default\n            if len(arguments) == ex"
+   "gen_head": "        if len(arguments) < expected_len:\n            raise TypeError(\n                f\"too few arguments for {cls.__name__}: {msg}\"\n                .format(arg=arg=arg))\n        elif len(arguments) "
   },
   {
    "id": "s6:16K@75%",
@@ -344,9 +345,9 @@
    "len": 16384,
    "depth": 0.75,
    "code": "5634",
-   "out": " 5634.\n\nQuestion: What is",
+   "out": " 5634.\n\nQuestion: How many",
    "hit": true,
-   "gen_head": " modules), the attribute is a string.  For properties, the\n    attribute is a tuple of (name, value) or (name, value, default).  For\n    members, the attribute is a tuple of (name, value, default).  T"
+   "gen_head": " modules), the attribute is a descriptor object.\n\n    Note, this function is not defined at the module scope so that data it\n    needs from its parent function (within whose context it is defined) doe"
   },
   {
    "id": "s7:8K@25%",
@@ -354,9 +355,9 @@
    "len": 8192,
    "depth": 0.25,
    "code": "6062",
-   "out": " 6062.<|im_end|>\n<|endoftext|><|startoftext|>",
+   "out": " 6062.\n\nQuestion: How many",
    "hit": true,
-   "gen_head": " out junk elements is expensive, so we\n        # should only do it when necessary.  We can do that by\n        # checking if the match is longer than the current best match.\n        # If it is, we can "
+   "gen_head": " junk from the end of a and b is not\n        # safe, because it can change the result.  So we do it only if\n        # we're not going to use the result ...\n        if not isjunk:\n            a = a[:ah"
   },
   {
    "id": "s7:8K@75%",
@@ -366,7 +367,7 @@
    "code": "7955",
    "out": " 7955.\n\nQuestion: What is",
    "hit": true,
-   "gen_head": "    TypeGuard can be used to indicate that a function can only be called\n    with a value of a given type. For example::\n\n        def get_me() -> int: ...\n\n    This is a special form for type annotati"
+   "gen_head": "    For example::\n\n        def is_positive(x: TypeAlias[Literal[True]]) -> None:\n            ...\n\n        def is_positive(x: Literal[True]) -> None:\n            ...\n\n        def is_positive(x: Literal"
   },
   {
    "id": "s7:16K@25%",
@@ -374,9 +375,9 @@
    "len": 16384,
    "depth": 0.25,
    "code": "3030",
-   "out": " 3030.\n\nQuestion: What is",
+   "out": " 3030.\n\nQuestion: How many",
    "hit": true,
-   "gen_head": " examples of\n        # this.  The __doc__ attribute is also a good example.\n        # Note that the metaclass __dict__ is not searched.\n        # This is because the metaclass __dict__ is not a normal"
+   "gen_head": " examples.\n        # For instance, the classmethods and staticmethods are defined in\n        # the class's __dict__ and not in the class' __dict__; the classmethod\n        # and staticmethods are defi"
   },
   {
    "id": "s7:16K@75%",
@@ -386,7 +387,7 @@
    "code": "5843",
    "out": " 5843.\n\nQuestion: How many",
    "hit": true,
-   "gen_head": " if id(nsobj) in seen:\n                    break\n                seen.add(id(nsobj))\n            globalns = getattr(nsobj, '__globals__', {})\n    else:\n        globalns = globalns or {}\n    return _ge"
+   "gen_head": " seen.add(id(nsobj))\n            globalns = {k: v for k, v in nsobj.__dict__.items() if k not in EXCLUDED_ATTRIBUTES}\n            # If we have a class, we need to look at its __dict__ as well.\n       "
   }
  ],
  "group": 32,

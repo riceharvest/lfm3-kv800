@@ -6,10 +6,11 @@
   "util": 0.75,
   "max_model_len": 34816,
   "max_num_seqs": 128,
+  "attn_backend": "default",
   "vllm": "0.32.0",
   "torch": "2.14.0+xpu",
   "backend": "sycl",
-  "time": "2026-11-04 06:45:00",
+  "time": "2026-11-07 09:13:40",
   "model_path": {
    "model_module": "lfm3_kv800.vllm_model",
    "model_file": "/opt/venv/lib/python3.12/site-packages/lfm3_kv800/vllm_model.py",
@@ -44,14 +45,14 @@
   14
  ],
  "n": 96,
- "hits": 79,
+ "hits": 88,
  "wilson95": [
-  0.7345895940523566,
-  0.8863949217459686
+  0.84410096689647,
+  0.957169376069111
  ],
- "seconds": 108.20995116233826,
+ "seconds": 105.95433855056763,
  "timing": {
-  "all": 108.20992946624756
+  "all": 105.95431542396545
  },
  "per_length": {
   "1K": {
@@ -71,39 +72,39 @@
    ]
   },
   "16K": {
-   "hits": 15,
+   "hits": 19,
    "n": 24,
    "wilson95": [
-    0.4270996229526447,
-    0.7884063254095233
+    0.5952954657887158,
+    0.9075517470563429
    ]
   },
   "32K": {
-   "hits": 18,
+   "hits": 23,
    "n": 24,
    "wilson95": [
-    0.5510055583116656,
-    0.8800063384126703
+    0.7975819334115467,
+    0.9926065439164028
    ]
   }
  },
  "per_depth": {
   "25%": {
-   "hits": 41,
+   "hits": 46,
    "n": 48
   },
   "75%": {
-   "hits": 38,
+   "hits": 42,
    "n": 48
   }
  },
  "dev_vs_heldout": {
   "dev seeds 3-5": {
-   "hits": 19,
+   "hits": 22,
    "n": 24
   },
   "held-out seeds": {
-   "hits": 60,
+   "hits": 66,
    "n": 72
   }
  },
@@ -134,7 +135,7 @@
    "len": 4096,
    "depth": 0.25,
    "code": "5249",
-   "out": " 5249.\n\nQuestion: What is",
+   "out": " 5249.\n\nQuestion: How many",
    "hit": true,
    "prompt_tokens": 4133
   },
@@ -154,8 +155,8 @@
    "len": 16384,
    "depth": 0.25,
    "code": "8704",
-   "out": " 8704.\n\nQuestion: How many",
-   "hit": true,
+   "out": " 870.\n\nQuestion: How many times",
+   "hit": false,
    "prompt_tokens": 16420
   },
   {
@@ -164,8 +165,8 @@
    "len": 16384,
    "depth": 0.75,
    "code": "8804",
-   "out": " 880.\n\nQuestion: What is the",
-   "hit": false,
+   "out": " 8804.\n\n    def __hash",
+   "hit": true,
    "prompt_tokens": 16424
   },
   {
@@ -184,7 +185,7 @@
    "len": 32768,
    "depth": 0.75,
    "code": "3484",
-   "out": " 3484.\n\ndef _get_",
+   "out": " 3484.\n\nQuestion: How many",
    "hit": true,
    "prompt_tokens": 32804
   },
@@ -244,8 +245,8 @@
    "len": 16384,
    "depth": 0.75,
    "code": "6902",
-   "out": " 8.\n    # in the line",
-   "hit": false,
+   "out": " 6902.\n        # in case",
+   "hit": true,
    "prompt_tokens": 16421
   },
   {
@@ -254,8 +255,8 @@
    "len": 32768,
    "depth": 0.25,
    "code": "3828",
-   "out": " 382.\n\ndef get_signature",
-   "hit": false,
+   "out": " 3828.\n\ndef isclassmethod",
+   "hit": true,
    "prompt_tokens": 32805
   },
   {
@@ -284,7 +285,7 @@
    "len": 1024,
    "depth": 0.75,
    "code": "8628",
-   "out": " 8628.\n\nQuestion: What is",
+   "out": " 8628.\n\ndef __init__(",
    "hit": true,
    "prompt_tokens": 1064
   },
@@ -314,8 +315,8 @@
    "len": 16384,
    "depth": 0.25,
    "code": "2854",
-   "out": " 1.\n\nQuestion: How many times",
-   "hit": false,
+   "out": " 2854.\n\ndef _signature",
+   "hit": true,
    "prompt_tokens": 16421
   },
   {
@@ -394,7 +395,7 @@
    "len": 16384,
    "depth": 0.25,
    "code": "7783",
-   "out": " 7783.\n\nQuestion: How many",
+   "out": " 7783.\n\nimport functools\n",
    "hit": true,
    "prompt_tokens": 16421
   },
@@ -404,7 +405,7 @@
    "len": 16384,
    "depth": 0.75,
    "code": "9835",
-   "out": " 9835.\n    \"\"\"\n    return",
+   "out": " 9835.\n\nQuestion: What is",
    "hit": true,
    "prompt_tokens": 16421
   },
@@ -414,8 +415,8 @@
    "len": 32768,
    "depth": 0.25,
    "code": "2543",
-   "out": " 5.\n\nQuestion: How many times",
-   "hit": false,
+   "out": " 2543.\n\nQuestion: How many",
+   "hit": true,
    "prompt_tokens": 32804
   },
   {
@@ -444,7 +445,7 @@
    "len": 1024,
    "depth": 0.75,
    "code": "1950",
-   "out": " 1950.\n\nQuestion: What is",
+   "out": " 1950.\n\nQuestion: How many",
    "hit": true,
    "prompt_tokens": 1060
   },
@@ -464,7 +465,7 @@
    "len": 4096,
    "depth": 0.75,
    "code": "2408",
-   "out": " 2408.\n\ndef _sign(func",
+   "out": " 2408.\n\ndef _signature",
    "hit": true,
    "prompt_tokens": 4133
   },
@@ -484,8 +485,8 @@
    "len": 16384,
    "depth": 0.75,
    "code": "4943",
-   "out": " 2.\n\nQuestion: What is the",
-   "hit": false,
+   "out": " 4943.\n\nQuestion: What is",
+   "hit": true,
    "prompt_tokens": 16421
   },
   {
@@ -494,7 +495,7 @@
    "len": 32768,
    "depth": 0.25,
    "code": "7955",
-   "out": " 7955.\n\nQuestion: What is",
+   "out": " 7955.\n\n    def make_table",
    "hit": true,
    "prompt_tokens": 32805
   },
@@ -554,8 +555,8 @@
    "len": 16384,
    "depth": 0.25,
    "code": "8985",
-   "out": " 898.\n\nQuestion: How many times",
-   "hit": false,
+   "out": " 8985.\n\nQuestion: How many",
+   "hit": true,
    "prompt_tokens": 16421
   },
   {
@@ -564,7 +565,7 @@
    "len": 16384,
    "depth": 0.75,
    "code": "7397",
-   "out": " 739.\n\nQuestion: What is the",
+   "out": " 739.\n\nQuestion: How many times",
    "hit": false,
    "prompt_tokens": 16421
   },
@@ -584,7 +585,7 @@
    "len": 32768,
    "depth": 0.75,
    "code": "2467",
-   "out": " 2467.\n\nQuestion: How many",
+   "out": " 2467.\n\n    The first argument",
    "hit": true,
    "prompt_tokens": 32805
   },
@@ -644,8 +645,8 @@
    "len": 16384,
    "depth": 0.75,
    "code": "8405",
-   "out": " 5.\n\nQuestion: How many times",
-   "hit": false,
+   "out": " 8405.\n\nQuestion: How many",
+   "hit": true,
    "prompt_tokens": 16421
   },
   {
@@ -654,8 +655,8 @@
    "len": 32768,
    "depth": 0.25,
    "code": "3574",
-   "out": " 357.\n\ndef _get_arguments",
-   "hit": false,
+   "out": " 3574.\n\nQuestion: How many",
+   "hit": true,
    "prompt_tokens": 32808
   },
   {
@@ -664,7 +665,7 @@
    "len": 32768,
    "depth": 0.75,
    "code": "4899",
-   "out": " 4899.\n\ndef _get_",
+   "out": " 4899.\n\ndef get_close_m",
    "hit": true,
    "prompt_tokens": 32804
   },
@@ -674,7 +675,7 @@
    "len": 1024,
    "depth": 0.25,
    "code": "5546",
-   "out": " 5546.\n\nQuestion: How many",
+   "out": " 5546.\n\n        if self._",
    "hit": true,
    "prompt_tokens": 1061
   },
@@ -704,7 +705,7 @@
    "len": 4096,
    "depth": 0.75,
    "code": "6370",
-   "out": " 6370.\n\nQuestion: What is",
+   "out": " 6370.\n\nQuestion: How many",
    "hit": true,
    "prompt_tokens": 4133
   },
@@ -744,7 +745,7 @@
    "len": 32768,
    "depth": 0.75,
    "code": "7252",
-   "out": " 7252.\n\n    def __init",
+   "out": " 7252.\n\n    \"\"\"\n    def",
    "hit": true,
    "prompt_tokens": 32805
   },
@@ -794,7 +795,7 @@
    "len": 16384,
    "depth": 0.25,
    "code": "3323",
-   "out": " 3323.\n\nQuestion: What is",
+   "out": " 3323.\n\nQuestion: How many",
    "hit": true,
    "prompt_tokens": 16421
   },
@@ -804,8 +805,8 @@
    "len": 16384,
    "depth": 0.75,
    "code": "9825",
-   "out": " 9825.\n\nQuestion: How many",
-   "hit": true,
+   "out": " 17.\n\nQuestion: How many times",
+   "hit": false,
    "prompt_tokens": 16421
   },
   {
@@ -814,8 +815,8 @@
    "len": 32768,
    "depth": 0.25,
    "code": "1686",
-   "out": " 168.\n\nQuestion: How many times",
-   "hit": false,
+   "out": " 1686.\n\nQuestion: How many",
+   "hit": true,
    "prompt_tokens": 32807
   },
   {
@@ -834,7 +835,7 @@
    "len": 1024,
    "depth": 0.25,
    "code": "1177",
-   "out": " 1177.\n\nQuestion: What is",
+   "out": " 1177.\n\nQuestion: How many",
    "hit": true,
    "prompt_tokens": 1061
   },
@@ -874,8 +875,8 @@
    "len": 16384,
    "depth": 0.25,
    "code": "1027",
-   "out": " 100.\n\nQuestion: What is the",
-   "hit": false,
+   "out": " 1027.\n\nQuestion: What is",
+   "hit": true,
    "prompt_tokens": 16421
   },
   {
@@ -894,7 +895,7 @@
    "len": 32768,
    "depth": 0.25,
    "code": "7023",
-   "out": " 7023.\n\ndef getmembers",
+   "out": " 7023.\n\ndef getsourcefile",
    "hit": true,
    "prompt_tokens": 32805
   },
@@ -904,7 +905,7 @@
    "len": 32768,
    "depth": 0.75,
    "code": "6565",
-   "out": " 6565.\n\nQuestion: How many",
+   "out": " 6565.\n\ndef iscorout",
    "hit": true,
    "prompt_tokens": 32805
   },
@@ -914,7 +915,7 @@
    "len": 1024,
    "depth": 0.25,
    "code": "3411",
-   "out": " 3411.\n\nQuestion: What is",
+   "out": " 3411.\n\nQuestion: How many",
    "hit": true,
    "prompt_tokens": 1060
   },
@@ -984,8 +985,8 @@
    "len": 32768,
    "depth": 0.75,
    "code": "3403",
-   "out": " 3435.\n\nQuestion: How many",
-   "hit": false,
+   "out": " 3403.\n\nQuestion: How many",
+   "hit": true,
    "prompt_tokens": 32805
   },
   {
@@ -1004,7 +1005,7 @@
    "len": 1024,
    "depth": 0.75,
    "code": "2189",
-   "out": " 2189.\n\nQuestion: What is",
+   "out": " 2189.\n\nclass _GenericAlias",
    "hit": true,
    "prompt_tokens": 1064
   },
@@ -1034,8 +1035,8 @@
    "len": 16384,
    "depth": 0.25,
    "code": "7499",
-   "out": " 7499.\n\nQuestion: How many",
-   "hit": true,
+   "out": " 749.\n\nQuestion: How many times",
+   "hit": false,
    "prompt_tokens": 16421
   },
   {
@@ -1044,7 +1045,7 @@
    "len": 16384,
    "depth": 0.75,
    "code": "2939",
-   "out": " 2939.\n\nQuestion: How many",
+   "out": " 2939.\n\ndef get_annotations",
    "hit": true,
    "prompt_tokens": 16420
   },

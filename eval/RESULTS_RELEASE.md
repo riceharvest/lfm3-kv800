@@ -1,5 +1,11 @@
 # LFM3-1.7B: 800h KV cache vs stock bf16 KV in vLLM on one Intel Arc B70 (32 GB)
 
+**0.1.1 update.**
+
+0.1.0 had a bug in the vLLM integration: past token 384, layer 10 quantized keys and values from the wrong cache pages, because a per-step flush plan was shared across KV groups (one-line fix in `lfm3_kv800/vllm_attn.py`). Every multi-token generation past that point was affected, in all decode backends. The training hook did not have the bug, so trainer and engine disagreed: on long rollouts from my own finetune, 13 % of tokens fell outside the [0.5, 5] importance ratio band, now 0.5 %.
+
+Measured again after the fix: needles (chunk 2048) 88/96 to 91/96, needles (chunk 8192) 79/96 to 88/96, rollouts (chunk 2048) 28/32 to 30/32, rollouts (chunk 8192) 28/32 to 31/32. Sections 2 and 3 below show the 0.1.0 numbers. Not measured again: capacity, throughput, and the cross-entropy and recovery tables, which did not go through this code path.
+
 Status: final, after the fix for the cross-request state bug (see "History" at the end).
 
 - **Capacity (section 1):** comes from vLLM's KV cache config plus a scheduler-instrumented run. The bug does not

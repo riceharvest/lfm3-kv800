@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "lfm3-kv800"
-version = "0.1.0"
+version = "0.1.1"
 description = "800h KV cache (2-bit K / 1-bit V paged cache) for LiquidAI LFM3, with decode kernels and a vLLM plugin"
 readme = "README_INSTALL.md"
 requires-python = ">=3.10"
